@@ -2,12 +2,7 @@
 	<nav class="nav" (clickOutside)="showSidebar = false">
 		<ul class="nav__ul container" [class._active]="showSidebar">
 			<li class="nav__li">
-				<a
-					routerLinkActive="_activeLink"
-					(click)="showSidebar = false"
-					routerLink="/profile"
-					class="nav__a"
-				>
+				<a routerLinkActive="_activeLink" (click)="showSidebar = false" routerLink="/profile" class="nav__a">
 					<span class="material-icons">home</span>
 				</a>
 			</li>
@@ -24,69 +19,88 @@
 		<div class="nav__burger _active" [class._active]="showSidebar">
 			<div class="nav__burger-list">
 				<div class="theme-switch">
-					<span
-						class="material-icons"
-						*ngIf="!us.mode"
-						(click)="us.setMode('dark')"
-					>
+					<span class="material-icons" *ngIf="!us.mode" (click)="us.setMode('dark')">
 						dark_mode
 					</span>
-					<span
-						class="material-icons"
-						*ngIf="us.mode"
-						(click)="us.setMode()"
-					>
+					<span class="material-icons" *ngIf="us.mode" (click)="us.setMode()">
 						light_mode
 					</span>
 				</div>
-				<a
-					class="nav__burger-link nav__burger-user"
-					routerLink="/profile"
-				>
-					<img
-						[src]="forceAvatarUrl || us.user.thumb ? url + us.user.thumb : 'assets/default.png'"
-						(error)="forceAvatarUrl = 'assets/default.png'"
-						alt="Profile Picture"
-						class="avatar__img"
-						height="50"
-						width="50"
-					/>
+				<a class="nav__burger-link nav__burger-user" routerLink="/profile">
+					<img [src]="forceAvatarUrl || us.user.thumb ? url + us.user.thumb : 'assets/default.png'"
+						(error)="forceAvatarUrl = 'assets/default.png'" alt="Profile Picture" class="avatar__img"
+						height="50" width="50" />
 					<div class="name">{{us.user.name || "Profile"}}</div>
 				</a>
 				<hr />
-				<a
-					[routerLinkActiveOptions]="{ exact: true }"
-					routerLinkActive="_activeLink"
-					routerLink="/admin/users"
-					class="nav__burger-link"
-					*ngIf="us.role('admin')"
-					(click)="hideSidebar()"
-				>
+				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink" routerLink="/admin/users"
+					class="nav__burger-link" *ngIf="us.role('admin')" (click)="hideSidebar()">
 					<span class="material-icons">people</span>
 					<span translate>Theme.Users</span>
 				</a>
-				<a
-					[routerLinkActiveOptions]="{ exact: true }"
-					routerLinkActive="_activeLink"
-					routerLink="/admin/forms"
-					class="nav__burger-link"
-					*ngIf="us.role('admin')"
-					(click)="hideSidebar()"
-				>
+				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink" routerLink="/admin/forms"
+					class="nav__burger-link" *ngIf="us.role('admin')" (click)="hideSidebar()">
 					<span class="material-icons">backup_table</span>
 					<span translate>Theme.Forms</span>
 				</a>
-				<a
-					[routerLinkActiveOptions]="{ exact: true }"
-					routerLinkActive="_activeLink"
-					routerLink="/admin/translates"
-					class="nav__burger-link"
-					*ngIf="us.role('admin')"
-					(click)="hideSidebar()"
-				>
+				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink"
+					routerLink="/admin/translates" class="nav__burger-link" *ngIf="us.role('admin')"
+					(click)="hideSidebar()">
 					<span class="material-icons">translate</span>
 					<span translate>Theme.Translates</span>
 				</a>
+				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink"
+					routerLink="/commercebrands" class="nav__burger-link" (click)="hideSidebar()">
+					<span class="material-icons">branding_watermark</span>
+					<span translate>Theme.Brands</span>
+				</a>
+				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink"
+					routerLink="/commercediscounts" class="nav__burger-link" (click)="hideSidebar()">
+					<span class="material-icons">percent</span>
+					<span translate>Theme.Discounts</span>
+				</a>
+				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink"
+					routerLink="/commerceorders" class="nav__burger-link" (click)="hideSidebar()">
+					<span class="material-icons">list_alt</span>
+					<span translate>Theme.Orders</span>
+				</a>
+				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink"
+					routerLink="/commerceportfolios" class="nav__burger-link" (click)="hideSidebar()">
+					<span class="material-icons">photo_camera</span>
+					<span translate>Theme.Portfolios</span>
+				</a>
+				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink"
+					routerLink="/commerceproducts" class="nav__burger-link" (click)="hideSidebar()">
+					<span class="material-icons">production_quantity_limits</span>
+					<span translate>Theme.Products</span>
+				</a>
+				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink"
+					routerLink="/commerceproductquantities" class="nav__burger-link" (click)="hideSidebar()">
+					<span class="material-icons">1x_mobiledata</span>
+					<span translate>Theme.Products quantities</span>
+				</a>
+				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink"
+					routerLink="/commerceservices" class="nav__burger-link" (click)="hideSidebar()">
+					<span class="material-icons">room_service</span>
+					<span translate>Theme.Services</span>
+				</a>
+				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink"
+					routerLink="/commercestores" class="nav__burger-link" (click)="hideSidebar()">
+					<span class="material-icons">store</span>
+					<span translate>Theme.Stores</span>
+				</a>
+				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink" routerLink="/commercetags"
+					class="nav__burger-link" (click)="hideSidebar()">
+					<span class="material-icons">style</span>
+					<span translate>Theme.Tags</span>
+				</a>
+				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink"
+					routerLink="/commercewarehouses" class="nav__burger-link" (click)="hideSidebar()">
+					<span class="material-icons">home</span>
+					<span translate>Theme.Warehouses</span>
+				</a>
+
+
 				<hr *ngIf="us.role('admin')" />
 			</div>
 		</div>
