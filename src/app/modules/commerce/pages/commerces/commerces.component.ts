@@ -93,13 +93,13 @@ export class CommercesComponent {
 			{
 				icon: 'style',
 				hrefFunc: (doc: Commerce): string => {
-					return '/commercetag/' + doc._id;
+					return '/commercetags/' + doc._id;
 				}
 			},
 			{
 				icon: 'branding_watermark',
 				hrefFunc: (doc: Commerce): string => {
-					return '/commercebrand/' + doc._id;
+					return '/commercebrands/' + doc._id;
 				}
 			},
 			{
