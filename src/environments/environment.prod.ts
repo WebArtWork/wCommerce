@@ -2,5 +2,5 @@ export const environment = {
 	roles: [],
 	production: true,
 	appId: 'test',
-	url: ''
+	url: 'https://webart.work'
 };
