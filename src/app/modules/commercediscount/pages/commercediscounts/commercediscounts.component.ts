@@ -6,6 +6,7 @@ import { FormService } from 'src/app/core/modules/form/form.service';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { commercediscountFormComponents } from '../../formcomponents/commercediscount.formcomponents';
+import { Route, Router } from '@angular/router';
 
 @Component({
 	templateUrl: './commercediscounts.component.html',
@@ -15,6 +16,10 @@ import { commercediscountFormComponents } from '../../formcomponents/commercedis
 export class CommercediscountsComponent {
 	columns = ['name', 'description'];
 
+	commerce = this._router.url.includes('/commercediscounts/')
+		? this._router.url.replace('/commercediscounts/', '')
+		: '';
+
 	form: FormInterface = this._form.getForm('commercediscount', commercediscountFormComponents);
 
 	config = {
@@ -22,6 +27,9 @@ export class CommercediscountsComponent {
 			this._form.modal<Commercediscount>(this.form, {
 				label: 'Create',
 				click: (created: unknown, close: () => void) => {
+					if (this.commerce) {
+						(created as Commercediscount).commerce = this.commerce;
+					}
 					this._commercediscountService.create(created as Commercediscount);
 
 					close();
@@ -84,8 +92,9 @@ export class CommercediscountsComponent {
 		private _commercediscountService: CommercediscountService,
 		private _alert: AlertService,
 		private _form: FormService,
-		private _core: CoreService
-	) {}
+		private _core: CoreService,
+		private _router: Router
+	) { }
 
 	private _bulkManagement(create = true): () => void {
 		return (): void => {
@@ -94,6 +103,9 @@ export class CommercediscountsComponent {
 				.then((commercediscounts: Commercediscount[]) => {
 					if (create) {
 						for (const commercediscount of commercediscounts) {
+							if (this.commerce) {
+								commercediscount.commerce = this.commerce;
+							}
 							this._commercediscountService.create(commercediscount);
 						}
 					} else {
@@ -115,7 +127,10 @@ export class CommercediscountsComponent {
 
 								this._commercediscountService.update(localCommercediscount);
 							} else {
-								 commercediscount.__created = false;
+								if (this.commerce) {
+									commercediscount.commerce = this.commerce;
+								}
+								commercediscount.__created = false;
 
 								this._commercediscountService.create(commercediscount);
 							}

@@ -7,6 +7,10 @@ const routes: Routes = [
 	{
 		path: '',
 		component: CommercetagsComponent
+	}, 
+	{
+		path: ':commerce_id',
+		component: CommercetagsComponent
 	}
 ];
 

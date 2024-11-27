@@ -7,6 +7,10 @@ const routes: Routes = [
 	{
 		path: '',
 		component: CommerceservicesComponent
+	}, 
+	{
+		path: ':commerce_id',
+		component: CommerceservicesComponent
 	}
 ];
 

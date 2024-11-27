@@ -6,6 +6,7 @@ import { FormService } from 'src/app/core/modules/form/form.service';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { commerceportfolioFormComponents } from '../../formcomponents/commerceportfolio.formcomponents';
+import { Router } from '@angular/router';
 
 @Component({
 	templateUrl: './commerceportfolios.component.html',
@@ -15,6 +16,10 @@ import { commerceportfolioFormComponents } from '../../formcomponents/commercepo
 export class CommerceportfoliosComponent {
 	columns = ['name', 'description'];
 
+	commerce = this._router.url.includes('/commerceportfolios/')
+		? this._router.url.replace('/commerceportfolios/', '')
+		: '';
+
 	form: FormInterface = this._form.getForm('commerceportfolio', commerceportfolioFormComponents);
 
 	config = {
@@ -22,6 +27,9 @@ export class CommerceportfoliosComponent {
 			this._form.modal<Commerceportfolio>(this.form, {
 				label: 'Create',
 				click: (created: unknown, close: () => void) => {
+					if (this.commerce) {
+						(created as Commerceportfolio).commerce = this.commerce;
+					}
 					this._commerceportfolioService.create(created as Commerceportfolio);
 
 					close();
@@ -84,7 +92,8 @@ export class CommerceportfoliosComponent {
 		private _commerceportfolioService: CommerceportfolioService,
 		private _alert: AlertService,
 		private _form: FormService,
-		private _core: CoreService
+		private _core: CoreService,
+		private _router: Router
 	) { }
 
 	private _bulkManagement(create = true): () => void {
@@ -94,6 +103,9 @@ export class CommerceportfoliosComponent {
 				.then((commerceportfolios: Commerceportfolio[]) => {
 					if (create) {
 						for (const commerceportfolio of commerceportfolios) {
+							if (this.commerce) {
+								commerceportfolio.commerce = this.commerce;
+							}
 							this._commerceportfolioService.create(commerceportfolio);
 						}
 					} else {
@@ -115,6 +127,9 @@ export class CommerceportfoliosComponent {
 
 								this._commerceportfolioService.update(localCommerceportfolio);
 							} else {
+								if (this.commerce) {
+									commerceportfolio.commerce = this.commerce;
+								}
 								commerceportfolio.__created = false;
 
 								this._commerceportfolioService.create(commerceportfolio);

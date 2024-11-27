@@ -8,10 +8,12 @@ const routes: Routes = [
 	{
 		path: '',
 		component: CommerceproductsComponent
-	}, {
+	}, 
+	{
 		path: ':commerce_id',
 		component: CommerceproductsComponent
-	}];
+	}
+];
 
 @NgModule({
 	imports: [RouterModule.forChild(routes), CoreModule],

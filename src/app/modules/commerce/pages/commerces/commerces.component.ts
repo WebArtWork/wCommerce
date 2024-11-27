@@ -55,9 +55,57 @@ export class CommercesComponent {
 		},
 		buttons: [
 			{
-				icon: 'shopping_bag',
+				icon: 'list_alt',
+				hrefFunc: (doc: Commerce): string => {
+					return '/commerceorders/' + doc._id;
+				}
+			},
+			{
+				icon: 'store',
+				hrefFunc: (doc: Commerce): string => {
+					return '/commercestores/' + doc._id;
+				}
+			},
+			{
+				icon: 'home',
+				hrefFunc: (doc: Commerce): string => {
+					return '/commercewarehouses/' + doc._id;
+				}
+			},
+			{
+				icon: 'production_quantity_limits',
 				hrefFunc: (doc: Commerce): string => {
 					return '/commerceproducts/' + doc._id;
+				}
+			},
+			{
+				icon: 'room_service',
+				hrefFunc: (doc: Commerce): string => {
+					return '/commerceservices/' + doc._id;
+				}
+			},
+			{
+				icon: 'photo_camera',
+				hrefFunc: (doc: Commerce): string => {
+					return '/commerceportfolios/' + doc._id;
+				}
+			},
+			{
+				icon: 'style',
+				hrefFunc: (doc: Commerce): string => {
+					return '/commercetag/' + doc._id;
+				}
+			},
+			{
+				icon: 'branding_watermark',
+				hrefFunc: (doc: Commerce): string => {
+					return '/commercebrand/' + doc._id;
+				}
+			},
+			{
+				icon: 'percent',
+				hrefFunc: (doc: Commerce): string => {
+					return '/commercediscounts/' + doc._id;
 				}
 			},
 			{

@@ -15,13 +15,13 @@ import { Router } from '@angular/router';
 })
 export class CommerceproductsComponent {
 	columns = ['name', 'description'];
-	
+
 	commerce = this._router.url.includes('/commerceproducts/')
-	? this._router.url.replace('/commerceproducts/', '')
-	: '';
-	
+		? this._router.url.replace('/commerceproducts/', '')
+		: '';
+
 	form: FormInterface = this._form.getForm('commerceproduct', commerceproductFormComponents);
-	
+
 	config = {
 		create: (): void => {
 			this._form.modal<Commerceproduct>(this.form, {
@@ -93,7 +93,7 @@ export class CommerceproductsComponent {
 		private _form: FormService,
 		private _core: CoreService,
 		private _router: Router
-	) {}
+	) { }
 
 	private _bulkManagement(create = true): () => void {
 		return (): void => {
@@ -102,6 +102,9 @@ export class CommerceproductsComponent {
 				.then((commerceproducts: Commerceproduct[]) => {
 					if (create) {
 						for (const commerceproduct of commerceproducts) {
+							if (this.commerce){
+								commerceproduct.commerce = this.commerce;
+							}
 							this._commerceproductService.create(commerceproduct);
 						}
 					} else {
@@ -123,7 +126,10 @@ export class CommerceproductsComponent {
 
 								this._commerceproductService.update(localCommerceproduct);
 							} else {
-								 commerceproduct.__created = false;
+								if (this.commerce){
+									commerceproduct.commerce = this.commerce;
+								}
+								commerceproduct.__created = false;
 
 								this._commerceproductService.create(commerceproduct);
 							}

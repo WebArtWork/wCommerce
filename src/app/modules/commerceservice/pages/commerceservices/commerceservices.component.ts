@@ -6,6 +6,7 @@ import { FormService } from 'src/app/core/modules/form/form.service';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { commerceserviceFormComponents } from '../../formcomponents/commerceservice.formcomponents';
+import { Router } from '@angular/router';
 
 @Component({
 	templateUrl: './commerceservices.component.html',
@@ -15,6 +16,10 @@ import { commerceserviceFormComponents } from '../../formcomponents/commerceserv
 export class CommerceservicesComponent {
 	columns = ['name', 'description'];
 
+	commerce = this._router.url.includes('/commerceservices/')
+		? this._router.url.replace('/commerceservices/', '')
+		: '';
+
 	form: FormInterface = this._form.getForm('commerceservice', commerceserviceFormComponents);
 
 	config = {
@@ -22,6 +27,9 @@ export class CommerceservicesComponent {
 			this._form.modal<Commerceservice>(this.form, {
 				label: 'Create',
 				click: (created: unknown, close: () => void) => {
+					if (this.commerce) {
+						(created as Commerceservice).commerce = this.commerce;
+					}
 					this._commerceserviceService.create(created as Commerceservice);
 
 					close();
@@ -84,7 +92,8 @@ export class CommerceservicesComponent {
 		private _commerceserviceService: CommerceserviceService,
 		private _alert: AlertService,
 		private _form: FormService,
-		private _core: CoreService
+		private _core: CoreService,
+		private _router: Router
 	) { }
 
 	private _bulkManagement(create = true): () => void {
@@ -94,6 +103,9 @@ export class CommerceservicesComponent {
 				.then((commerceservices: Commerceservice[]) => {
 					if (create) {
 						for (const commerceservice of commerceservices) {
+							if (this.commerce) {
+								commerceservice.commerce = this.commerce;
+							}
 							this._commerceserviceService.create(commerceservice);
 						}
 					} else {
@@ -115,6 +127,9 @@ export class CommerceservicesComponent {
 
 								this._commerceserviceService.update(localCommerceservice);
 							} else {
+								if (this.commerce) {
+									commerceservice.commerce = this.commerce;
+								}
 								commerceservice.__created = false;
 
 								this._commerceserviceService.create(commerceservice);

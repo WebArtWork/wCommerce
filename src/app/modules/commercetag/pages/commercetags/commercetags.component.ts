@@ -6,6 +6,7 @@ import { FormService } from 'src/app/core/modules/form/form.service';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { commercetagFormComponents } from '../../formcomponents/commercetag.formcomponents';
+import { Router } from '@angular/router';
 
 @Component({
 	templateUrl: './commercetags.component.html',
@@ -15,6 +16,10 @@ import { commercetagFormComponents } from '../../formcomponents/commercetag.form
 export class CommercetagsComponent {
 	columns = ['name', 'description'];
 
+	commerce = this._router.url.includes('/commercetags/')
+		? this._router.url.replace('/commercetags/', '')
+		: '';
+
 	form: FormInterface = this._form.getForm('commercetag', commercetagFormComponents);
 
 	config = {
@@ -22,6 +27,9 @@ export class CommercetagsComponent {
 			this._form.modal<Commercetag>(this.form, {
 				label: 'Create',
 				click: (created: unknown, close: () => void) => {
+					if (this.commerce) {
+						(created as Commercetag).commerce = this.commerce;
+					}
 					this._commercetagService.create(created as Commercetag);
 
 					close();
@@ -84,7 +92,8 @@ export class CommercetagsComponent {
 		private _commercetagService: CommercetagService,
 		private _alert: AlertService,
 		private _form: FormService,
-		private _core: CoreService
+		private _core: CoreService,
+		private _router: Router
 	) { }
 
 	private _bulkManagement(create = true): () => void {
@@ -94,6 +103,9 @@ export class CommercetagsComponent {
 				.then((commercetags: Commercetag[]) => {
 					if (create) {
 						for (const commercetag of commercetags) {
+							if (this.commerce) {
+								commercetag.commerce = this.commerce;
+							}
 							this._commercetagService.create(commercetag);
 						}
 					} else {
@@ -115,6 +127,9 @@ export class CommercetagsComponent {
 
 								this._commercetagService.update(localCommercetag);
 							} else {
+								if (this.commerce) {
+									commercetag.commerce = this.commerce;
+								}
 								commercetag.__created = false;
 
 								this._commercetagService.create(commercetag);

@@ -6,6 +6,7 @@ import { FormService } from 'src/app/core/modules/form/form.service';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { commercewarehouseFormComponents } from '../../formcomponents/commercewarehouse.formcomponents';
+import { Router } from '@angular/router';
 
 @Component({
 	templateUrl: './commercewarehouses.component.html',
@@ -15,6 +16,10 @@ import { commercewarehouseFormComponents } from '../../formcomponents/commercewa
 export class CommercewarehousesComponent {
 	columns = ['name', 'description'];
 
+	commerce = this._router.url.includes('/commercewarehouses/')
+		? this._router.url.replace('/commercewarehouses/', '')
+		: '';
+
 	form: FormInterface = this._form.getForm('commercewarehouse', commercewarehouseFormComponents);
 
 	config = {
@@ -22,6 +27,9 @@ export class CommercewarehousesComponent {
 			this._form.modal<Commercewarehouse>(this.form, {
 				label: 'Create',
 				click: (created: unknown, close: () => void) => {
+					if (this.commerce) {
+						(created as Commercewarehouse).commerce = this.commerce;
+					}
 					this._commercewarehouseService.create(created as Commercewarehouse);
 
 					close();
@@ -84,7 +92,8 @@ export class CommercewarehousesComponent {
 		private _commercewarehouseService: CommercewarehouseService,
 		private _alert: AlertService,
 		private _form: FormService,
-		private _core: CoreService
+		private _core: CoreService,
+		private _router: Router
 	) { }
 
 	private _bulkManagement(create = true): () => void {
@@ -94,6 +103,9 @@ export class CommercewarehousesComponent {
 				.then((commercewarehouses: Commercewarehouse[]) => {
 					if (create) {
 						for (const commercewarehouse of commercewarehouses) {
+							if (this.commerce) {
+								commercewarehouse.commerce = this.commerce;
+							}
 							this._commercewarehouseService.create(commercewarehouse);
 						}
 					} else {
@@ -115,6 +127,9 @@ export class CommercewarehousesComponent {
 
 								this._commercewarehouseService.update(localCommercewarehouse);
 							} else {
+								if (this.commerce){
+									commercewarehouse.commerce = this.commerce;
+								}
 								commercewarehouse.__created = false;
 
 								this._commercewarehouseService.create(commercewarehouse);
