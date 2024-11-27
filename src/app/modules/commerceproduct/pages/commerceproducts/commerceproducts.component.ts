@@ -6,6 +6,7 @@ import { FormService } from 'src/app/core/modules/form/form.service';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { commerceproductFormComponents } from '../../formcomponents/commerceproduct.formcomponents';
+import { Router } from '@angular/router';
 
 @Component({
 	templateUrl: './commerceproducts.component.html',
@@ -14,16 +15,22 @@ import { commerceproductFormComponents } from '../../formcomponents/commerceprod
 })
 export class CommerceproductsComponent {
 	columns = ['name', 'description'];
-
+	
+	commerce = this._router.url.includes('/commerceproducts/')
+	? this._router.url.replace('/commerceproducts/', '')
+	: '';
+	
 	form: FormInterface = this._form.getForm('commerceproduct', commerceproductFormComponents);
-
+	
 	config = {
 		create: (): void => {
 			this._form.modal<Commerceproduct>(this.form, {
 				label: 'Create',
 				click: (created: unknown, close: () => void) => {
+					if (this.commerce) {
+						(created as Commerceproduct).commerce = this.commerce;
+					}
 					this._commerceproductService.create(created as Commerceproduct);
-
 					close();
 				}
 			});
@@ -84,7 +91,8 @@ export class CommerceproductsComponent {
 		private _commerceproductService: CommerceproductService,
 		private _alert: AlertService,
 		private _form: FormService,
-		private _core: CoreService
+		private _core: CoreService,
+		private _router: Router
 	) {}
 
 	private _bulkManagement(create = true): () => void {

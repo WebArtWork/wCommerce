@@ -50,6 +50,11 @@
 					<span translate>Theme.Translates</span>
 				</a>
 				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink"
+					routerLink="/commerces" class="nav__burger-link" (click)="hideSidebar()">
+					<span class="material-icons">business</span>
+					<span translate>Theme.Commerces</span>
+				</a>
+				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink"
 					routerLink="/commercebrands" class="nav__burger-link" (click)="hideSidebar()">
 					<span class="material-icons">branding_watermark</span>
 					<span translate>Theme.Brands</span>
@@ -73,11 +78,6 @@
 					routerLink="/commerceproducts" class="nav__burger-link" (click)="hideSidebar()">
 					<span class="material-icons">production_quantity_limits</span>
 					<span translate>Theme.Products</span>
-				</a>
-				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink"
-					routerLink="/commerceproductquantities" class="nav__burger-link" (click)="hideSidebar()">
-					<span class="material-icons">1x_mobiledata</span>
-					<span translate>Theme.Products quantities</span>
 				</a>
 				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink"
 					routerLink="/commerceservices" class="nav__burger-link" (click)="hideSidebar()">

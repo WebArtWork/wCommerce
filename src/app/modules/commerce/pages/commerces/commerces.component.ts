@@ -55,6 +55,12 @@ export class CommercesComponent {
 		},
 		buttons: [
 			{
+				icon: 'shopping_bag',
+				hrefFunc: (doc: Commerce): string => {
+					return '/commerceproducts/' + doc._id;
+				}
+			},
+			{
 				icon: 'cloud_download',
 				click: (doc: Commerce): void => {
 					this._form.modalUnique<Commerce>('commerce', 'url', doc);
