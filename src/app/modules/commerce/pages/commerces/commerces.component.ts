@@ -91,6 +91,12 @@ export class CommercesComponent {
 				}
 			},
 			{
+				icon: 'content_paste',
+				hrefFunc: (doc: Commerce): string => {
+					return '/commercecontents/' + doc._id;
+				}
+			},
+			{
 				icon: 'style',
 				hrefFunc: (doc: Commerce): string => {
 					return '/commercetags/' + doc._id;

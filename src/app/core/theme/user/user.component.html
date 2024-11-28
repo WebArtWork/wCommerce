@@ -64,6 +64,11 @@
 					<span class="material-icons">store</span>
 					<span translate>Theme.Stores</span>
 				</a>
+				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink" routerLink="/"
+					class="nav__burger-link" (click)="hideSidebar()">
+					<span class="material-icons">people</span>
+					<span translate>Theme.Clients</span>
+				</a>
 				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink"
 					routerLink="/commercewarehouses" class="nav__burger-link" (click)="hideSidebar()">
 					<span class="material-icons">home</span>
@@ -83,6 +88,11 @@
 					routerLink="/commerceportfolios" class="nav__burger-link" (click)="hideSidebar()">
 					<span class="material-icons">photo_camera</span>
 					<span translate>Theme.Portfolios</span>
+				</a>
+				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink"
+					routerLink="/commercecontents" class="nav__burger-link" (click)="hideSidebar()">
+					<span class="material-icons">content_paste</span>
+					<span translate>Theme.Contents</span>
 				</a>
 				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink" routerLink="/commercetags"
 					class="nav__burger-link" (click)="hideSidebar()">

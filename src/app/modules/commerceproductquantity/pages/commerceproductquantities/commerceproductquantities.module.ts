@@ -7,6 +7,18 @@ const routes: Routes = [
 	{
 		path: '',
 		component: CommerceproductquantitiesComponent
+	},
+	{
+		path: 'commerceproduct/:commerceproduct_id',
+		component: CommerceproductquantitiesComponent
+	},
+    {
+		path: 'commercestore/:commercestore_id',
+		component: CommerceproductquantitiesComponent
+	},
+    {
+		path: 'warehouse/:warehouse_id',
+		component: CommerceproductquantitiesComponent
 	}
 ];
 

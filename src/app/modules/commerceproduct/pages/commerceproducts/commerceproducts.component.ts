@@ -62,6 +62,12 @@ export class CommerceproductsComponent {
 		},
 		buttons: [
 			{
+				icon: '1x_mobiledata',
+				hrefFunc: (doc: Commerceproduct): string => {
+					return '/commerceproductquantities/' + doc._id;
+				}
+			},
+			{
 				icon: 'cloud_download',
 				click: (doc: Commerceproduct): void => {
 					this._form.modalUnique<Commerceproduct>('commerceproduct', 'url', doc);

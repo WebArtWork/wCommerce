@@ -74,6 +74,16 @@ const routes: Routes = [
 		children: [
 			/* user */
 			{
+				path: 'commercecontents',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Commercecontents'
+					}
+				},
+				loadChildren: () => import('./modules/commercecontent/pages/commercecontents/commercecontents.module').then(m => m.CommercecontentsModule)
+			}, 
+			{
 				path: 'commerceproductquantities',
 				canActivate: [MetaGuard],
 				data: {

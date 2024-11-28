@@ -6,6 +6,7 @@ import { FormService } from 'src/app/core/modules/form/form.service';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { commerceproductquantityFormComponents } from '../../formcomponents/commerceproductquantity.formcomponents';
+import { Route, Router } from '@angular/router';
 
 @Component({
 	templateUrl: './commerceproductquantities.component.html',
@@ -15,6 +16,18 @@ import { commerceproductquantityFormComponents } from '../../formcomponents/comm
 export class CommerceproductquantitiesComponent {
 	columns = ['name', 'description'];
 
+	commerceproduct = this._router.url.includes('/commerceproductquantities/')
+		? this._router.url.replace('/commerceproductquantities/', '')
+		: '';
+
+	commercestore = this._router.url.includes('/commerceproductquantities/')
+		? this._router.url.replace('/commerceproductquantities/', '')
+		: '';
+
+	commercewarehouse = this._router.url.includes('/commerceproductquantities/')
+		? this._router.url.replace('/commerceproductquantities/', '')
+		: '';
+
 	form: FormInterface = this._form.getForm('commerceproductquantity', commerceproductquantityFormComponents);
 
 	config = {
@@ -22,6 +35,15 @@ export class CommerceproductquantitiesComponent {
 			this._form.modal<Commerceproductquantity>(this.form, {
 				label: 'Create',
 				click: (created: unknown, close: () => void) => {
+					if (this.commerceproduct) {
+						(created as Commerceproductquantity).commerceproduct = this.commerceproduct;
+					}
+					if (this.commercestore) {
+						(created as Commerceproductquantity).commercestore = this.commercestore;
+					}
+					if (this.commercewarehouse) {
+						(created as Commerceproductquantity).commercewarehouse = this.commercewarehouse;
+					}
 					this._commerceproductquantityService.create(created as Commerceproductquantity);
 
 					close();
@@ -84,7 +106,8 @@ export class CommerceproductquantitiesComponent {
 		private _commerceproductquantityService: CommerceproductquantityService,
 		private _alert: AlertService,
 		private _form: FormService,
-		private _core: CoreService
+		private _core: CoreService,
+		private _router: Router
 	) { }
 
 	private _bulkManagement(create = true): () => void {
@@ -94,6 +117,14 @@ export class CommerceproductquantitiesComponent {
 				.then((commerceproductquantitys: Commerceproductquantity[]) => {
 					if (create) {
 						for (const commerceproductquantity of commerceproductquantitys) {
+							if (this.commerceproduct) {
+								commerceproductquantity.commerceproduct = this.commerceproduct;
+							}
+							if (this.commercestore) {
+								commerceproductquantity.commercestore = this.commercestore;
+							} if (this.commercewarehouse) {
+								commerceproductquantity.commercewarehouse = this.commercewarehouse;
+							}
 							this._commerceproductquantityService.create(commerceproductquantity);
 						}
 					} else {
@@ -115,6 +146,14 @@ export class CommerceproductquantitiesComponent {
 
 								this._commerceproductquantityService.update(localCommerceproductquantity);
 							} else {
+								if (this.commerceproduct) {
+									commerceproductquantity.commerceproduct = this.commerceproduct;
+								}
+								if (this.commercestore) {
+									commerceproductquantity.commercestore = this.commercestore;
+								} if (this.commercewarehouse) {
+									commerceproductquantity.commercewarehouse = this.commercewarehouse;
+								}
 								commerceproductquantity.__created = false;
 
 								this._commerceproductquantityService.create(commerceproductquantity);
