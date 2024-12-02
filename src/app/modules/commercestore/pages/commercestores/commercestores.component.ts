@@ -65,7 +65,7 @@ export class CommercestoresComponent {
 			{
 				icon: '1x_mobiledata',
 				hrefFunc: (doc: Commercestore): string => {
-					return '/commerceproductquantities/' + doc._id;
+					return '/commerceproductquantities/store/' + doc._id;
 				}
 			},
 			{

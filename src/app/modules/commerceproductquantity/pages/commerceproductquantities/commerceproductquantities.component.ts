@@ -16,9 +16,9 @@ import { Route, Router } from '@angular/router';
 export class CommerceproductquantitiesComponent {
 	columns = ['name', 'description'];
 
-	store = this._router.url.includes('/store/') ? this._router.url.split('/')[4] : '';
-	warehouse = this._router.url.includes('/warehouse/') ? this._router.url.split('/')[4] : '';
-	product = this._router.url.split('/')[3];
+	store = this._router.url.includes('/store/') ? this._router.url.split('/')[3] : '';
+	warehouse = this._router.url.includes('/warehouse/') ? this._router.url.split('/')[3] : '';
+	product = this._router.url.includes('/product/') ? this._router.url.split('/')[3] : '';
 
 	form: FormInterface = this._form.getForm('commerceproductquantity', commerceproductquantityFormComponents);
 
