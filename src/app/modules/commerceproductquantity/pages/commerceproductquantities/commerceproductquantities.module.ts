@@ -7,8 +7,15 @@ const routes: Routes = [
 	{
 		path: '',
 		component: CommerceproductquantitiesComponent
+	},
+	{
+		path: 'store/:store',
+		component: CommerceproductquantitiesComponent
 	}, {
-		path: 'commerceproductquantities/:commerceproduct/:commercestore/:commercewarehouse',
+		path: 'warehouse/:warehouse',
+		component: CommerceproductquantitiesComponent
+	}, {
+		path: 'product/:product',
 		component: CommerceproductquantitiesComponent
 	}
 ];

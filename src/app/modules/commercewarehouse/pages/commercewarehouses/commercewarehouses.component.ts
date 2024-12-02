@@ -133,7 +133,7 @@ export class CommercewarehousesComponent {
 
 								this._commercewarehouseService.update(localCommercewarehouse);
 							} else {
-								if (this.commerce){
+								if (this.commerce) {
 									commercewarehouse.commerce = this.commerce;
 								}
 								commercewarehouse.__created = false;

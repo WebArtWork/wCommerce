@@ -16,17 +16,9 @@ import { Route, Router } from '@angular/router';
 export class CommerceproductquantitiesComponent {
 	columns = ['name', 'description'];
 
-	commerceproduct = this._router.url.includes('/commerceproductquantities/')
-		? this._router.url.replace('/commerceproductquantities/', '')
-		: '';
-
-	commercestore = this._router.url.includes('/commerceproductquantities/')
-		? this._router.url.replace('/commerceproductquantities/', '')
-		: '';
-
-	commercewarehouse = this._router.url.includes('/commerceproductquantities/')
-		? this._router.url.replace('/commerceproductquantities/', '')
-		: '';
+	store = this._router.url.includes('/store/') ? this._router.url.split('/')[4] : '';
+	warehouse = this._router.url.includes('/warehouse/') ? this._router.url.split('/')[4] : '';
+	product = this._router.url.split('/')[3];
 
 	form: FormInterface = this._form.getForm('commerceproductquantity', commerceproductquantityFormComponents);
 
@@ -35,14 +27,14 @@ export class CommerceproductquantitiesComponent {
 			this._form.modal<Commerceproductquantity>(this.form, {
 				label: 'Create',
 				click: (created: unknown, close: () => void) => {
-					if (this.commerceproduct) {
-						(created as Commerceproductquantity).commerceproduct = this.commerceproduct;
+					if (this.product) {
+						(created as Commerceproductquantity).product = this.product;
 					}
-					if (this.commercestore) {
-						(created as Commerceproductquantity).commercestore = this.commercestore;
+					if (this.store) {
+						(created as Commerceproductquantity).store = this.store;
 					}
-					if (this.commercewarehouse) {
-						(created as Commerceproductquantity).commercewarehouse = this.commercewarehouse;
+					if (this.warehouse) {
+						(created as Commerceproductquantity).warehouse = this.warehouse;
 					}
 					this._commerceproductquantityService.create(created as Commerceproductquantity);
 
@@ -98,7 +90,14 @@ export class CommerceproductquantitiesComponent {
 	};
 
 	get rows(): Commerceproductquantity[] {
-		return this._commerceproductquantityService.commerceproductquantitys;
+		return this.store
+			? this._commerceproductquantityService
+				.commerceproductquantitysByStore[this.store]
+			: this.warehouse
+				? this._commerceproductquantityService
+					.commerceproductquantitysByStore[this.warehouse]
+				: this._commerceproductquantityService
+					.commerceproductquantitysByStore[this.product];
 	}
 
 	constructor(
@@ -117,13 +116,13 @@ export class CommerceproductquantitiesComponent {
 				.then((commerceproductquantitys: Commerceproductquantity[]) => {
 					if (create) {
 						for (const commerceproductquantity of commerceproductquantitys) {
-							if (this.commerceproduct) {
-								commerceproductquantity.commerceproduct = this.commerceproduct;
+							if (this.product) {
+								commerceproductquantity.product = this.product;
 							}
-							if (this.commercestore) {
-								commerceproductquantity.commercestore = this.commercestore;
-							} if (this.commercewarehouse) {
-								commerceproductquantity.commercewarehouse = this.commercewarehouse;
+							if (this.store) {
+								commerceproductquantity.store = this.store;
+							} if (this.warehouse) {
+								commerceproductquantity.warehouse = this.warehouse;
 							}
 							this._commerceproductquantityService.create(commerceproductquantity);
 						}
@@ -146,13 +145,13 @@ export class CommerceproductquantitiesComponent {
 
 								this._commerceproductquantityService.update(localCommerceproductquantity);
 							} else {
-								if (this.commerceproduct) {
-									commerceproductquantity.commerceproduct = this.commerceproduct;
+								if (this.product) {
+									commerceproductquantity.product = this.product;
 								}
-								if (this.commercestore) {
-									commerceproductquantity.commercestore = this.commercestore;
-								} if (this.commercewarehouse) {
-									commerceproductquantity.commercewarehouse = this.commercewarehouse;
+								if (this.store) {
+									commerceproductquantity.store = this.store;
+								} if (this.warehouse) {
+									commerceproductquantity.warehouse = this.warehouse;
 								}
 								commerceproductquantity.__created = false;
 
