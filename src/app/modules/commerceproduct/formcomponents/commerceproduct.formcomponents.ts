@@ -88,20 +88,6 @@ export const commerceproductFormComponents = {
 			]
 		},
 		{
-			name: 'Text',
-			key: 'priceType',
-			fields: [
-				{
-					name: 'Placeholder',
-					value: 'fill commerceproduct priceType',
-				},
-				{
-					name: 'Label',
-					value: 'PriceType',
-				}
-			]
-		},
-		{
 			name: 'Photo',
 			key: 'thumb',
 			fields: [
