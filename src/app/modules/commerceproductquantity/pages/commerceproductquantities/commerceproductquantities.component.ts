@@ -98,9 +98,9 @@ export class CommerceproductquantitiesComponent {
 				.commerceproductquantitysByStore[this.store]
 			: this.warehouse
 				? this._commerceproductquantityService
-					.commerceproductquantitysByStore[this.warehouse]
+					.commerceproductquantitysByWarehouse[this.warehouse]
 				: this._commerceproductquantityService
-					.commerceproductquantitysByStore[this.product];
+					.commerceproductquantitysByProduct[this.product];
 	}
 
 	constructor(
