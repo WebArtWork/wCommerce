@@ -7,6 +7,7 @@ import { TranslateService } from 'src/app/core/modules/translate/translate.servi
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { commerceproductquantityFormComponents } from '../../formcomponents/commerceproductquantity.formcomponents';
 import { Route, Router } from '@angular/router';
+import { log } from 'console';
 
 @Component({
 	templateUrl: './commerceproductquantities.component.html',
@@ -27,9 +28,11 @@ export class CommerceproductquantitiesComponent {
 			this._form.modal<Commerceproductquantity>(this.form, {
 				label: 'Create',
 				click: (created: unknown, close: () => void) => {
+					
 					if (this.product) {
 						(created as Commerceproductquantity).product = this.product;
 					}
+					
 					if (this.store) {
 						(created as Commerceproductquantity).store = this.store;
 					}
