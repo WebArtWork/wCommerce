@@ -30,48 +30,32 @@ export const commerceproductquantityFormComponents = {
 					value: 'Description',
 				}
 			]
+			
 		},
 		{
-			name: 'Text',
-			key: 'store',
+			name: 'Photo',
+			key: 'thumb',
 			fields: [
 				{
-					name: 'Placeholder',
-					value: 'fill commerceproductquantity store',
-				},
-				{
 					name: 'Label',
-					value: 'Store',
+					value: 'Header picture'
 				}
 			]
 		},
 		{
-			name: 'Text',
-			key: 'warehouse',
+			name: 'Number',
+			key: 'code',
 			fields: [
 				{
 					name: 'Placeholder',
-					value: 'fill commerceproductquantity warehouse',
+					value: 'fill commerceproductquantity code',
 				},
 				{
 					name: 'Label',
-					value: 'Warehouse',
+					value: 'Code',
 				}
 			]
-		},
-		{
-			name: 'Text',
-			key: 'product',
-			fields: [
-				{
-					name: 'Placeholder',
-					value: 'fill commerceproductquantity product',
-				},
-				{
-					name: 'Label',
-					value: 'Product',
-				}
-			]
+			
 		}
 	]
 };
