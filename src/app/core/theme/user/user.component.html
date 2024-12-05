@@ -75,17 +75,18 @@
 					<span translate>Theme.Warehouses</span>
 				</a>
 				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink"
-					routerLink="/commerceproducts" class="nav__burger-link" (click)="hideSidebar()">
+					routerLink="/commerceproducts" class="nav__burger-link" (click)="hideSidebar()" *ngIf='useProduct'>
 					<span class="material-icons">production_quantity_limits</span>
 					<span translate>Theme.Products</span>
 				</a>
 				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink"
-					routerLink="/commerceservices" class="nav__burger-link" (click)="hideSidebar()">
+					routerLink="/commerceservices" class="nav__burger-link" (click)="hideSidebar()" *ngIf='useService'>
 					<span class="material-icons">room_service</span>
 					<span translate>Theme.Services</span>
 				</a>
 				<a [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="_activeLink"
-					routerLink="/commerceportfolios" class="nav__burger-link" (click)="hideSidebar()">
+					routerLink="/commerceportfolios" class="nav__burger-link" (click)="hideSidebar()"
+					*ngIf='usePortfolio'>
 					<span class="material-icons">photo_camera</span>
 					<span translate>Theme.Portfolios</span>
 				</a>
