@@ -18,16 +18,16 @@ export const commerceproductquantityFormComponents = {
 			]
 		},
 		{
-			name: 'Text',
-			key: 'description',
+			name: 'Number',
+			key: 'quantity',
 			fields: [
 				{
 					name: 'Placeholder',
-					value: 'fill commerceproductquantity description',
+					value: 'fill commerceproductquantity quantity',
 				},
 				{
 					name: 'Label',
-					value: 'Description',
+					value: 'Quanity',
 				}
 			]
 			

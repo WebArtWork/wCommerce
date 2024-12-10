@@ -15,7 +15,7 @@ import { log } from 'console';
 	standalone: false
 })
 export class CommerceproductquantitiesComponent {
-	columns = ['name', 'description'];
+	columns = ['name', 'code', "quantity"];
 
 	store = this._router.url.includes('/store/') ? this._router.url.split('/')[3] : '';
 	warehouse = this._router.url.includes('/warehouse/') ? this._router.url.split('/')[3] : '';
