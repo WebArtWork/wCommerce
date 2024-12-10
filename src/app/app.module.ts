@@ -75,6 +75,16 @@ const routes: Routes = [
 		children: [
 			/* user */
 			{
+				path: 'parser',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Parser'
+					}
+				},
+				loadChildren: () => import('./pages/user/parser/parser.module').then(m => m.ParserModule)
+			}, 
+			{
 				path: 'commercecontents',
 				canActivate: [MetaGuard],
 				data: {
