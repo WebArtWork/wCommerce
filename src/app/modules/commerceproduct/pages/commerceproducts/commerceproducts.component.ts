@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 	standalone: false
 })
 export class CommerceproductsComponent {
-	columns = ['name', 'description'];
+	columns = ['name'];
 
 	commerce = this._router.url.includes('/commerceproducts/')
 		? this._router.url.replace('/commerceproducts/', '')
