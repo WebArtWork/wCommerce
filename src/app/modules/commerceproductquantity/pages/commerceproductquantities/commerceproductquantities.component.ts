@@ -24,15 +24,21 @@ export class CommerceproductquantitiesComponent {
 	form: FormInterface = this._form.getForm('commerceproductquantity', commerceproductquantityFormComponents);
 
 	config = {
+		paginate: this.setProductquantity.bind(this),
+		perPage: 20,
+		setPerPage: this._commerceproductquantityService.setPerPage.bind(
+			this._commerceproductquantityService
+		),
+		allDocs: false,
 		create: (): void => {
 			this._form.modal<Commerceproductquantity>(this.form, {
 				label: 'Create',
 				click: (created: unknown, close: () => void) => {
-					
+
 					if (this.product) {
 						(created as Commerceproductquantity).product = this.product;
 					}
-					
+
 					if (this.store) {
 						(created as Commerceproductquantity).store = this.store;
 					}
@@ -40,6 +46,8 @@ export class CommerceproductquantitiesComponent {
 						(created as Commerceproductquantity).warehouse = this.warehouse;
 					}
 					this._commerceproductquantityService.create(created as Commerceproductquantity);
+
+					this.setProductquantity();
 
 					close();
 				}
@@ -65,6 +73,8 @@ export class CommerceproductquantitiesComponent {
 						text: this._translate.translate('Common.Yes'),
 						callback: (): void => {
 							this._commerceproductquantityService.delete(doc);
+
+							this.setProductquantity();
 						}
 					}
 				]
@@ -103,6 +113,26 @@ export class CommerceproductquantitiesComponent {
 					.commerceproductquantitysByProduct[this.product];
 	}
 
+	private _page = 1;
+
+	setProductquantity(page = this._page) {
+		this._page = page;
+
+		this._core.afterWhile(
+			this,
+			() => {
+				this._commerceproductquantityService
+					.get({ page })
+					.subscribe((products) => {
+						this.rows.splice(0, this.rows.length);
+
+						this.rows.push(...products);
+					});
+			},
+			250
+		);
+	}
+
 	constructor(
 		private _translate: TranslateService,
 		private _commerceproductquantityService: CommerceproductquantityService,
@@ -110,7 +140,9 @@ export class CommerceproductquantitiesComponent {
 		private _form: FormService,
 		private _core: CoreService,
 		private _router: Router
-	) { }
+	) {
+		this.setProductquantity();
+	}
 
 	private _bulkManagement(create = true): () => void {
 		return (): void => {
@@ -128,6 +160,8 @@ export class CommerceproductquantitiesComponent {
 								commerceproductquantity.warehouse = this.warehouse;
 							}
 							this._commerceproductquantityService.create(commerceproductquantity);
+
+							this.setProductquantity();
 						}
 					} else {
 						for (const commerceproductquantity of this.rows) {
@@ -135,6 +169,8 @@ export class CommerceproductquantitiesComponent {
 								localCommerceproductquantity => localCommerceproductquantity._id === commerceproductquantity._id
 							)) {
 								this._commerceproductquantityService.delete(commerceproductquantity);
+
+								this.setProductquantity();
 							}
 						}
 
@@ -159,6 +195,8 @@ export class CommerceproductquantitiesComponent {
 								commerceproductquantity.__created = false;
 
 								this._commerceproductquantityService.create(commerceproductquantity);
+
+								this.setProductquantity();
 							}
 						}
 					}

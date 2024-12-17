@@ -34,7 +34,6 @@ export class CommerceproductquantityService extends CrudService<Commerceproductq
 			_core
 		);
 
-		this.get();
 
 		this.filteredDocuments(this.commerceproductquantitysByStore, 'store');
 		this.filteredDocuments(this.commerceproductquantitysByWarehouse, 'warehouse');
