@@ -102,16 +102,7 @@ export class CommerceproductquantitiesComponent {
 		]
 	};
 
-	get rows(): Commerceproductquantity[] {
-		return this.store
-			? this._commerceproductquantityService
-				.commerceproductquantitysByStore[this.store]
-			: this.warehouse
-				? this._commerceproductquantityService
-					.commerceproductquantitysByWarehouse[this.warehouse]
-				: this._commerceproductquantityService
-					.commerceproductquantitysByProduct[this.product];
-	}
+	rows: Commerceproductquantity[] = [];
 
 	private _page = 1;
 
