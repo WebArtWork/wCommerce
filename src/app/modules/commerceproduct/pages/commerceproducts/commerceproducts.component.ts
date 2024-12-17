@@ -20,9 +20,18 @@ export class CommerceproductsComponent {
 		? this._router.url.replace('/commerceproducts/', '')
 		: '';
 
-	form: FormInterface = this._form.getForm('commerceproduct', commerceproductFormComponents);
+	form: FormInterface = this._form.getForm(
+		'commerceproduct',
+		commerceproductFormComponents
+	);
 
 	config = {
+		paginate: this.setProducts.bind(this),
+		perPage: 20,
+		setPerPage: this._commerceproductService.setPerPage.bind(
+			this._commerceproductService
+		),
+		allDocs: false,
 		create: (): void => {
 			this._form.modal<Commerceproduct>(this.form, {
 				label: 'Create',
@@ -30,17 +39,25 @@ export class CommerceproductsComponent {
 					if (this.commerce) {
 						(created as Commerceproduct).commerce = this.commerce;
 					}
-					this._commerceproductService.create(created as Commerceproduct);
+
+					this._commerceproductService.create(
+						created as Commerceproduct
+					);
+
+					this.setProducts();
+
 					close();
 				}
 			});
 		},
 		update: (doc: Commerceproduct): void => {
-			this._form.modal<Commerceproduct>(this.form, [], doc).then((updated: Commerceproduct) => {
-				this._core.copy(updated, doc);
+			this._form
+				.modal<Commerceproduct>(this.form, [], doc)
+				.then((updated: Commerceproduct) => {
+					this._core.copy(updated, doc);
 
-				this._commerceproductService.update(doc);
-			});
+					this._commerceproductService.update(doc);
+				});
 		},
 		delete: (doc: Commerceproduct): void => {
 			this._alert.question({
@@ -55,6 +72,8 @@ export class CommerceproductsComponent {
 						text: this._translate.translate('Common.Yes'),
 						callback: (): void => {
 							this._commerceproductService.delete(doc);
+
+							this.setProducts();
 						}
 					}
 				]
@@ -70,7 +89,11 @@ export class CommerceproductsComponent {
 			{
 				icon: 'cloud_download',
 				click: (doc: Commerceproduct): void => {
-					this._form.modalUnique<Commerceproduct>('commerceproduct', 'url', doc);
+					this._form.modalUnique<Commerceproduct>(
+						'commerceproduct',
+						'url',
+						doc
+					);
 				}
 			}
 		],
@@ -78,18 +101,36 @@ export class CommerceproductsComponent {
 			{
 				icon: 'playlist_add',
 				click: this._bulkManagement(),
-				class: 'playlist',
+				class: 'playlist'
 			},
 			{
 				icon: 'edit_note',
 				click: this._bulkManagement(false),
-				class: 'edit',
-			},
+				class: 'edit'
+			}
 		]
 	};
 
-	get rows(): Commerceproduct[] {
-		return this._commerceproductService.commerceproducts;
+	rows: Commerceproduct[] = [];
+
+	private _page = 1;
+
+	setProducts(page = this._page) {
+		this._page = page;
+
+		this._core.afterWhile(
+			this,
+			() => {
+				this._commerceproductService
+					.get({ page })
+					.subscribe((products) => {
+						this.rows.splice(0, this.rows.length);
+
+						this.rows.push(...products);
+					});
+			},
+			250
+		);
 	}
 
 	constructor(
@@ -99,7 +140,9 @@ export class CommerceproductsComponent {
 		private _form: FormService,
 		private _core: CoreService,
 		private _router: Router
-	) { }
+	) {
+		this.setProducts();
+	}
 
 	private _bulkManagement(create = true): () => void {
 		return (): void => {
@@ -108,36 +151,60 @@ export class CommerceproductsComponent {
 				.then((commerceproducts: Commerceproduct[]) => {
 					if (create) {
 						for (const commerceproduct of commerceproducts) {
-							if (this.commerce){
+							if (this.commerce) {
 								commerceproduct.commerce = this.commerce;
 							}
-							this._commerceproductService.create(commerceproduct);
+
+							this._commerceproductService.create(
+								commerceproduct
+							);
+
+							this.setProducts();
 						}
 					} else {
 						for (const commerceproduct of this.rows) {
-							if (!commerceproducts.find(
-								localCommerceproduct => localCommerceproduct._id === commerceproduct._id
-							)) {
-								this._commerceproductService.delete(commerceproduct);
+							if (
+								!commerceproducts.find(
+									(localCommerceproduct) =>
+										localCommerceproduct._id ===
+										commerceproduct._id
+								)
+							) {
+								this._commerceproductService.delete(
+									commerceproduct
+								);
+
+								this.setProducts();
 							}
 						}
 
 						for (const commerceproduct of commerceproducts) {
 							const localCommerceproduct = this.rows.find(
-								localCommerceproduct => localCommerceproduct._id === commerceproduct._id
+								(localCommerceproduct) =>
+									localCommerceproduct._id ===
+									commerceproduct._id
 							);
 
 							if (localCommerceproduct) {
-								this._core.copy(commerceproduct, localCommerceproduct);
+								this._core.copy(
+									commerceproduct,
+									localCommerceproduct
+								);
 
-								this._commerceproductService.update(localCommerceproduct);
+								this._commerceproductService.update(
+									localCommerceproduct
+								);
 							} else {
-								if (this.commerce){
+								if (this.commerce) {
 									commerceproduct.commerce = this.commerce;
 								}
 								commerceproduct.__created = false;
 
-								this._commerceproductService.create(commerceproduct);
+								this._commerceproductService.create(
+									commerceproduct
+								);
+
+								this.setProducts();
 							}
 						}
 					}

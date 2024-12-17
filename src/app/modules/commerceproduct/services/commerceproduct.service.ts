@@ -32,8 +32,6 @@ export class CommerceproductService extends CrudService<Commerceproduct> {
 			_core
 		);
 
-		this.get();
-
 		this.filteredDocuments(this.commerceproductsByAuthor);
 	}
 }
