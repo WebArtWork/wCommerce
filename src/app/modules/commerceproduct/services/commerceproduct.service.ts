@@ -12,10 +12,6 @@ import {
 	providedIn: 'root',
 })
 export class CommerceproductService extends CrudService<Commerceproduct> {
-	commerceproducts: Commerceproduct[] = this.getDocs();
-
-	commerceproductsByAuthor: Record<string, Commerceproduct[]> = {};
-
 	constructor(
 		_http: HttpService,
 		_store: StoreService,
@@ -31,7 +27,5 @@ export class CommerceproductService extends CrudService<Commerceproduct> {
 			_alert,
 			_core
 		);
-
-		this.filteredDocuments(this.commerceproductsByAuthor);
 	}
 }
