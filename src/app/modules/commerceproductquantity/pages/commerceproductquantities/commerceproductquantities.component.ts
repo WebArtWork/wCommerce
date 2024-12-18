@@ -6,8 +6,7 @@ import { FormService } from 'src/app/core/modules/form/form.service';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { commerceproductquantityFormComponents } from '../../formcomponents/commerceproductquantity.formcomponents';
-import { Route, Router } from '@angular/router';
-import { log } from 'console';
+import { Router } from '@angular/router';
 
 @Component({
 	templateUrl: './commerceproductquantities.component.html',
@@ -15,13 +14,24 @@ import { log } from 'console';
 	standalone: false
 })
 export class CommerceproductquantitiesComponent {
-	columns = ['name', 'code', "quantity"];
+	columns = ['name', 'code', 'quantity'];
 
-	store = this._router.url.includes('/store/') ? this._router.url.split('/')[3] : '';
-	warehouse = this._router.url.includes('/warehouse/') ? this._router.url.split('/')[3] : '';
-	product = this._router.url.includes('/product/') ? this._router.url.split('/')[3] : '';
+	store = this._router.url.includes('/store/')
+		? this._router.url.split('/')[3]
+		: '';
 
-	form: FormInterface = this._form.getForm('commerceproductquantity', commerceproductquantityFormComponents);
+	warehouse = this._router.url.includes('/warehouse/')
+		? this._router.url.split('/')[3]
+		: '';
+
+	product = this._router.url.includes('/product/')
+		? this._router.url.split('/')[3]
+		: '';
+
+	form: FormInterface = this._form.getForm(
+		'commerceproductquantity',
+		commerceproductquantityFormComponents
+	);
 
 	config = {
 		paginate: this.setProductquantity.bind(this),
@@ -34,18 +44,21 @@ export class CommerceproductquantitiesComponent {
 			this._form.modal<Commerceproductquantity>(this.form, {
 				label: 'Create',
 				click: (created: unknown, close: () => void) => {
-
 					if (this.product) {
-						(created as Commerceproductquantity).product = this.product;
+						(created as Commerceproductquantity).product =
+							this.product;
 					}
 
 					if (this.store) {
 						(created as Commerceproductquantity).store = this.store;
 					}
 					if (this.warehouse) {
-						(created as Commerceproductquantity).warehouse = this.warehouse;
+						(created as Commerceproductquantity).warehouse =
+							this.warehouse;
 					}
-					this._commerceproductquantityService.create(created as Commerceproductquantity);
+					this._commerceproductquantityService.create(
+						created as Commerceproductquantity
+					);
 
 					this.setProductquantity();
 
@@ -54,11 +67,13 @@ export class CommerceproductquantitiesComponent {
 			});
 		},
 		update: (doc: Commerceproductquantity): void => {
-			this._form.modal<Commerceproductquantity>(this.form, [], doc).then((updated: Commerceproductquantity) => {
-				this._core.copy(updated, doc);
+			this._form
+				.modal<Commerceproductquantity>(this.form, [], doc)
+				.then((updated: Commerceproductquantity) => {
+					this._core.copy(updated, doc);
 
-				this._commerceproductquantityService.update(doc);
-			});
+					this._commerceproductquantityService.update(doc);
+				});
 		},
 		delete: (doc: Commerceproductquantity): void => {
 			this._alert.question({
@@ -84,7 +99,11 @@ export class CommerceproductquantitiesComponent {
 			{
 				icon: 'cloud_download',
 				click: (doc: Commerceproductquantity): void => {
-					this._form.modalUnique<Commerceproductquantity>('commerceproductquantity', 'url', doc);
+					this._form.modalUnique<Commerceproductquantity>(
+						'commerceproductquantity',
+						'url',
+						doc
+					);
 				}
 			}
 		],
@@ -92,13 +111,13 @@ export class CommerceproductquantitiesComponent {
 			{
 				icon: 'playlist_add',
 				click: this._bulkManagement(),
-				class: 'playlist',
+				class: 'playlist'
 			},
 			{
 				icon: 'edit_note',
 				click: this._bulkManagement(false),
-				class: 'edit',
-			},
+				class: 'edit'
+			}
 		]
 	};
 
@@ -113,7 +132,7 @@ export class CommerceproductquantitiesComponent {
 			this,
 			() => {
 				this._commerceproductquantityService
-					.get({ page })
+					.get({ page, query: 'product=' + this.product })
 					.subscribe((products) => {
 						this.rows.splice(0, this.rows.length);
 
@@ -147,19 +166,29 @@ export class CommerceproductquantitiesComponent {
 							}
 							if (this.store) {
 								commerceproductquantity.store = this.store;
-							} if (this.warehouse) {
-								commerceproductquantity.warehouse = this.warehouse;
 							}
-							this._commerceproductquantityService.create(commerceproductquantity);
+							if (this.warehouse) {
+								commerceproductquantity.warehouse =
+									this.warehouse;
+							}
+							this._commerceproductquantityService.create(
+								commerceproductquantity
+							);
 
 							this.setProductquantity();
 						}
 					} else {
 						for (const commerceproductquantity of this.rows) {
-							if (!commerceproductquantitys.find(
-								localCommerceproductquantity => localCommerceproductquantity._id === commerceproductquantity._id
-							)) {
-								this._commerceproductquantityService.delete(commerceproductquantity);
+							if (
+								!commerceproductquantitys.find(
+									(localCommerceproductquantity) =>
+										localCommerceproductquantity._id ===
+										commerceproductquantity._id
+								)
+							) {
+								this._commerceproductquantityService.delete(
+									commerceproductquantity
+								);
 
 								this.setProductquantity();
 							}
@@ -167,25 +196,37 @@ export class CommerceproductquantitiesComponent {
 
 						for (const commerceproductquantity of commerceproductquantitys) {
 							const localCommerceproductquantity = this.rows.find(
-								localCommerceproductquantity => localCommerceproductquantity._id === commerceproductquantity._id
+								(localCommerceproductquantity) =>
+									localCommerceproductquantity._id ===
+									commerceproductquantity._id
 							);
 
 							if (localCommerceproductquantity) {
-								this._core.copy(commerceproductquantity, localCommerceproductquantity);
+								this._core.copy(
+									commerceproductquantity,
+									localCommerceproductquantity
+								);
 
-								this._commerceproductquantityService.update(localCommerceproductquantity);
+								this._commerceproductquantityService.update(
+									localCommerceproductquantity
+								);
 							} else {
 								if (this.product) {
-									commerceproductquantity.product = this.product;
+									commerceproductquantity.product =
+										this.product;
 								}
 								if (this.store) {
 									commerceproductquantity.store = this.store;
-								} if (this.warehouse) {
-									commerceproductquantity.warehouse = this.warehouse;
+								}
+								if (this.warehouse) {
+									commerceproductquantity.warehouse =
+										this.warehouse;
 								}
 								commerceproductquantity.__created = false;
 
-								this._commerceproductquantityService.create(commerceproductquantity);
+								this._commerceproductquantityService.create(
+									commerceproductquantity
+								);
 
 								this.setProductquantity();
 							}

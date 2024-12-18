@@ -12,12 +12,6 @@ import {
 	providedIn: 'root',
 })
 export class CommerceproductquantityService extends CrudService<Commerceproductquantity> {
-	commerceproductquantitys: Commerceproductquantity[] = this.getDocs();
-
-	commerceproductquantitysByStore: Record<string, Commerceproductquantity[]> = {};
-	commerceproductquantitysByWarehouse: Record<string, Commerceproductquantity[]> = {};
-	commerceproductquantitysByProduct: Record<string, Commerceproductquantity[]> = {};
-
 	constructor(
 		_http: HttpService,
 		_store: StoreService,
@@ -33,10 +27,5 @@ export class CommerceproductquantityService extends CrudService<Commerceproductq
 			_alert,
 			_core
 		);
-
-
-		this.filteredDocuments(this.commerceproductquantitysByStore, 'store');
-		this.filteredDocuments(this.commerceproductquantitysByWarehouse, 'warehouse');
-		this.filteredDocuments(this.commerceproductquantitysByProduct, 'product');
 	}
 }
