@@ -8,7 +8,7 @@
 	</ng-template>
 	<ng-template cell="products" let-element>
 		<div *ngFor="let product of element.products">
-			{{product?.product?.name}}
+			{{product?.product?.name}} {{product?.product?.price}} грн x {{product?.quantity}} шт
 		</div>
 	</ng-template>
 	<ng-template cell="information" let-element>
