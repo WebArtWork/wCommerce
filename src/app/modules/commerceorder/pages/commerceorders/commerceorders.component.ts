@@ -7,6 +7,7 @@ import { TranslateService } from 'src/app/core/modules/translate/translate.servi
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { commerceorderFormComponents } from '../../formcomponents/commerceorder.formcomponents';
 import { Router } from '@angular/router';
+import { Commerceproduct } from 'src/app/modules/commerceproduct/interfaces/commerceproduct.interface';
 
 @Component({
 	templateUrl: './commerceorders.component.html',
@@ -14,7 +15,7 @@ import { Router } from '@angular/router';
 	standalone: false
 })
 export class CommerceordersComponent {
-	columns = ['name', 'description'];
+	columns = ['id', 'products', 'information', "status"];
 
 	commerce = this._router.url.includes('/commerceorders/')
 		? this._router.url.replace('/commerceorders/', '')
@@ -61,27 +62,40 @@ export class CommerceordersComponent {
 				]
 			});
 		},
-		buttons: [
-			{
-				icon: 'cloud_download',
-				click: (doc: Commerceorder): void => {
-					this._form.modalUnique<Commerceorder>('commerceorder', 'url', doc);
-				}
-			}
-		],
-		headerButtons: [
-			{
-				icon: 'playlist_add',
-				click: this._bulkManagement(),
-				class: 'playlist',
-			},
-			{
-				icon: 'edit_note',
-				click: this._bulkManagement(false),
-				class: 'edit',
-			},
-		]
+		// buttons: [
+		// 	{
+		// 		icon: 'cloud_download',
+		// 		click: (doc: Commerceorder): void => {
+		// 			this._form.modalUnique<Commerceorder>('commerceorder', 'url', doc);
+		// 		}
+		// 	}
+		// ],
+		// headerButtons: [
+		// 	{
+		// 		icon: 'playlist_add',
+		// 		click: this._bulkManagement(),
+		// 		class: 'playlist',
+		// 	},
+		// 	{
+		// 		icon: 'edit_note',
+		// 		click: this._bulkManagement(false),
+		// 		class: 'edit',
+		// 	},
+		// ]
 	};
+	setStatus(order: Commerceorder, status: string) {
+		order.status = status;
+		const newOrder = JSON.parse(JSON.stringify(order));
+		newOrder.products.forEach((product: { product: Commerceproduct | string, quantity: number, _id?: string, productquantity: { _id: string } | string }) => {
+			product.product = (product.product as Commerceproduct)._id;
+			product.productquantity = (product.productquantity as { _id: string })._id
+		});
+		this.update(newOrder);
+	}
+
+	update(order: Commerceorder) {
+		this._commerceorderService.update(order);
+	}
 
 	get rows(): Commerceorder[] {
 		return this._commerceorderService.commerceorders;
