@@ -9,7 +9,7 @@ const routes: Routes = [
 		component: CommercetagsComponent
 	}, 
 	{
-		path: ':commerce_id',
+		path: ':parent',
 		component: CommercetagsComponent
 	}
 ];
