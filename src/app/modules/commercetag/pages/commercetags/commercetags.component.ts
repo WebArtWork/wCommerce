@@ -14,6 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 	standalone: false
 })
 export class CommercetagsComponent {
+	commerce = '';
 	parent = '';
 	childrenUrl(tag: Commercetag): string {
 		const urls = this._router.url.split('/');
@@ -25,9 +26,6 @@ export class CommercetagsComponent {
 	}
 	columns = ['name'];
 
-	commerce = this._router.url.includes('/commercetags/')
-		? this._router.url.replace('/commercetags/', '')
-		: '';
 
 	form: FormInterface = this._form.getForm('commercetag', commercetagFormComponents);
 
@@ -36,13 +34,17 @@ export class CommercetagsComponent {
 			this._form.modal<Commercetag>(this.form, {
 				label: 'Create',
 				click: (created: unknown, close: () => void) => {
-					// if (this.commerce) {
-					// 	(created as Commercetag).commerce = this.commerce;
-					// }
+					if (this.commerce) {
+						(created as Commercetag).commerce = this.commerce;
+					}
 					if (this.parent) {
 						(created as Commercetag).parent = this.parent;
 					}
-					this._commercetagService.create(created as Commercetag);
+					this._commercetagService.create(created as Commercetag, {
+						callback: () => {
+							this.setTags();
+						}
+					});
 
 					close();
 				}
@@ -52,7 +54,11 @@ export class CommercetagsComponent {
 			this._form.modal<Commercetag>(this.form, [], doc).then((updated: Commercetag) => {
 				this._core.copy(updated, doc);
 
-				this._commercetagService.update(doc);
+				this._commercetagService.update(doc, {
+					callback: () => {
+						this.setTags();
+					}
+				});
 			});
 		},
 		delete: (doc: Commercetag): void => {
@@ -67,7 +73,11 @@ export class CommercetagsComponent {
 					{
 						text: this._translate.translate('Common.Yes'),
 						callback: (): void => {
-							this._commercetagService.delete(doc);
+							this._commercetagService.delete(doc, {
+								callback: () => {
+									this.setTags();
+								}
+							});
 						}
 					}
 				]
@@ -112,20 +122,29 @@ export class CommercetagsComponent {
 
 	tags: Commercetag[] = JSON.parse(JSON.stringify(this._commercetagService.commercetags));
 	setTags() {
-		console.log(this.tags);
-
 		this.tags.splice(0, this.tags.length);
-		console.log(this._commercetagService.commercetags);
-		console.log(this.parent);
-
 		for (const tag of this._commercetagService.commercetags) {
-			if (this.parent && tag.parent === this.parent) {
-				this.tags.push(tag);
-			} else if (!this.parent && !tag.parent) {
-				this.tags.push(tag);
+			if (!this.commerce && !this.parent) {
+				if (!tag.parent) {
+					this.tags.push(tag);
+				}
+			} else if (this.commerce && this.parent) {
+				if (
+					tag.parent === this.parent &&
+					tag.commerce === this.commerce
+				) {
+					this.tags.push(tag);
+				}
+			} else if (this.parent) {
+				if (tag.parent === this.parent) {
+					this.tags.push(tag);
+				}
+			} else {
+				if (tag.commerce === this.commerce && !tag.parent) {
+					this.tags.push(tag);
+				}
 			}
 		}
-		console.log(this.tags);
 	}
 
 	update(tag: Commercetag) {
@@ -149,6 +168,9 @@ export class CommercetagsComponent {
 		this.route.params.subscribe((params) => {
 			if (params['parent']) {
 				this.parent = params['parent'];
+			}
+			if (params['commerce_id']) {
+				this.commerce = params['commerce_id'];
 			}
 		});
 		this.setTags();

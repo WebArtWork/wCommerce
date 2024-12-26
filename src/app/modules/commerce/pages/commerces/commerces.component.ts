@@ -145,7 +145,7 @@ export class CommercesComponent {
 		private _alert: AlertService,
 		private _form: FormService,
 		private _core: CoreService
-	) {}
+	) { }
 
 	private _bulkManagement(create = true): () => void {
 		return (): void => {

@@ -7,9 +7,13 @@ const routes: Routes = [
 	{
 		path: '',
 		component: CommercetagsComponent
-	}, 
+	},
 	{
-		path: ':parent',
+		path: ':commerce_id/:parent',
+		component: CommercetagsComponent
+	},
+	{
+		path: ':commerce_id',
 		component: CommercetagsComponent
 	}
 ];
@@ -19,4 +23,4 @@ const routes: Routes = [
 	declarations: [CommercetagsComponent],
 	providers: []
 })
-export class CommercetagsModule {}
+export class CommercetagsModule { }
