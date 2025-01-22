@@ -96,6 +96,72 @@ export const commerceproductFormComponents = {
 			]
 		},
 		{
+			name: 'Text',
+			key: 'battery',
+			fields: [
+				{
+					name: 'Placeholder',
+					value: 'fill commerceproduct battery',
+				},
+				{
+					name: 'Label',
+					value: 'Battery',
+				}
+			]
+		},		{
+			name: 'Text',
+			key: 'power',
+			fields: [
+				{
+					name: 'Placeholder',
+					value: 'fill commerceproduct power',
+				},
+				{
+					name: 'Label',
+					value: 'Power',
+				}
+			]
+		},		{
+			name: 'Text',
+			key: 'atomizerType',
+			fields: [
+				{
+					name: 'Placeholder',
+					value: 'fill commerceproduct atomizerType',
+				},
+				{
+					name: 'Label',
+					value: 'AtomizerType',
+				}
+			]
+		},		{
+			name: 'Text',
+			key: 'warranty',
+			fields: [
+				{
+					name: 'Placeholder',
+					value: 'fill commerceproduct warranty',
+				},
+				{
+					name: 'Label',
+					value: 'Warranty',
+				}
+			]
+		},		{
+			name: 'Text',
+			key: 'type',
+			fields: [
+				{
+					name: 'Placeholder',
+					value: 'fill commerceproduct type',
+				},
+				{
+					name: 'Label',
+					value: 'Type',
+				}
+			]
+		},
+		{
 			name: 'Number',
 			key: 'price',
 			fields: [

@@ -101,6 +101,72 @@ export class CommerceproductsComponent {
 					]
 				},
 				{
+					name: 'Text',
+					key: 'battery',
+					fields: [
+						{
+							name: 'Placeholder',
+							value: 'fill commerceproduct battery',
+						},
+						{
+							name: 'Label',
+							value: 'Battery',
+						}
+					]
+				}, {
+					name: 'Text',
+					key: 'power',
+					fields: [
+						{
+							name: 'Placeholder',
+							value: 'fill commerceproduct power',
+						},
+						{
+							name: 'Label',
+							value: 'Power',
+						}
+					]
+				}, {
+					name: 'Text',
+					key: 'atomizerType',
+					fields: [
+						{
+							name: 'Placeholder',
+							value: 'fill commerceproduct atomizerType',
+						},
+						{
+							name: 'Label',
+							value: 'AtomizerType',
+						}
+					]
+				}, {
+					name: 'Text',
+					key: 'warranty',
+					fields: [
+						{
+							name: 'Placeholder',
+							value: 'fill commerceproduct warranty',
+						},
+						{
+							name: 'Label',
+							value: 'Warranty',
+						}
+					]
+				}, {
+					name: 'Text',
+					key: 'type',
+					fields: [
+						{
+							name: 'Placeholder',
+							value: 'fill commerceproduct type',
+						},
+						{
+							name: 'Label',
+							value: 'Type',
+						}
+					]
+				},
+				{
 					name: 'Number',
 					key: 'price',
 					fields: [
@@ -314,16 +380,28 @@ export class CommerceproductsComponent {
 		this.setProducts();
 	}
 
+	replaceTagsWithIds(product: Commerceproduct) {
+		if (product.tags) {
+			product.tags = product.tags.map(tagName => {
+				const tag = this.tags.find(t => t.name === tagName);
+				return tag ? tag._id : tagName;
+			});
+		}
+	}
+
 	private _bulkManagement(create = true): () => void {
 		return (): void => {
 			this._form
 				.modalDocs<Commerceproduct>(create ? [] : this.rows)
 				.then((commerceproducts: Commerceproduct[]) => {
 					if (create) {
+						console.log(commerceproducts);
+
 						for (const commerceproduct of commerceproducts) {
 							if (this.commerce) {
 								commerceproduct.commerce = this.commerce;
 							}
+							this.replaceTagsWithIds(commerceproduct);
 							this._commerceproductService.create(commerceproduct);
 						}
 					} else {
@@ -340,12 +418,14 @@ export class CommerceproductsComponent {
 								row => row._id === commerceproduct._id
 							);
 							if (local) {
+								this.replaceTagsWithIds(commerceproduct);
 								this._core.copy(commerceproduct, local);
 								this._commerceproductService.update(local);
 							} else {
 								if (this.commerce) {
 									commerceproduct.commerce = this.commerce;
 								}
+								this.replaceTagsWithIds(commerceproduct);
 								commerceproduct.__created = false;
 								this._commerceproductService.create(commerceproduct);
 							}
