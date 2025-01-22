@@ -32,6 +32,28 @@ export const commerceproductFormComponents = {
 			]
 		},
 		{
+			name: 'Select',
+			key: 'tags',
+			fields: [
+				{
+					name: 'Placeholder',
+					value: 'Select tags',
+				},
+				{
+					name: 'Label',
+					value: 'Tags',
+				},
+				{
+					name: 'Multiple',
+					value: true
+				},
+				{
+					name: 'Items',
+					value: []
+				}
+			]
+		},
+		{
 			name: 'Text',
 			key: 'country',
 			fields: [
