@@ -1,20 +1,37 @@
 <div class="container">
-    <h2>JSON Parser</h2>
+	<h2>JSON Parser</h2>
 
-    <!-- Input for raw JSON -->
-    <div class="form-group">
-        <label for="htmlJson">Enter HTML:</label>
-        <textarea id="htmlJson" class="form-control" [(ngModel)]="htmlJson" rows="6"
-            placeholder="Paste your HTML here"></textarea>
-    </div>
+	<!-- Input for raw JSON -->
+	<div class="form-group">
+		<label for="htmlJson">Enter HTML:</label>
+		<textarea
+			id="htmlJson"
+			class="form-control"
+			[(ngModel)]="htmlJson"
+			rows="6"
+			placeholder="Paste your HTML here"
+		></textarea>
+	</div>
 
-    <!-- Button to parse -->
-    <button class="btn btn-primary mt-2" (click)="parseJson()">Parse JSON</button>
-    <button class="btn btn-secondary mt-2 ml-2" (click)="reset()">Reset</button>
+	<!-- Button to parse -->
+	<button class="btn btn-primary mt-2" (click)="parseJson()">
+		Parse JSON
+	</button>
+	<button class="btn btn-secondary mt-2 ml-2" (click)="reset()">Reset</button>
 
-    <textarea id="productJson" class="form-control" [(ngModel)]="productJson" rows="6"
-        placeholder="Paste your JSON here"></textarea>
+	<textarea
+		id="productJson"
+		class="form-control"
+		[(ngModel)]="productJson"
+		rows="6"
+		placeholder="Paste your JSON here"
+	></textarea>
 
-    <textarea id="quantityJson" class="form-control" [(ngModel)]="quantityJson" rows="6"
-        placeholder="Paste your JSON here"></textarea>
+	<textarea
+		id="quantityJson"
+		class="form-control"
+		[(ngModel)]="quantityJson"
+		rows="6"
+		placeholder="Paste your JSON here"
+	></textarea>
 </div>
