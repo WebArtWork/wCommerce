@@ -381,9 +381,11 @@ export class CommerceproductsComponent {
 	}
 
 	replaceTagsWithIds(product: Commerceproduct) {
+
 		if (product.tags) {
 			product.tags = product.tags.map(tagName => {
-				const tag = this.tags.find(t => t.name === tagName);
+
+				const tag = this.tags.find(t => t.name == tagName);
 				return tag ? tag._id : tagName;
 			});
 		}
@@ -401,6 +403,7 @@ export class CommerceproductsComponent {
 							if (this.commerce) {
 								commerceproduct.commerce = this.commerce;
 							}
+
 							this.replaceTagsWithIds(commerceproduct);
 							this._commerceproductService.create(commerceproduct);
 						}
