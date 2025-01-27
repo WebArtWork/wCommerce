@@ -7,10 +7,13 @@ import { HttpService } from 'wacom';
 	standalone: false
 })
 export class ParserComponent {
-	constructor(private _http: HttpService) {}
+	constructor(private _http: HttpService) { }
 
 	async getUrl(url: string, name = ''): Promise<string> {
 		return new Promise((resolve) => {
+			if (!url.includes(this.domain)) {
+				url = this.domain + url;
+			}
 			this._http
 				.post('/api/file/photocrawl', {
 					url,
@@ -23,6 +26,7 @@ export class ParserComponent {
 		});
 	}
 
+	domain: string = 'https://sigara.kiev.ua/';
 	htmlJson: string = '';
 	quantityJson: string = '';
 	productJson: string = '';
