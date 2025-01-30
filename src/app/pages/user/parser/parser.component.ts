@@ -11,8 +11,9 @@ export class ParserComponent {
 
 	async getUrl(url: string, name = ''): Promise<string> {
 		return new Promise((resolve) => {
-			if (!url.includes(this.domain)) {
+			if (!url.includes(this.domain) && !url.includes("data:")) {
 				url = this.domain + url;
+
 			}
 			this._http
 				.post('/api/file/photocrawl', {
@@ -26,7 +27,7 @@ export class ParserComponent {
 		});
 	}
 
-	domain: string = 'https://sigara.kiev.ua/';
+	domain: string = 'https://sigara.kiev.ua';
 	htmlJson: string = '';
 	quantityJson: string = '';
 	productJson: string = '';
@@ -177,6 +178,10 @@ export class ParserComponent {
 				type: this.getSiblingText(doc, 'Тип') || 'Unknown',
 				tags: [] as string[]
 			};
+			console.log(doc
+				.querySelector('.card__slider-item img')
+				?.getAttribute('src') || '');
+			console.log(product);
 
 			if (product.thumb) {
 				product.thumb = await this.getUrl(product.thumb);
@@ -190,6 +195,7 @@ export class ParserComponent {
 					);
 				}
 			}
+			console.log(product);
 
 			const breadcrumbElements = Array.from(
 				doc.querySelectorAll('.bread li span[itemprop="name"]')
@@ -232,15 +238,16 @@ export class ParserComponent {
 			const quantityElements = doc.querySelectorAll(
 				'.card__options-item'
 			);
-			quantityElements.forEach((el) => {
+
+			for (let i = 0; i < quantityElements.length; i++) {
 				const quantity = {
-					name: el.querySelector('a')?.getAttribute('title') || '',
-					thumb: el.querySelector('img')?.getAttribute('src') || '',
+					name: quantityElements[i].querySelector('a')?.getAttribute('title') || '',
+					thumb: await this.getUrl(quantityElements[i].querySelector('img')?.getAttribute('src') || ''),
 					code: 0,
 					quantity: 5 // Значення за замовчуванням
 				};
 				this.parsedQuantities.push(quantity);
-			});
+			}
 
 			// Перетворити кількості на JSON
 			this.quantityJson = JSON.stringify(this.parsedQuantities, null, 2);
