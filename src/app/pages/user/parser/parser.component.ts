@@ -3,7 +3,7 @@ import { HttpService } from 'wacom';
 
 @Component({
 	templateUrl: './parser.component.html',
-	styleUrls: ['./parser.component.scss'],
+	styleUrls: [ './parser.component.scss' ],
 	standalone: false
 })
 export class ParserComponent {
@@ -15,12 +15,11 @@ export class ParserComponent {
 				url = this.domain + url;
 
 			}
-			this._http
-				.post('/api/file/photocrawl', {
-					url,
-					container: 'product',
-					name
-				})
+			this._http.post('/api/file/photocrawl', {
+				url: encodeURIComponent(url),
+				container: 'product',
+				name
+			})
 				.subscribe((serverUrl) => {
 					resolve(serverUrl);
 				});
@@ -152,10 +151,10 @@ export class ParserComponent {
 				thumb:
 					doc
 						.querySelector('.card__slider-item img')
-						?.getAttribute('src') || '',
+						?.getAttribute('src')?.trim() || '',
 				thumbs: Array.from(
 					doc.querySelectorAll('.card__preview-item img')
-				).map((img) => img.getAttribute('src')),
+				).map((img) => img.getAttribute('src')?.trim() || ''),
 				country: this.getSiblingText(doc, 'Виробник') || 'Unknown',
 				volume:
 					Number(
@@ -189,9 +188,9 @@ export class ParserComponent {
 
 			product.thumbs = product.thumbs || [];
 			for (let i = 0; i < product.thumbs.length; i++) {
-				if (product.thumbs[i]) {
-					product.thumbs[i] = await this.getUrl(
-						product.thumbs[i] as string
+				if (product.thumbs[ i ]) {
+					product.thumbs[ i ] = await this.getUrl(
+						product.thumbs[ i ] as string
 					);
 				}
 			}
@@ -241,8 +240,8 @@ export class ParserComponent {
 
 			for (let i = 0; i < quantityElements.length; i++) {
 				const quantity = {
-					name: quantityElements[i].querySelector('a')?.getAttribute('title') || '',
-					thumb: await this.getUrl(quantityElements[i].querySelector('img')?.getAttribute('src') || ''),
+					name: quantityElements[ i ].querySelector('a')?.getAttribute('title') || '',
+					thumb: await this.getUrl(quantityElements[ i ].querySelector('img')?.getAttribute('src') || ''),
 					code: 0,
 					quantity: 5 // Значення за замовчуванням
 				};
