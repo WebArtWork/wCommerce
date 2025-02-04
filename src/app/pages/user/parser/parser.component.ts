@@ -10,21 +10,24 @@ export class ParserComponent {
 	constructor(private _http: HttpService) { }
 
 	async getUrl(url: string, name = ''): Promise<string> {
-		return new Promise((resolve) => {
-			if (!url.includes(this.domain) && !url.includes("data:")) {
-				url = this.domain + url;
+    return new Promise((resolve) => {
+        url = url.trim().replace(/\s+/g, ''); // Видаляємо пробіли
 
-			}
-			this._http.post('/api/file/photocrawl', {
-				url: encodeURIComponent(url),
-				container: 'product',
-				name
-			})
-				.subscribe((serverUrl) => {
-					resolve(serverUrl);
-				});
-		});
-	}
+        if (!url.includes(this.domain) && !url.includes("data:")) {
+            url = this.domain + url;
+        }
+
+        this._http.post('/api/file/photocrawl', {
+            url: encodeURI(url), // encodeURI замість encodeURIComponent
+            container: 'product',
+            name
+        })
+        .subscribe((serverUrl) => {
+            resolve(serverUrl);
+        });
+    });
+}
+
 
 	domain: string = 'https://sigara.kiev.ua';
 	htmlJson: string = '';
@@ -151,10 +154,10 @@ export class ParserComponent {
 				thumb:
 					doc
 						.querySelector('.card__slider-item img')
-						?.getAttribute('src')?.trim() || '',
+						?.getAttribute('src') || '',
 				thumbs: Array.from(
 					doc.querySelectorAll('.card__preview-item img')
-				).map((img) => img.getAttribute('src')?.trim() || ''),
+				).map((img) => img.getAttribute('src') || ''),
 				country: this.getSiblingText(doc, 'Виробник') || 'Unknown',
 				volume:
 					Number(
