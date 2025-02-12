@@ -30,6 +30,16 @@ export const commercetagFormComponents = {
 					value: 'Description',
 				}
 			]
-		}
-	]
-}
+		},
+		{
+			name: 'Photo',
+			key: 'thumb',
+			fields: [
+				{
+					name: 'Label',
+					value: 'Header picture'
+				}
+
+			]
+		} ]
+};
