@@ -71,9 +71,9 @@ jobs:
           git init
           git add --all .
           git commit -m "Deploy non-production build"
-          git checkout -B gh-pages  # Adjust the branch if needed
+          git checkout -B master  # Adjust the branch if needed
           git remote add origin git@github.com:WebArtWork/admin.podhubvape.shop.git
-          git push external main --force
+          git push origin master --force
 
       # Cleanup SSH
       - name: Clean up SSH
