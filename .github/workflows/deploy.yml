@@ -54,7 +54,7 @@ jobs:
 
       # Second Build (Non-Production Configuration)
       - name: Build Angular app (podhub)
-        run: npm run build
+        run: npm run build:podhub
 
       # Replace CNAME file for External Repo
       - name: Replace CNAME file for admin.podhubvape.shop
