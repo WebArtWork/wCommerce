@@ -5,5 +5,6 @@ export const environment = {
 	url: 'https://webart.work',
 	usePortfolio: false,
 	useService: false,
-	useProduct: true
+	useProduct: true,
+	meta: {}
 };
