@@ -1,24 +1,15 @@
 <div class="auth-wrapper">
 	<div class="auth__wrap">
-		<div class="auth__img">
-			<icon-spider
-				(click)="us.setMode(us.mode ? '' : 'dark')"
-			></icon-spider>
+		<div class="auth__img" (click)="us.setMode(us.mode ? '' : 'dark')">
+			<img [src]="logo" alt="Logo" *ngIf="logo" />
+			<icon-spider *ngIf="!logo"></icon-spider>
 		</div>
 		<div class="auth__form">
 			<div class="auth">
-				<span
-					(click)="us.setMode('dark')"
-					class="material-icons"
-					*ngIf="!us.mode"
-				>
+				<span (click)="us.setMode('dark')" class="material-icons" *ngIf="!us.mode">
 					dark_mode
 				</span>
-				<span
-					class="material-icons"
-					*ngIf="us.mode"
-					(click)="us.setMode()"
-				>
+				<span class="material-icons" *ngIf="us.mode" (click)="us.setMode()">
 					light_mode
 				</span>
 				<wform (wSubmit)="submit()" [submition]="user" [config]="form">

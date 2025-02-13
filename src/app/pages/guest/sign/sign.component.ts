@@ -6,6 +6,8 @@ import { FormService } from 'src/app/core/modules/form/form.service';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { User } from 'src/app/modules/user/interfaces/user.interface';
+import { environment } from 'src/environments/environment';
+
 
 interface RespStatus {
 	email: string;
@@ -18,6 +20,7 @@ interface RespStatus {
     standalone: false
 })
 export class SignComponent {
+	readonly logo = environment.meta.logo;
 	form: FormInterface = this._form.getForm('sign', {
 		formId: 'sign',
 		title: 'Sign In / Sign Up',
@@ -91,8 +94,8 @@ export class SignComponent {
 	});
 
 	user = {
-		email: 'demo@webart.work',
-		password: 'asdasdasdasd',
+		email: '',
+		password: '',
 		resetPin: null
 	};
 
