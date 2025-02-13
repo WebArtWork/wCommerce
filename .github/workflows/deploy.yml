@@ -50,6 +50,7 @@ jobs:
           git commit -m "Deploy to GitHub Pages"
           git checkout -B gh-pages
           git push git@github.com:${{ github.repository }} gh-pages --force
+          cd ../../..
 
       # Second Build (Non-Production Configuration)
       - name: Build Angular app (podhub)
@@ -66,11 +67,12 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           cd dist/app/browser
+          rm -rf .git
           git init
           git add --all .
           git commit -m "Deploy non-production build"
-          git checkout -B master  # Adjust the branch if needed
-          git remote add external git@github.com:WebArtWork/admin.podhubvape.shop.git
+          git checkout -B gh-pages  # Adjust the branch if needed
+          git remote add origin git@github.com:WebArtWork/admin.podhubvape.shop.git
           git push external main --force
 
       # Cleanup SSH
