@@ -113,13 +113,12 @@ export class TranslateService {
 		];
 
 	// Currently selected language
-	language: Language = this.languages.length
-		? this.languages[0]
-		: {
-			code: 'en',
-			name: 'English',
-			origin: 'English'
-		};
+	language: Language = this.languages.find(l => l.code === environment.defaultLanguage) || {
+    code: 'uk',
+    name: 'Українська',
+    origin: 'Українська'
+};
+
 
 	/**
 	 * Sets the current language and updates the translations.
