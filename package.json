@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start": "ng serve -o --proxy-config proxy.conf.json",
-    "build": "ng build --configuration production"
+    "build": "ng build --configuration production",
+	"build:podhub": "ng build --configuration podhub"
   },
   "private": true,
   "dependencies": {
