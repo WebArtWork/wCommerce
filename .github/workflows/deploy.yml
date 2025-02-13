@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages and External Repo
 
 on:
   push:
@@ -21,13 +21,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build Angular app
-        run: npm run build
-
-      - name: Copy CNAME file
-        run: cp CNAME dist/app/browser/
-
-      - name: Set up SSH
+      # Setp SSH
+      - name: Set up SSH for GitHub Pages
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
@@ -36,6 +31,13 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
 
+      # First Build (Production)
+      - name: Build Angular app (Production)
+        run: npm run build
+
+      - name: Copy CNAME file
+        run: cp CNAME dist/app/browser/
+
       - name: Commit and push to gh-pages using SSH
         env:
           GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
@@ -43,12 +45,35 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           cd dist/app/browser
-          git init  # Initialize a new git repository
-          git add --all .  # Add all changes
+          git init
+          git add --all .
           git commit -m "Deploy to GitHub Pages"
-          git checkout -B gh-pages  # Switch to gh-pages branch
+          git checkout -B gh-pages
           git push git@github.com:${{ github.repository }} gh-pages --force
 
+      # Second Build (Non-Production Configuration)
+      - name: Build Angular app (podhub)
+        run: npm run build
+
+      # Replace CNAME file for External Repo
+      - name: Replace CNAME file for admin.podhubvape.shop
+        run: echo "admin.podhubvape.shop" > dist/app/browser/CNAME
+
+      - name: Commit and push to external repository
+        env:
+          GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          cd dist/app/browser
+          git init
+          git add --all .
+          git commit -m "Deploy non-production build"
+          git checkout -B main  # Adjust the branch if needed
+          git remote add external git@github.com:WebArtWork/admin.podhubvape.shop.git
+          git push external main --force
+
+      # Cleanup SSH
       - name: Clean up SSH
         run: |
           rm -f ~/.ssh/id_rsa
