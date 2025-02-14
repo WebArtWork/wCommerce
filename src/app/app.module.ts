@@ -14,6 +14,7 @@ import { AuthenticatedGuard } from './core/guards/authenticated.guard';
 import { GuestGuard } from './core/guards/guest.guard';
 import { AdminsGuard } from './core/guards/admins.guard';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { CommercesGuard } from './core/guards/commerces.guard';
 
 const routes: Routes = [
 	{
@@ -69,6 +70,170 @@ const routes: Routes = [
 		]
 	},
 	{
+		path: 'commerce',
+		canActivate: [CommercesGuard],
+		component: UserComponent,
+		children: [
+			/* commerce */
+			{
+				path: 'commercecontents',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Commercecontents'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/commercecontent/pages/commercecontents/commercecontents.module'
+					).then((m) => m.CommercecontentsModule)
+			},
+			{
+				path: 'commerceproductquantities',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Commerceproductquantities'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/commerceproductquantity/pages/commerceproductquantities/commerceproductquantities.module'
+					).then((m) => m.CommerceproductquantitiesModule)
+			},
+			{
+				path: 'commercewarehouses',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Commercewarehouses'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/commercewarehouse/pages/commercewarehouses/commercewarehouses.module'
+					).then((m) => m.CommercewarehousesModule)
+			},
+			{
+				path: 'commercetags',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Commercetags'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/commercetag/pages/commercetags/commercetags.module'
+					).then((m) => m.CommercetagsModule)
+			},
+			{
+				path: 'commercestores',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Commercestores'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/commercestore/pages/commercestores/commercestores.module'
+					).then((m) => m.CommercestoresModule)
+			},
+			{
+				path: 'commerceservices',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Commerceservices'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/commerceservice/pages/commerceservices/commerceservices.module'
+					).then((m) => m.CommerceservicesModule)
+			},
+			{
+				path: 'commerceproducts',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Commerceproducts'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/commerceproduct/pages/commerceproducts/commerceproducts.module'
+					).then((m) => m.CommerceproductsModule)
+			},
+			{
+				path: 'commerceportfolios',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Commerceportfolios'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/commerceportfolio/pages/commerceportfolios/commerceportfolios.module'
+					).then((m) => m.CommerceportfoliosModule)
+			},
+			{
+				path: 'commerceorders',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Commerceorders'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/commerceorder/pages/commerceorders/commerceorders.module'
+					).then((m) => m.CommerceordersModule)
+			},
+			{
+				path: 'commercediscounts',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Commercediscounts'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/commercediscount/pages/commercediscounts/commercediscounts.module'
+					).then((m) => m.CommercediscountsModule)
+			},
+			{
+				path: 'commercebrands',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Commercebrands'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/commercebrand/pages/commercebrands/commercebrands.module'
+					).then((m) => m.CommercebrandsModule)
+			},
+			{
+				path: 'commerces',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Commerces'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/commerce/pages/commerces/commerces.module'
+					).then((m) => m.CommercesModule)
+			}
+		]
+	},
+	{
 		path: '',
 		canActivate: [AuthenticatedGuard],
 		component: UserComponent,
@@ -82,8 +247,11 @@ const routes: Routes = [
 						title: 'Orders'
 					}
 				},
-				loadChildren: () => import('./pages/user/orders/orders.module').then(m => m.OrdersModule)
-			}, 
+				loadChildren: () =>
+					import('./pages/user/orders/orders.module').then(
+						(m) => m.OrdersModule
+					)
+			},
 			{
 				path: 'cart',
 				canActivate: [MetaGuard],
@@ -92,8 +260,11 @@ const routes: Routes = [
 						title: 'Cart'
 					}
 				},
-				loadChildren: () => import('./pages/user/cart/cart.module').then(m => m.CartModule)
-			}, 
+				loadChildren: () =>
+					import('./pages/user/cart/cart.module').then(
+						(m) => m.CartModule
+					)
+			},
 			{
 				path: 'product',
 				canActivate: [MetaGuard],
@@ -102,8 +273,11 @@ const routes: Routes = [
 						title: 'Product'
 					}
 				},
-				loadChildren: () => import('./pages/user/product/product.module').then(m => m.ProductModule)
-			}, 
+				loadChildren: () =>
+					import('./pages/user/product/product.module').then(
+						(m) => m.ProductModule
+					)
+			},
 			{
 				path: 'products',
 				canActivate: [MetaGuard],
@@ -112,138 +286,11 @@ const routes: Routes = [
 						title: 'Products'
 					}
 				},
-				loadChildren: () => import('./pages/user/products/products.module').then(m => m.ProductsModule)
-			}, 
-			{
-				path: 'parser',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Parser'
-					}
-				},
-				loadChildren: () => import('./pages/user/parser/parser.module').then(m => m.ParserModule)
-			}, 
-			{
-				path: 'commercecontents',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Commercecontents'
-					}
-				},
-				loadChildren: () => import('./modules/commercecontent/pages/commercecontents/commercecontents.module').then(m => m.CommercecontentsModule)
-			}, 
-			{
-				path: 'commerceproductquantities',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Commerceproductquantities'
-					}
-				},
-				loadChildren: () => import('./modules/commerceproductquantity/pages/commerceproductquantities/commerceproductquantities.module').then(m => m.CommerceproductquantitiesModule)
-			}, 
-			{
-				path: 'commercewarehouses',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Commercewarehouses'
-					}
-				},
-				loadChildren: () => import('./modules/commercewarehouse/pages/commercewarehouses/commercewarehouses.module').then(m => m.CommercewarehousesModule)
-			}, 
-			{
-				path: 'commercetags',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Commercetags'
-					}
-				},
-				loadChildren: () => import('./modules/commercetag/pages/commercetags/commercetags.module').then(m => m.CommercetagsModule)
-			}, 
-			{
-				path: 'commercestores',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Commercestores'
-					}
-				},
-				loadChildren: () => import('./modules/commercestore/pages/commercestores/commercestores.module').then(m => m.CommercestoresModule)
-			}, 
-			{
-				path: 'commerceservices',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Commerceservices'
-					}
-				},
-				loadChildren: () => import('./modules/commerceservice/pages/commerceservices/commerceservices.module').then(m => m.CommerceservicesModule)
-			},  
-			{
-				path: 'commerceproducts',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Commerceproducts'
-					}
-				},
-				loadChildren: () => import('./modules/commerceproduct/pages/commerceproducts/commerceproducts.module').then(m => m.CommerceproductsModule)
-			}, 
-			{
-				path: 'commerceportfolios',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Commerceportfolios'
-					}
-				},
-				loadChildren: () => import('./modules/commerceportfolio/pages/commerceportfolios/commerceportfolios.module').then(m => m.CommerceportfoliosModule)
-			}, 
-			{
-				path: 'commerceorders',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Commerceorders'
-					}
-				},
-				loadChildren: () => import('./modules/commerceorder/pages/commerceorders/commerceorders.module').then(m => m.CommerceordersModule)
-			}, 
-			{
-				path: 'commercediscounts',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Commercediscounts'
-					}
-				},
-				loadChildren: () => import('./modules/commercediscount/pages/commercediscounts/commercediscounts.module').then(m => m.CommercediscountsModule)
-			}, 
-			{
-				path: 'commercebrands',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Commercebrands'
-					}
-				},
-				loadChildren: () => import('./modules/commercebrand/pages/commercebrands/commercebrands.module').then(m => m.CommercebrandsModule)
+				loadChildren: () =>
+					import('./pages/user/products/products.module').then(
+						(m) => m.ProductsModule
+					)
 			},
-			{
-				path: 'commerces',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Commerces'
-					}
-				},
-				loadChildren: () => import('./modules/commerce/pages/commerces/commerces.module').then(m => m.CommercesModule)
-			}, 
 			{
 				path: 'profile',
 				canActivate: [MetaGuard],
@@ -360,7 +407,13 @@ const routes: Routes = [
 			preloadingStrategy: PreloadAllModules
 		})
 	],
-	providers: [AuthenticatedGuard, GuestGuard, AdminsGuard, { provide: LocationStrategy, useClass: HashLocationStrategy },],
+	providers: [
+		AuthenticatedGuard,
+		GuestGuard,
+		CommercesGuard,
+		AdminsGuard,
+		{ provide: LocationStrategy, useClass: HashLocationStrategy }
+	],
 	bootstrap: [AppComponent]
 })
 export class AppModule {}

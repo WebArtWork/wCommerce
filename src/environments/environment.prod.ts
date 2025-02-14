@@ -1,7 +1,7 @@
 export const environment = {
 	roles: ['commerce'],
 	production: true,
-	appId: 'test',
+	appId: 'wcommerce',
 	url: 'https://webart.work',
 	usePortfolio: false,
 	useService: false,

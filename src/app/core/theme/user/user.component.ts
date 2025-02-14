@@ -20,9 +20,19 @@ export class UserComponent {
 			this.showSidebar = false;
 		}
 	}
-	readonly usePortfolio = typeof (environment as { usePortfolio: boolean }).usePortfolio === 'boolean' ? (environment as { usePortfolio: boolean }).usePortfolio : true;
-	readonly useProduct = typeof (environment as { useProduct: boolean }).useProduct === 'boolean' ? (environment as { useProduct: boolean }).useProduct : true;
-	readonly useService = typeof (environment as { useService: boolean }).useService === 'boolean' ? (environment as { useService: boolean }).useService : true;
+	readonly usePortfolio =
+		typeof (environment as { usePortfolio: boolean }).usePortfolio ===
+		'boolean'
+			? (environment as { usePortfolio: boolean }).usePortfolio
+			: true;
+	readonly useProduct =
+		typeof (environment as { useProduct: boolean }).useProduct === 'boolean'
+			? (environment as { useProduct: boolean }).useProduct
+			: true;
+	readonly useService =
+		typeof (environment as { useService: boolean }).useService === 'boolean'
+			? (environment as { useService: boolean }).useService
+			: true;
 
-	constructor(public us: UserService, private _platform: Platform) { }
+	constructor(public us: UserService, private _platform: Platform) {}
 }
