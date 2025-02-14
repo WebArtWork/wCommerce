@@ -66,6 +66,7 @@ jobs:
         run: |
           cd dist/app/browser
           rm -rf .git
+          sed -i 's/assets/favicon.ico > assets/podhub/favicon.jpg/' index.html
           git init
           git add --all .
           git commit -m "Deploy non-production build"
