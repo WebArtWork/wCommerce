@@ -1,17 +1,35 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { CartService } from 'src/app/core/services/cart.service';
+import { Commerceproduct } from 'src/app/modules/commerceproduct/interfaces/commerceproduct.interface';
+import { CommerceproductService } from 'src/app/modules/commerceproduct/services/commerceproduct.service';
 import { UserService } from 'src/app/modules/user/services/user.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
 	templateUrl: './product.component.html',
 	styleUrls: ['./product.component.scss'],
-	standalone: false,
+	standalone: false
 })
 export class ProductComponent {
+	readonly url = environment.url;
+
+	product: Commerceproduct = this._productService.doc(
+		this._router.url.replace('/product/', '')
+	);
+
 	isMenuOpen = false;
 
-	constructor(public userService: UserService) {}
+	constructor(
+		private _productService: CommerceproductService,
+		public userService: UserService,
+		private _router: Router,
+		private _cartService: CartService
+	) {}
 
 	back(): void {
 		window.history.back();
 	}
+
+	addToCart(): void {}
 }
