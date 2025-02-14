@@ -30,21 +30,17 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
+          git config --global user.name "github-actions[bot]"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      # First Build (Production)
-      - name: Build Angular app (Production)
-        run: npm run build
-
-      - name: Copy CNAME file
-        run: cp CNAME dist/app/browser/
-
-      - name: Commit and push to gh-pages using SSH
+      - name: Prepare wCommerce gh-pages
         env:
           GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          npm run build
           cd dist/app/browser
+          echo "wcommerce.webart.work" > CNAME
           git init
           git add --all .
           git commit -m "Deploy to GitHub Pages"
@@ -52,19 +48,13 @@ jobs:
           git push git@github.com:${{ github.repository }} gh-pages --force
           cd ../../..
 
-      # Second Build (Pod Hub)
-      - name: Build Angular app (podhub)
-        run: npm run build:podhub
-
-      # Replace CNAME file for External Repo
-      - name: Replace CNAME file for admin.podhubvape.shop
-        run: echo "admin.podhubvape.shop" > dist/app/browser/CNAME
-
-      - name: Commit and push to external repository
+      - name: Prepare pobhub gh-pages
         env:
           GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
         run: |
+          npm run build:podhub
           cd dist/app/browser
+          echo "admin.podhubvape.shop" > CNAME
           rm -rf .git
           sed -i 's|wCommerce|PodHub \| Vape shop - вейпи, PODіки, картриджі, рідини та більше|' index.html
           sed -i 's|https://wcommerce.webart.work/assets/logo.png|https://admin.podhubvape.shop/assets/podhub/beef.svg|' index.html

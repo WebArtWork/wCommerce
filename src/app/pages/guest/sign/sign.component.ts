@@ -8,19 +8,19 @@ import { UserService } from 'src/app/modules/user/services/user.service';
 import { User } from 'src/app/modules/user/interfaces/user.interface';
 import { environment } from 'src/environments/environment';
 
-
 interface RespStatus {
 	email: string;
 	pass: string;
 }
 
 @Component({
-    templateUrl: './sign.component.html',
-    styleUrls: ['./sign.component.scss'],
-    standalone: false
+	templateUrl: './sign.component.html',
+	styleUrls: ['./sign.component.scss'],
+	standalone: false
 })
 export class SignComponent {
 	readonly logo = environment.meta.logo;
+
 	form: FormInterface = this._form.getForm('sign', {
 		formId: 'sign',
 		title: 'Sign In / Sign Up',
@@ -93,11 +93,7 @@ export class SignComponent {
 		]
 	});
 
-	user = {
-		email: '',
-		password: '',
-		resetPin: null
-	};
+	user = environment.sign;
 
 	constructor(
 		public us: UserService,

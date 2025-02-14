@@ -75,6 +75,46 @@ const routes: Routes = [
 		children: [
 			/* user */
 			{
+				path: 'orders',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Orders'
+					}
+				},
+				loadChildren: () => import('./pages/user/orders/orders.module').then(m => m.OrdersModule)
+			}, 
+			{
+				path: 'cart',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Cart'
+					}
+				},
+				loadChildren: () => import('./pages/user/cart/cart.module').then(m => m.CartModule)
+			}, 
+			{
+				path: 'product',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Product'
+					}
+				},
+				loadChildren: () => import('./pages/user/product/product.module').then(m => m.ProductModule)
+			}, 
+			{
+				path: 'products',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Products'
+					}
+				},
+				loadChildren: () => import('./pages/user/products/products.module').then(m => m.ProductsModule)
+			}, 
+			{
 				path: 'parser',
 				canActivate: [MetaGuard],
 				data: {
