@@ -66,6 +66,9 @@ jobs:
         run: |
           cd dist/app/browser
           rm -rf .git
+          sed -i 's|wCommerce|PodHub \| Vape shop - вейпи, PODіки, картриджі, рідини та більше|' index.html
+          sed -i 's|assets/favicon.ico|assets/podhub/favicon.jpg|' index.html
+          sed -i 's|assets/favicon.ico|assets/podhub/favicon.jpg|' index.html
           sed -i 's|assets/favicon.ico|assets/podhub/favicon.jpg|' index.html
           git init
           git add --all .
