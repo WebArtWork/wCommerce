@@ -300,6 +300,19 @@ const routes: Routes = [
 		children: [
 			/* user */
 			{
+				path: 'myqr',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Myqr'
+					}
+				},
+				loadChildren: () =>
+					import('./pages/user/myqr/myqr.module').then(
+						(m) => m.MyqrModule
+					)
+			},
+			{
 				path: 'profile',
 				canActivate: [MetaGuard],
 				data: {

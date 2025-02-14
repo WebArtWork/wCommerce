@@ -24,18 +24,18 @@ export class ProductComponent implements OnInit {
 
 	constructor(
 		private _productService: CommerceproductService,
+		public cartService: CartService,
 		public userService: UserService,
-		private _router: Router,
-		private _cartService: CartService
+		private _router: Router
 	) {}
 
 	ngOnInit(): void {
-		this._cartService.isAdded(this.product);
+		this.cartService
+			.isAdded(this.product)
+			.then((inCart) => (this.inCart = inCart));
 	}
 
 	back(): void {
 		window.history.back();
 	}
-
-	addToCart(): void {}
 }

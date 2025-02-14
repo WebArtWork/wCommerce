@@ -15,7 +15,7 @@ export class CartService {
 		);
 	}
 
-	add(product: Commerceproduct) {
+	add(product: Commerceproduct): void {
 		this.isAdded(product).then((added) => {
 			if (!added) {
 				this.products.push(product);
@@ -25,7 +25,7 @@ export class CartService {
 		});
 	}
 
-	remove(product: Commerceproduct) {
+	remove(product: Commerceproduct): void {
 		this.isAdded(product).then((added) => {
 			if (added) {
 				this.products.splice(
@@ -38,7 +38,7 @@ export class CartService {
 		});
 	}
 
-	toggle(product: Commerceproduct) {
+	toggle(product: Commerceproduct): void {
 		this.isAdded(product).then((added) => {
 			if (added) {
 				this.remove(product);
@@ -49,12 +49,16 @@ export class CartService {
 	}
 
 	async isAdded(product: Commerceproduct): Promise<boolean> {
-		return new Promise(async (resolve) => {
-			while (!this.products) {
-				await this.wait(100);
-			}
+		return new Promise((resolve) => {
+			const done = (): void => {
+				if (this.products) {
+					resolve(!!this.products.find((p) => p._id === product._id));
+				} else {
+					setTimeout(done.bind(this), 100);
+				}
+			};
 
-			resolve(!!this.products.find((p) => p._id === product._id));
+			done();
 		});
 	}
 

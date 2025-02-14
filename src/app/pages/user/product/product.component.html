@@ -40,6 +40,23 @@
 						<img [src]="url + product.thumb" alt="" />
 					</div>
 					<div class="documents-sidebar__title">{{product.name}}</div>
+					<a
+						(click)="cartService.add(product); inCart = true"
+						class="documents__btn"
+						routerLink="/cart"
+						>Buy</a
+					>
+					<a
+						(click)="cartService.toggle(product); inCart = !inCart"
+						class="documents__btn"
+					>
+						<span *ngIf="inCart" translate
+							>Common.Remove from cart</span
+						>
+						<span *ngIf="!inCart" translate
+							>Common.Add to cart</span
+						>
+					</a>
 					<!-- <div class="documents-sidebar__description">
 						{{product.description}}
 					</div> -->
@@ -229,14 +246,22 @@
 							elit.
 						</div>
 						<a
+							(click)="cartService.add(product); inCart = true"
 							class="documents__btn"
-							(click)="addToCart()"
 							routerLink="/cart"
 							>Buy</a
 						>
-						<a class="documents__btn" (click)="addToCart()"
-							>Add to cart</a
+						<a
+							(click)="cartService.toggle(product); inCart = !inCart"
+							class="documents__btn"
 						>
+							<span *ngIf="inCart" translate
+								>Common.Remove from cart</span
+							>
+							<span *ngIf="!inCart" translate
+								>Common.Add to cart</span
+							>
+						</a>
 					</div>
 				</div>
 			</div>
