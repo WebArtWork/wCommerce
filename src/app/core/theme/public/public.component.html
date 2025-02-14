@@ -1,0 +1,50 @@
+<div class="wrapper" id="wrapper">
+	<nav class="nav" (clickOutside)="showSidebar = false">
+		<ul class="nav__ul container" [class._active]="showSidebar">
+			<li class="nav__li">
+				<a
+					routerLinkActive="_activeLink"
+					(click)="showSidebar = false"
+					routerLink="/profile"
+					class="nav__a"
+				>
+					<span class="material-icons">person</span>
+				</a>
+			</li>
+			<li class="nav__li">
+				<a
+					routerLinkActive="_activeLink"
+					(click)="showSidebar = false"
+					routerLink="/orders"
+					class="nav__a"
+				>
+					<span class="material-icons">receipt_long</span>
+				</a>
+			</li>
+			<li class="nav__li">
+				<a
+					routerLinkActive="_activeLink"
+					(click)="showSidebar = false"
+					routerLink="/cart"
+					class="nav__a"
+				>
+					<span class="material-icons"
+						>production_quantity_limits</span
+					>
+				</a>
+			</li>
+			<li class="nav__li">
+				<a
+					routerLinkActive="_activeLink"
+					(click)="showSidebar = false"
+					routerLink="/products"
+					class="nav__a"
+				>
+					<span class="material-icons">inventory_2</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+
+	<router-outlet></router-outlet>
+</div>

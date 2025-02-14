@@ -15,11 +15,12 @@ import { GuestGuard } from './core/guards/guest.guard';
 import { AdminsGuard } from './core/guards/admins.guard';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { CommercesGuard } from './core/guards/commerces.guard';
+import { PublicComponent } from './core/theme/public/public.component';
 
 const routes: Routes = [
 	{
 		path: '',
-		redirectTo: '/sign',
+		redirectTo: '/products',
 		pathMatch: 'full'
 	},
 	{
@@ -235,8 +236,7 @@ const routes: Routes = [
 	},
 	{
 		path: '',
-		canActivate: [AuthenticatedGuard],
-		component: UserComponent,
+		component: PublicComponent,
 		children: [
 			/* user */
 			{
@@ -290,7 +290,15 @@ const routes: Routes = [
 					import('./pages/user/products/products.module').then(
 						(m) => m.ProductsModule
 					)
-			},
+			}
+		]
+	},
+	{
+		path: '',
+		canActivate: [AuthenticatedGuard],
+		component: PublicComponent,
+		children: [
+			/* user */
 			{
 				path: 'profile',
 				canActivate: [MetaGuard],
@@ -355,13 +363,18 @@ const routes: Routes = [
 	},
 	{
 		path: '**',
-		redirectTo: 'profile',
+		redirectTo: 'products',
 		pathMatch: 'full'
 	}
 ];
 
 @NgModule({
-	declarations: [AppComponent, GuestComponent, UserComponent],
+	declarations: [
+		AppComponent,
+		GuestComponent,
+		UserComponent,
+		PublicComponent
+	],
 	imports: [
 		CoreModule,
 		BrowserModule,

@@ -52,7 +52,7 @@ export class UserService extends CrudService<User> {
 			if (user) {
 				if (
 					!localStorage.getItem('waw_user') &&
-					this._router.url === '/sign'
+					this._router.url === '/products'
 				) {
 					this._router.navigateByUrl('/profile');
 				}
@@ -146,11 +146,7 @@ export class UserService extends CrudService<User> {
 
 		this._http.get('/api/user/logout');
 
-		this._router.navigateByUrl('/sign');
-
-		setTimeout(() => {
-			location.reload();
-		}, 100);
+		this._router.navigateByUrl('/products');
 	}
 
 	updateAdmin(user: User): void {

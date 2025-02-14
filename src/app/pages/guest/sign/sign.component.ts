@@ -147,7 +147,7 @@ export class SignComponent {
 	}
 
 	sign(): void {
-		this._http.post('/api/user/sign', this.user, this._set.bind(this));
+		this._http.post('/api/user/products', this.user, this._set.bind(this));
 	}
 
 	reset(): void {
