@@ -64,12 +64,8 @@ jobs:
         env:
           GIT_SSH_COMMAND: "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no"
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
           cd dist/app/browser
           rm -rf .git
-          sed -i 's/wCommerce > PodHub | Vape shop - вейпи, PODіки, картриджі, рідини та більше/PodHub | Vape shop - вейпи, PODіки, картриджі, рідини та більше/' index.html
-          sed -i 's/WCommerce is a powerful and flexible platform designed to help businesses create stunning web and mobile storefronts with ease. Whether you're a small startup or an established enterprise, WCommerce provides everything you need to launch, manage, and grow your online store./Ласкаво просимо до PodHub, вашого надійного магазину для всіх потреб у вейпах та одноразках. Ми пропонуємо широкий вибір вейпів, одноразок, pods, картриджів та жижок найвищої якості. У PodHub ви знайдете все необхідне для задоволення ваших вейпінгових потреб. Ми гарантуємо якість, доступні ціни та швидку доставку по всій Україні Новою поштою. /' index.html
           git init
           git add --all .
           git commit -m "Deploy non-production build"
