@@ -37,32 +37,18 @@
 				</div>
 				<div class="documents-sidebar-content">
 					<div class="documents-sidebar__img">
-						<img [src]="url + product.thumb" alt="" />
+						<img src="assets/default.png" alt="" />
 					</div>
-					<div class="documents-sidebar__title">{{product.name}}</div>
-
-					<div>quantity {{quantities|json}}</div>
-
-					<a
-						(click)="cartService.add(product); inCart = true"
-						class="documents__btn"
-						routerLink="/cart"
-						>Buy</a
-					>
-					<a
-						(click)="cartService.toggle(product); inCart = !inCart"
-						class="documents__btn"
-					>
-						<span *ngIf="inCart" translate
-							>Common.Remove from cart</span
-						>
-						<span *ngIf="!inCart" translate
-							>Common.Add to cart</span
-						>
-					</a>
-					<!-- <div class="documents-sidebar__description">
-						{{product.description}}
-					</div> -->
+					<div class="documents-sidebar__title">
+						Title of sidebar...
+					</div>
+					<div class="documents-sidebar__description">
+						Lorem ipsum dolor sit amet consectetur adipisicing elit.
+						Sint molestiae consequatur quae. Modi corporis rem amet
+						tempore debitis assumenda minima repellat labore
+						expedita quam. Itaque accusamus culpa ullam
+						necessitatibus nisi.
+					</div>
 				</div>
 			</div>
 			<div class="documents-main">
@@ -248,23 +234,7 @@
 							Lorem ipsum dolor sit amet consectetur adipisicing
 							elit.
 						</div>
-						<a
-							(click)="cartService.add(product); inCart = true"
-							class="documents__btn"
-							routerLink="/cart"
-							>Buy</a
-						>
-						<a
-							(click)="cartService.toggle(product); inCart = !inCart"
-							class="documents__btn"
-						>
-							<span *ngIf="inCart" translate
-								>Common.Remove from cart</span
-							>
-							<span *ngIf="!inCart" translate
-								>Common.Add to cart</span
-							>
-						</a>
+						<a class="documents__btn">Press button</a>
 					</div>
 				</div>
 			</div>

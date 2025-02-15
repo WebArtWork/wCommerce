@@ -4,7 +4,6 @@
 			<li class="nav__li">
 				<a
 					routerLinkActive="_activeLink"
-					(click)="showSidebar = false"
 					routerLink="/profile"
 					class="nav__a"
 				>
@@ -14,7 +13,6 @@
 			<li class="nav__li">
 				<a
 					routerLinkActive="_activeLink"
-					(click)="showSidebar = false"
 					routerLink="/orders"
 					class="nav__a"
 				>
@@ -24,7 +22,6 @@
 			<li class="nav__li">
 				<a
 					routerLinkActive="_activeLink"
-					(click)="showSidebar = false"
 					routerLink="/cart"
 					class="nav__a"
 				>
@@ -36,7 +33,6 @@
 			<li class="nav__li">
 				<a
 					routerLinkActive="_activeLink"
-					(click)="showSidebar = false"
 					routerLink="/myqr"
 					class="nav__a"
 				>
@@ -46,11 +42,18 @@
 			<li class="nav__li">
 				<a
 					routerLinkActive="_activeLink"
-					(click)="showSidebar = false"
 					routerLink="/products"
 					class="nav__a"
 				>
 					<span class="material-icons">inventory_2</span>
+				</a>
+			</li>
+			<li class="nav__li" *ngIf="us.role('commerce') || us.role('admin')">
+				<a
+					routerLink="{{us.role('admin') ? '/admin/users' : '/commerce/dashboard'}}"
+					class="nav__a"
+				>
+					<span class="material-icons">dashboard</span>
 				</a>
 			</li>
 		</ul>

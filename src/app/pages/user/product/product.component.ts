@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { CartService } from 'src/app/core/services/cart.service';
 import { Commerceproduct } from 'src/app/modules/commerceproduct/interfaces/commerceproduct.interface';
 import { CommerceproductService } from 'src/app/modules/commerceproduct/services/commerceproduct.service';
+import { Commerceproductquantity } from 'src/app/modules/commerceproductquantity/interfaces/commerceproductquantity.interface';
+import { CommerceproductquantityService } from 'src/app/modules/commerceproductquantity/services/commerceproductquantity.service';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { environment } from 'src/environments/environment';
 
@@ -14,20 +16,27 @@ import { environment } from 'src/environments/environment';
 export class ProductComponent implements OnInit {
 	readonly url = environment.url;
 
-	product: Commerceproduct = this._productService.doc(
-		this._router.url.replace('/product/', '')
-	);
+	_id = this._router.url.replace('/product/', '');
+
+	product: Commerceproduct = this._productService.doc(this._id);
+
+	quantities: Commerceproductquantity[] = [];
 
 	inCart = false;
 
 	isMenuOpen = false;
 
 	constructor(
+		private _quantityService: CommerceproductquantityService,
 		private _productService: CommerceproductService,
 		public cartService: CartService,
 		public userService: UserService,
 		private _router: Router
-	) {}
+	) {
+		this._quantityService
+			.get({ query: 'product=' + this._id })
+			.subscribe((quantities) => (this.quantities = quantities));
+	}
 
 	ngOnInit(): void {
 		this.cartService

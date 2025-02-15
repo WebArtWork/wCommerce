@@ -77,6 +77,16 @@ const routes: Routes = [
 		children: [
 			/* commerce */
 			{
+				path: 'dashboard',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Dashboard'
+					}
+				},
+				loadChildren: () => import('./pages/commerce/dashboard/dashboard.module').then(m => m.DashboardModule)
+			}, 
+			{
 				path: 'commercecontents',
 				canActivate: [MetaGuard],
 				data: {

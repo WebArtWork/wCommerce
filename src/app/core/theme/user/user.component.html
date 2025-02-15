@@ -8,7 +8,59 @@
 					routerLink="/profile"
 					class="nav__a"
 				>
-					<span class="material-icons">home</span>
+					<span class="material-icons">person</span>
+				</a>
+			</li>
+			<li class="nav__li">
+				<a
+					routerLinkActive="_activeLink"
+					(click)="showSidebar = false"
+					routerLink="/orders"
+					class="nav__a"
+				>
+					<span class="material-icons">receipt_long</span>
+				</a>
+			</li>
+			<li class="nav__li">
+				<a
+					routerLinkActive="_activeLink"
+					(click)="showSidebar = false"
+					routerLink="/cart"
+					class="nav__a"
+				>
+					<span class="material-icons"
+						>production_quantity_limits</span
+					>
+				</a>
+			</li>
+			<li class="nav__li">
+				<a
+					routerLinkActive="_activeLink"
+					(click)="showSidebar = false"
+					routerLink="/myqr"
+					class="nav__a"
+				>
+					<span class="material-icons">qr_code</span>
+				</a>
+			</li>
+			<li class="nav__li">
+				<a
+					routerLinkActive="_activeLink"
+					(click)="showSidebar = false"
+					routerLink="/products"
+					class="nav__a"
+				>
+					<span class="material-icons">inventory_2</span>
+				</a>
+			</li>
+			<li class="nav__li">
+				<a
+					*ngIf="us.role('commerce') || us.role('admin')"
+					(click)="showSidebar = false"
+					routerLink="{{us.role('admin') ? '/admin/users' : '/commerce/dashboard'}}"
+					class="nav__a"
+				>
+					<span class="material-icons">dashboard</span>
 				</a>
 			</li>
 			<li class="nav__li _burger" (click)="showSidebar = !showSidebar">
