@@ -77,6 +77,19 @@ const routes: Routes = [
 		children: [
 			/* commerce */
 			{
+				path: 'articles',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Articles'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/article/pages/articles/articles.module'
+					).then((m) => m.ArticlesModule)
+			},
+			{
 				path: 'dashboard',
 				canActivate: [MetaGuard],
 				data: {
@@ -84,8 +97,11 @@ const routes: Routes = [
 						title: 'Dashboard'
 					}
 				},
-				loadChildren: () => import('./pages/commerce/dashboard/dashboard.module').then(m => m.DashboardModule)
-			}, 
+				loadChildren: () =>
+					import('./pages/commerce/dashboard/dashboard.module').then(
+						(m) => m.DashboardModule
+					)
+			},
 			{
 				path: 'commercecontents',
 				canActivate: [MetaGuard],

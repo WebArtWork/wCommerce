@@ -111,7 +111,7 @@
 					routerLinkActive="_activeLink"
 					routerLink="/admin/users"
 					class="nav__burger-link"
-					*ngIf="us.role('admin') || us.role('commerce')"
+					*ngIf="us.role('commerce')"
 					(click)="hideSidebar()"
 				>
 					<span class="material-icons">people</span>
@@ -139,12 +139,13 @@
 					<span class="material-icons">translate</span>
 					<span translate>Theme.Translates</span>
 				</a>
+				<hr *ngIf="us.role('admin')" />
 				<a
 					[routerLinkActiveOptions]="{ exact: true }"
 					routerLinkActive="_activeLink"
 					routerLink="/commerce/commerces"
 					class="nav__burger-link"
-					*ngIf="us.role('admin') || us.role('commerce')"
+					*ngIf="us.role('commerce')"
 					(click)="hideSidebar()"
 				>
 					<span class="material-icons">business</span>
@@ -155,7 +156,7 @@
 					routerLinkActive="_activeLink"
 					routerLink="/commerce/commerceorders"
 					class="nav__burger-link"
-					*ngIf="us.role('admin') || us.role('commerce')"
+					*ngIf="us.role('commerce')"
 					(click)="hideSidebar()"
 				>
 					<span class="material-icons">list_alt</span>
@@ -166,7 +167,7 @@
 					routerLinkActive="_activeLink"
 					routerLink="/commerce/commercestores"
 					class="nav__burger-link"
-					*ngIf="us.role('admin') || us.role('commerce')"
+					*ngIf="us.role('commerce')"
 					(click)="hideSidebar()"
 				>
 					<span class="material-icons">store</span>
@@ -177,7 +178,7 @@
 					routerLinkActive="_activeLink"
 					routerLink="/commerce/"
 					class="nav__burger-link"
-					*ngIf="us.role('admin') || us.role('commerce')"
+					*ngIf="us.role('commerce')"
 					(click)="hideSidebar()"
 				>
 					<span class="material-icons">people</span>
@@ -188,7 +189,7 @@
 					routerLinkActive="_activeLink"
 					routerLink="/commerce/commercewarehouses"
 					class="nav__burger-link"
-					*ngIf="us.role('admin') || us.role('commerce')"
+					*ngIf="us.role('commerce')"
 					(click)="hideSidebar()"
 				>
 					<span class="material-icons">home</span>
@@ -200,7 +201,7 @@
 					routerLink="/commerce/commerceproducts"
 					class="nav__burger-link"
 					(click)="hideSidebar()"
-					*ngIf="useProduct && (us.role('admin') || us.role('commerce'))"
+					*ngIf="useProduct && (us.role('commerce'))"
 				>
 					<span class="material-icons"
 						>production_quantity_limits</span
@@ -213,7 +214,7 @@
 					routerLink="/commerce/commerceservices"
 					class="nav__burger-link"
 					(click)="hideSidebar()"
-					*ngIf="useService && (us.role('admin') || us.role('commerce'))"
+					*ngIf="useService && (us.role('commerce'))"
 				>
 					<span class="material-icons">room_service</span>
 					<span translate>Theme.Services</span>
@@ -224,7 +225,7 @@
 					routerLink="/commerce/commerceportfolios"
 					class="nav__burger-link"
 					(click)="hideSidebar()"
-					*ngIf="usePortfolio && (us.role('admin') || us.role('commerce'))"
+					*ngIf="usePortfolio && (us.role('commerce'))"
 				>
 					<span class="material-icons">photo_camera</span>
 					<span translate>Theme.Portfolios</span>
@@ -234,7 +235,7 @@
 					routerLinkActive="_activeLink"
 					routerLink="/commerce/commercecontents"
 					class="nav__burger-link"
-					*ngIf="us.role('admin') || us.role('commerce')"
+					*ngIf="us.role('commerce')"
 					(click)="hideSidebar()"
 				>
 					<span class="material-icons">content_paste</span>
@@ -245,7 +246,7 @@
 					routerLinkActive="_activeLink"
 					routerLink="/commerce/commercetags"
 					class="nav__burger-link"
-					*ngIf="us.role('admin') || us.role('commerce')"
+					*ngIf="us.role('commerce')"
 					(click)="hideSidebar()"
 				>
 					<span class="material-icons">style</span>
@@ -256,7 +257,7 @@
 					routerLinkActive="_activeLink"
 					routerLink="/commerce/commercebrands"
 					class="nav__burger-link"
-					*ngIf="us.role('admin') || us.role('commerce')"
+					*ngIf="us.role('commerce')"
 					(click)="hideSidebar()"
 				>
 					<span class="material-icons">branding_watermark</span>
@@ -267,13 +268,24 @@
 					routerLinkActive="_activeLink"
 					routerLink="/commerce/commercediscounts"
 					class="nav__burger-link"
-					*ngIf="us.role('admin') || us.role('commerce')"
+					*ngIf="us.role('commerce')"
 					(click)="hideSidebar()"
 				>
 					<span class="material-icons">percent</span>
 					<span translate>Theme.Discounts</span>
 				</a>
-				<hr *ngIf="us.role('admin')" />
+				<a
+					[routerLinkActiveOptions]="{ exact: true }"
+					routerLinkActive="_activeLink"
+					routerLink="/commerce/articles"
+					class="nav__burger-link"
+					*ngIf="us.role('commerce')"
+					(click)="hideSidebar()"
+				>
+					<span class="material-icons">article</span>
+					<span translate>Theme.Articles</span>
+				</a>
+				<hr *ngIf="us.role('commerce')" />
 			</div>
 		</div>
 		<router-outlet></router-outlet>
