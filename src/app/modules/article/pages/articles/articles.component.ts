@@ -11,10 +11,10 @@ import { firstValueFrom } from 'rxjs';
 @Component({
 	templateUrl: './articles.component.html',
 	styleUrls: ['./articles.component.scss'],
-	standalone: false,
+	standalone: false
 })
 export class ArticlesComponent {
-	columns = ['name', 'description'];
+	columns = ['title', 'shortDescription'];
 
 	form: FormInterface = this._form.getForm('article', articleFormComponents);
 
@@ -26,7 +26,10 @@ export class ArticlesComponent {
 		create: (): void => {
 			this._form.modal<Article>(this.form, {
 				label: 'Create',
-				click: async (created: unknown, close: () => void) => {
+				click: async (
+					created: unknown,
+					close: () => void
+				): Promise<void> => {
 					close();
 
 					this._preCreate(created as Article);
@@ -36,7 +39,7 @@ export class ArticlesComponent {
 					);
 
 					this.setRows();
-				},
+				}
 			});
 		},
 		update: (doc: Article): void => {
@@ -55,17 +58,19 @@ export class ArticlesComponent {
 				),
 				buttons: [
 					{
-						text: this._translate.translate('Common.No'),
+						text: this._translate.translate('Common.No')
 					},
 					{
 						text: this._translate.translate('Common.Yes'),
 						callback: async (): Promise<void> => {
-							await firstValueFrom(this._articleService.delete(doc));
+							await firstValueFrom(
+								this._articleService.delete(doc)
+							);
 
 							this.setRows();
-						},
-					},
-				],
+						}
+					}
+				]
 			});
 		},
 		buttons: [
@@ -73,28 +78,28 @@ export class ArticlesComponent {
 				icon: 'cloud_download',
 				click: (doc: Article): void => {
 					this._form.modalUnique<Article>('article', 'url', doc);
-				},
-			},
+				}
+			}
 		],
 		headerButtons: [
 			{
 				icon: 'playlist_add',
 				click: this._bulkManagement(),
-				class: 'playlist',
+				class: 'playlist'
 			},
 			{
 				icon: 'edit_note',
 				click: this._bulkManagement(false),
-				class: 'edit',
-			},
-		],
+				class: 'edit'
+			}
+		]
 	};
 
 	rows: Article[] = [];
 
 	constructor(
-		private _translate: TranslateService,
 		private _articleService: ArticleService,
+		private _translate: TranslateService,
 		private _alert: AlertService,
 		private _form: FormService,
 		private _core: CoreService
@@ -137,7 +142,8 @@ export class ArticlesComponent {
 						for (const article of this.rows) {
 							if (
 								!articles.find(
-									(localArticle) => localArticle._id === article._id
+									(localArticle) =>
+										localArticle._id === article._id
 								)
 							) {
 								await firstValueFrom(
@@ -148,7 +154,8 @@ export class ArticlesComponent {
 
 						for (const article of articles) {
 							const localArticle = this.rows.find(
-								(localArticle) => localArticle._id === article._id
+								(localArticle) =>
+									localArticle._id === article._id
 							);
 
 							if (localArticle) {
