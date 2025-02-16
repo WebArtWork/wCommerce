@@ -31,5 +31,6 @@ export const environment = {
 		password: '',
 		resetPin: null
 	},
-	commerceId: ''
+	commerceId: '',
+	commerceArticleUrl: '/commerce/articles/link'
 };
