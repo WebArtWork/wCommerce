@@ -7,6 +7,7 @@ import { TranslateService } from 'src/app/core/modules/translate/translate.servi
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { articleFormComponents } from '../../formcomponents/article.formcomponents';
 import { firstValueFrom } from 'rxjs';
+import { FormComponentInterface } from 'src/app/core/modules/form/interfaces/component.interface';
 
 @Component({
 	templateUrl: './articles.component.html',
@@ -24,6 +25,22 @@ export class ArticlesComponent {
 		setPerPage: this._articleService.setPerPage.bind(this._articleService),
 		allDocs: false,
 		create: (): void => {
+			this._form.setValue(
+				this.form,
+				'linkCategory',
+				'Items',
+				this._core.linkCollections
+			);
+
+			if (this._form.getComponent(this.form, 'linkDoc')) {
+				(
+					this._form.getComponent(
+						this.form,
+						'linkDoc'
+					) as FormComponentInterface
+				).hidden = true;
+			}
+
 			this._form.modal<Article>(this.form, {
 				label: 'Create',
 				click: async (
