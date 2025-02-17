@@ -415,7 +415,7 @@ const routes: Routes = [
 	},
 	{
 		path: '**',
-		redirectTo: 'products',
+		redirectTo: 'sign',
 		pathMatch: 'full'
 	}
 ];
