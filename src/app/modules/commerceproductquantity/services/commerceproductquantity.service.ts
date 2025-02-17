@@ -6,9 +6,13 @@ import { CrudService } from 'wacom';
 	providedIn: 'root'
 })
 export class CommerceproductquantityService extends CrudService<Commerceproductquantity> {
+	quantitiesByProduct: Record<string, Commerceproductquantity[]> = {};
+
 	constructor() {
 		super({
 			name: 'commerceproductquantity'
 		});
+
+		this.filteredDocuments(this.quantitiesByProduct, 'product');
 	}
 }

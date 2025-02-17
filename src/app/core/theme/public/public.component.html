@@ -1,0 +1,65 @@
+<div class="wrapper" id="wrapper">
+	<nav class="nav" (clickOutside)="showSidebar = false">
+		<ul class="nav__ul container" [class._active]="showSidebar">
+			<li class="nav__li">
+				<a
+					routerLinkActive="_activeLink"
+					routerLink="/profile"
+					class="nav__a"
+				>
+					<span class="material-icons">person</span>
+				</a>
+			</li>
+			<li class="nav__li">
+				<a
+					routerLinkActive="_activeLink"
+					routerLink="/orders"
+					class="nav__a"
+				>
+					<span class="material-icons">receipt_long</span>
+				</a>
+			</li>
+			<li class="nav__li">
+				<a
+					routerLinkActive="_activeLink"
+					routerLink="/cart"
+					class="nav__a"
+				>
+					<span class="material-icons"
+						>production_quantity_limits</span
+					>
+				</a>
+			</li>
+			<li class="nav__li">
+				<a
+					routerLinkActive="_activeLink"
+					routerLink="/myqr"
+					class="nav__a"
+				>
+					<span class="material-icons">qr_code</span>
+				</a>
+			</li>
+			<li class="nav__li">
+				<a
+					routerLinkActive="_activeLink"
+					routerLink="/products"
+					class="nav__a"
+				>
+					<span class="material-icons">inventory_2</span>
+				</a>
+			</li>
+			<li class="nav__li" *ngIf="us.role('commerce') || us.role('admin')">
+				<a
+					routerLink="{{us.role('admin') ? '/admin/users' : '/commerce/dashboard'}}"
+					class="nav__a"
+				>
+					<span class="material-icons">dashboard</span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+
+	<div class="main">
+		<router-outlet></router-outlet>
+	</div>
+</div>

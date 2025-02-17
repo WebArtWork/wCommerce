@@ -6,6 +6,7 @@ import { FormService } from 'src/app/core/modules/form/form.service';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { commerceFormComponents } from '../../formcomponents/commerce.formcomponents';
+import { environment } from 'src/environments/environment';
 
 @Component({
 	templateUrl: './commerces.component.html',
@@ -15,7 +16,10 @@ import { commerceFormComponents } from '../../formcomponents/commerce.formcompon
 export class CommercesComponent {
 	columns = ['name', 'description'];
 
-	form: FormInterface = this._form.getForm('commerce', commerceFormComponents);
+	form: FormInterface = this._form.getForm(
+		'commerce',
+		commerceFormComponents
+	);
 
 	config = {
 		create: (): void => {
@@ -29,11 +33,13 @@ export class CommercesComponent {
 			});
 		},
 		update: (doc: Commerce): void => {
-			this._form.modal<Commerce>(this.form, [], doc).then((updated: Commerce) => {
-				this._core.copy(updated, doc);
+			this._form
+				.modal<Commerce>(this.form, [], doc)
+				.then((updated: Commerce) => {
+					this._core.copy(updated, doc);
 
-				this._commerceService.update(doc);
-			});
+					this._commerceService.update(doc);
+				});
 		},
 		delete: (doc: Commerce): void => {
 			this._alert.question({
@@ -54,6 +60,18 @@ export class CommercesComponent {
 			});
 		},
 		buttons: [
+			environment.commerceArticleUrl
+				? {
+						icon: 'article',
+						hrefFunc: (doc: Commerce): string => {
+							return (
+								environment.commerceArticleUrl +
+								'/Commerce/' +
+								doc._id
+							);
+						}
+				  }
+				: null,
 			{
 				icon: 'list_alt',
 				hrefFunc: (doc: Commerce): string => {
@@ -125,13 +143,13 @@ export class CommercesComponent {
 			{
 				icon: 'playlist_add',
 				click: this._bulkManagement(),
-				class: 'playlist',
+				class: 'playlist'
 			},
 			{
 				icon: 'edit_note',
 				click: this._bulkManagement(false),
-				class: 'edit',
-			},
+				class: 'edit'
+			}
 		]
 	};
 
@@ -145,7 +163,7 @@ export class CommercesComponent {
 		private _alert: AlertService,
 		private _form: FormService,
 		private _core: CoreService
-	) { }
+	) {}
 
 	private _bulkManagement(create = true): () => void {
 		return (): void => {
@@ -158,16 +176,20 @@ export class CommercesComponent {
 						}
 					} else {
 						for (const commerce of this.rows) {
-							if (!commerces.find(
-								localCommerce => localCommerce._id === commerce._id
-							)) {
+							if (
+								!commerces.find(
+									(localCommerce) =>
+										localCommerce._id === commerce._id
+								)
+							) {
 								this._commerceService.delete(commerce);
 							}
 						}
 
 						for (const commerce of commerces) {
 							const localCommerce = this.rows.find(
-								localCommerce => localCommerce._id === commerce._id
+								(localCommerce) =>
+									localCommerce._id === commerce._id
 							);
 
 							if (localCommerce) {

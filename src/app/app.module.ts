@@ -15,11 +15,12 @@ import { GuestGuard } from './core/guards/guest.guard';
 import { AdminsGuard } from './core/guards/admins.guard';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { CommercesGuard } from './core/guards/commerces.guard';
+import { PublicComponent } from './core/theme/public/public.component';
 
 const routes: Routes = [
 	{
 		path: '',
-		redirectTo: '/sign',
+		redirectTo: '/products',
 		pathMatch: 'full'
 	},
 	{
@@ -75,6 +76,32 @@ const routes: Routes = [
 		component: UserComponent,
 		children: [
 			/* commerce */
+			{
+				path: 'articles',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Articles'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/article/pages/articles/articles.module'
+					).then((m) => m.ArticlesModule)
+			},
+			{
+				path: 'dashboard',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Dashboard'
+					}
+				},
+				loadChildren: () =>
+					import('./pages/commerce/dashboard/dashboard.module').then(
+						(m) => m.DashboardModule
+					)
+			},
 			{
 				path: 'commercecontents',
 				canActivate: [MetaGuard],
@@ -235,10 +262,22 @@ const routes: Routes = [
 	},
 	{
 		path: '',
-		canActivate: [AuthenticatedGuard],
-		component: UserComponent,
+		component: PublicComponent,
 		children: [
 			/* user */
+			{
+				path: 'parser',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Parser'
+					}
+				},
+				loadChildren: () =>
+					import('./pages/user/parser/parser.module').then(
+						(m) => m.ParserModule
+					)
+			},
 			{
 				path: 'orders',
 				canActivate: [MetaGuard],
@@ -289,6 +328,27 @@ const routes: Routes = [
 				loadChildren: () =>
 					import('./pages/user/products/products.module').then(
 						(m) => m.ProductsModule
+					)
+			}
+		]
+	},
+	{
+		path: '',
+		canActivate: [AuthenticatedGuard],
+		component: PublicComponent,
+		children: [
+			/* user */
+			{
+				path: 'myqr',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Myqr'
+					}
+				},
+				loadChildren: () =>
+					import('./pages/user/myqr/myqr.module').then(
+						(m) => m.MyqrModule
 					)
 			},
 			{
@@ -355,13 +415,18 @@ const routes: Routes = [
 	},
 	{
 		path: '**',
-		redirectTo: 'profile',
+		redirectTo: 'products',
 		pathMatch: 'full'
 	}
 ];
 
 @NgModule({
-	declarations: [AppComponent, GuestComponent, UserComponent],
+	declarations: [
+		AppComponent,
+		GuestComponent,
+		UserComponent,
+		PublicComponent
+	],
 	imports: [
 		CoreModule,
 		BrowserModule,

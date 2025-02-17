@@ -143,11 +143,25 @@ export class SignComponent {
 	}
 
 	login(): void {
-		this._http.post('/api/user/login', this.user, this._set.bind(this));
+		this._http.post(
+			'/api/user/login',
+			{
+				...this.user,
+				appId: environment.appId
+			},
+			this._set.bind(this)
+		);
 	}
 
 	sign(): void {
-		this._http.post('/api/user/sign', this.user, this._set.bind(this));
+		this._http.post(
+			'/api/user/products',
+			{
+				...this.user,
+				appId: environment.appId
+			},
+			this._set.bind(this)
+		);
 	}
 
 	reset(): void {
@@ -161,19 +175,26 @@ export class SignComponent {
 	}
 
 	save(): void {
-		this._http.post('/api/user/change', this.user, (resp: boolean) => {
-			if (resp) {
-				this._alert.info({
-					text: 'Password successfully changed'
-				});
-			} else {
-				this._alert.error({
-					text: 'Wrong Code'
-				});
-			}
+		this._http.post(
+			'/api/user/change',
+			{
+				...this.user,
+				appId: environment.appId
+			},
+			(resp: boolean) => {
+				if (resp) {
+					this._alert.info({
+						text: 'Password successfully changed'
+					});
+				} else {
+					this._alert.error({
+						text: 'Wrong Code'
+					});
+				}
 
-			this.login();
-		});
+				this.login();
+			}
+		);
 	}
 
 	private _set = (user: User): void => {
@@ -187,7 +208,9 @@ export class SignComponent {
 
 			this.us.setUser(user);
 
-			this.us.get();
+			this.us.get({
+				query: environment.appId ? 'appId=' + environment.appId : ''
+			});
 
 			this._router.navigateByUrl('/profile');
 		} else {

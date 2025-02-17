@@ -1,10 +1,13 @@
 import { CrudDocument } from 'wacom';
-import { Commerceproduct } from '../../commerceproduct/interfaces/commerceproduct.interface';
+
+interface Productinfo {
+	product: string;
+}
 
 export interface Commerceorder extends CrudDocument {
 	name: string;
 	description: string;
 	commerce: string;
-	products: Commerceproduct[];
+	products: Productinfo[];
 	status: string;
 }

@@ -3,31 +3,11 @@ import { HttpService } from 'wacom';
 
 @Component({
 	templateUrl: './parser.component.html',
-	styleUrls: [ './parser.component.scss' ],
+	styleUrls: ['./parser.component.scss'],
 	standalone: false
 })
 export class ParserComponent {
-	constructor(private _http: HttpService) { }
-
-	async getUrl(url: string, name = ''): Promise<string> {
-    return new Promise((resolve) => {
-        url = url.trim().replace(/\s+/g, ''); // Видаляємо пробіли
-
-        if (!url.includes(this.domain) && !url.includes("data:")) {
-            url = this.domain + url;
-        }
-
-        this._http.post('/api/file/photocrawl', {
-            url: encodeURI(url), // encodeURI замість encodeURIComponent
-            container: 'product',
-            name
-        })
-        .subscribe((serverUrl) => {
-            resolve(serverUrl);
-        });
-    });
-}
-
+	constructor(private _http: HttpService) {}
 
 	domain: string = 'https://sigara.kiev.ua';
 	htmlJson: string = '';
@@ -39,6 +19,45 @@ export class ParserComponent {
 	parsedTags: string[] = [];
 	error: string = '';
 
+	/**
+	 * Функція отримання коректного URL зображення
+	 */
+	async getUrl(url: string, name = ''): Promise<string> {
+		return new Promise((resolve) => {
+			if (!url) {
+				resolve('');
+				return;
+			}
+
+			url = url.trim(); // Видаляємо зайві пробіли
+
+			// Якщо шлях відносний — додаємо домен
+			if (!url.startsWith('http') && !url.startsWith('data:')) {
+				url = this.domain + url;
+			}
+
+			// Коректне кодування URI
+			const encodedUrl = encodeURI(url); // encodeURI краще підходить для URL
+
+			this._http
+				.post('/api/file/photocrawl', {
+					url: encodedUrl, // Передаємо закодований URL
+					container: 'product',
+					name
+				})
+				.subscribe(
+					(serverUrl) => resolve(serverUrl),
+					(error) => {
+						console.error('Error fetching image:', decodeURIComponent(url), error);
+						resolve(url); // Якщо API не працює, повертаємо оригінальний URL
+					}
+				);
+		});
+	}
+
+	/**
+	 * Основна функція парсингу HTML
+	 */
 	async parseJson() {
 		try {
 			this.parsedQuantities = [];
@@ -48,6 +67,7 @@ export class ParserComponent {
 
 			const parser = new DOMParser();
 			const doc = parser.parseFromString(this.htmlJson, 'text/html');
+
 
 			const allTags = [
 				'POD - системи',
@@ -138,146 +158,87 @@ export class ParserComponent {
 			];
 
 			const product = {
-				name:
-					doc.querySelector('.card__name')?.textContent?.trim() || '',
-				description:
-					this.getPlainTextContent(
-						doc.querySelector('#description')
-					) || '',
-				price:
-					Number(
-						doc
-							.querySelector('[itemprop="price"]')
-							?.textContent?.trim()
-					) || 0,
+				name: doc.querySelector('.card__name')?.textContent?.trim() || '',
+				description: this.getPlainTextContent(doc.querySelector('#description')) || '',
+				price: Number(doc.querySelector('[itemprop="price"]')?.textContent?.trim()) || 0,
 				priceType: 'piece',
-				thumb:
-					doc
-						.querySelector('.card__slider-item img')
-						?.getAttribute('src') || '',
-				thumbs: Array.from(
-					doc.querySelectorAll('.card__preview-item img')
-				).map((img) => img.getAttribute('src') || ''),
+				thumb: doc.querySelector('.card__slider-item img')?.getAttribute('src') || '',
+				thumbs: Array.from(doc.querySelectorAll('.card__preview-item img')).map((img) => img.getAttribute('src') || ''),
 				country: this.getSiblingText(doc, 'Виробник') || 'Unknown',
-				volume:
-					Number(
-						this.getSiblingText(doc, 'Картридж')
-							?.replace(' мл', '')
-							.trim()
-					) || 0,
-				weight:
-					Number(
-						this.getSiblingText(doc, 'Вага')
-							?.replace(' г', '')
-							.trim()
-					) || 0,
-				battery:
-					this.getSiblingText(doc, 'Батарея (ємність)') || 'Unknown',
+				volume: Number(this.getSiblingText(doc, 'Картридж')?.replace(' мл', '').trim()) || 0,
+				weight: Number(this.getSiblingText(doc, 'Вага')?.replace(' г', '').trim()) || 0,
+				battery: this.getSiblingText(doc, 'Батарея (ємність)') || 'Unknown',
 				power: this.getSiblingText(doc, 'Потужність') || 'Unknown',
-				atomizerType:
-					this.getSiblingText(doc, 'Вигляд атомайзера') || 'Unknown',
+				atomizerType: this.getSiblingText(doc, 'Вигляд атомайзера') || 'Unknown',
 				warranty: this.getSiblingText(doc, 'Гарантія') || 'Unknown',
 				type: this.getSiblingText(doc, 'Тип') || 'Unknown',
 				tags: [] as string[]
 			};
-			console.log(doc
-				.querySelector('.card__slider-item img')
-				?.getAttribute('src') || '');
-			console.log(product);
 
+			// Завантажуємо головне фото товару
 			if (product.thumb) {
 				product.thumb = await this.getUrl(product.thumb);
 			}
 
-			product.thumbs = product.thumbs || [];
+			// Завантажуємо всі мініатюри товару
 			for (let i = 0; i < product.thumbs.length; i++) {
-				if (product.thumbs[ i ]) {
-					product.thumbs[ i ] = await this.getUrl(
-						product.thumbs[ i ] as string
-					);
+				if (product.thumbs[i]) {
+					product.thumbs[i] = await this.getUrl(product.thumbs[i] as string);
 				}
 			}
-			console.log(product);
 
-			const breadcrumbElements = Array.from(
-				doc.querySelectorAll('.bread li span[itemprop="name"]')
-			);
-			const breadcrumbPath = breadcrumbElements
-				.map((el) => el.textContent?.trim())
-				.filter(Boolean) as string[];
-
-			console.log('Breadcrumb Path:', breadcrumbPath);
-
-			// Додати всі відповідні теги зі списку allTags
-			const matchingTags = allTags.filter((tag) => {
-				// Розбити тег на частини для перевірки (наприклад, "Рідини для електронних сигарет / Сольова рідина")
-				const tagParts = tag.split(' / ');
-				// Перевірити, чи будь-яка частина breadcrumbPath збігається з частиною тегу
-				return tagParts.every((part) =>
-					breadcrumbPath.some((path) => path.includes(part))
-				);
-			});
-
-			const uniqueTags = matchingTags
-				.sort((a, b) => b.split(' / ').length - a.split(' / ').length) // Сортування за рівнем специфічності
-				.filter(
-					(tag, index, array) =>
-						!array.some(
-							(otherTag, otherIndex) =>
-								otherIndex !== index && otherTag.startsWith(tag) // Якщо інший тег починається з поточного
-						)
-				);
-
-			product.tags = uniqueTags;
-			this.parsedTags = uniqueTags;
-			this.parsedProducts.push(product);
-
-			// Перетворити результати на JSON
-			this.productJson = JSON.stringify(this.parsedProducts, null, 2);
-			this.tagsJson = JSON.stringify(this.parsedTags, null, 2);
-
-			// Обробити кількість
-			const quantityElements = doc.querySelectorAll(
-				'.card__options-item'
-			);
+			// Обробка фото productquantity (варіанти товару)
+			const quantityElements = doc.querySelectorAll('.card__options-item');
 
 			for (let i = 0; i < quantityElements.length; i++) {
+				const quantityThumb = quantityElements[i].querySelector('img')?.getAttribute('src') || '';
+
+				// Отримуємо правильний URL
+				const fixedThumb = await this.getUrl(quantityThumb);
+
 				const quantity = {
-					name: quantityElements[ i ].querySelector('a')?.getAttribute('title') || '',
-					thumb: await this.getUrl(quantityElements[ i ].querySelector('img')?.getAttribute('src') || ''),
+					name: quantityElements[i].querySelector('a')?.getAttribute('title') || '',
+					thumb: fixedThumb, // Оновлений URL
 					code: 0,
 					quantity: 5 // Значення за замовчуванням
 				};
+
 				this.parsedQuantities.push(quantity);
 			}
 
-			// Перетворити кількості на JSON
+			// Конвертуємо результати у JSON
+			this.productJson = JSON.stringify([product], null, 2);
 			this.quantityJson = JSON.stringify(this.parsedQuantities, null, 2);
+
 		} catch (err) {
-			this.error =
-				'Failed to parse the HTML. Please check the format and try again.';
+			this.error = 'Помилка під час парсингу HTML. Перевірте формат і спробуйте ще раз.';
 			console.error(err);
 		}
 	}
 
+	/**
+	 * Видаляє теги script та style і повертає чистий текст
+	 */
 	private getPlainTextContent(element: Element | null): string {
 		const clone = element?.cloneNode(true) as HTMLElement | null;
 		if (clone) {
-			clone
-				.querySelectorAll('style, script')
-				.forEach((el) => el.remove());
+			clone.querySelectorAll('style, script').forEach((el) => el.remove());
 			return clone.textContent?.trim() || '';
 		}
 		return '';
 	}
 
+	/**
+	 * Отримує текст сусіднього <b> елемента, шукаючи за заголовком у списку
+	 */
 	private getSiblingText(doc: Document, label: string): string | null {
-		const element = Array.from(doc.querySelectorAll('li')).find((li) =>
-			li.textContent?.trim().startsWith(label)
-		);
+		const element = Array.from(doc.querySelectorAll('li')).find((li) => li.textContent?.trim().startsWith(label));
 		return element?.querySelector('b')?.textContent?.trim() || null;
 	}
 
+	/**
+	 * Скидання даних
+	 */
 	reset() {
 		this.htmlJson = '';
 		this.quantityJson = '';
