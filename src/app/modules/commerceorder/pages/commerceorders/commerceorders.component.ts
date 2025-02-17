@@ -17,8 +17,8 @@ import { Commerceproduct } from 'src/app/modules/commerceproduct/interfaces/comm
 export class CommerceordersComponent {
 	columns = ['id', 'products', 'information', 'status'];
 
-	commerce = this._router.url.includes('/commerceorders/')
-		? this._router.url.replace('/commerceorders/', '')
+	commerce = this._router.url.includes('/commerce/commerceorders/')
+		? this._router.url.replace('/commerce/commerceorders/', '')
 		: '';
 
 	form: FormInterface = this._form.getForm(

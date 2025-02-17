@@ -19,8 +19,8 @@ export class CommerceproductsComponent {
 	tags: Commercetag[] = [];
 	columns = ['name', 'tags'];
 
-	commerce = this._router.url.includes('/commerceproducts/')
-		? this._router.url.replace('/commerceproducts/', '')
+	commerce = this._router.url.includes('/commerce/commerceproducts/')
+		? this._router.url.replace('/commerce/commerceproducts/', '')
 		: '';
 
 	form: FormInterface = this._form.getForm('commerceproduct', {

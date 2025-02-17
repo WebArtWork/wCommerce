@@ -16,9 +16,11 @@ import { Router } from '@angular/router';
 export class CommercestoresComponent {
 	columns = ['name', 'description'];
 
-	commerce = this._router.url.includes('/commercestores/')
-		? this._router.url.replace('/commercestores/', '')
-		: '';
+
+	commerce = this._router.url.includes('/commerce/commercestores/')
+	? this._router.url.replace('/commerce/commercestores/', '')
+	: '';
+
 
 	form: FormInterface = this._form.getForm(
 		'commercestore',

@@ -16,8 +16,8 @@ import { Router } from '@angular/router';
 export class CommerceservicesComponent {
 	columns = ['name', 'description'];
 
-	commerce = this._router.url.includes('/commerceservices/')
-		? this._router.url.replace('/commerceservices/', '')
+	commerce = this._router.url.includes('/commerce/commerceservices/')
+		? this._router.url.replace('/commerce/commerceservices/', '')
 		: '';
 
 	form: FormInterface = this._form.getForm(
