@@ -13,13 +13,9 @@ import { Component } from '@angular/core';
 })
 export class UserComponent {
 	readonly url = environment.url;
-	forceAvatarUrl = '';
-	showSidebar = false;
-	hideSidebar(): void {
-		if (!this._platform.ANDROID && !this._platform.IOS) {
-			this.showSidebar = false;
-		}
-	}
+
+	readonly commerceId = environment.commerceId;
+
 	readonly usePortfolio =
 		typeof (environment as { usePortfolio: boolean }).usePortfolio ===
 		'boolean'
@@ -34,5 +30,15 @@ export class UserComponent {
 			? (environment as { useService: boolean }).useService
 			: true;
 
+	forceAvatarUrl = '';
+
+	showSidebar = false;
+
 	constructor(public us: UserService, private _platform: Platform) {}
+
+	hideSidebar(): void {
+		if (!this._platform.ANDROID && !this._platform.IOS) {
+			this.showSidebar = false;
+		}
+	}
 }

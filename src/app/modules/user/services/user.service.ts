@@ -50,14 +50,14 @@ export class UserService extends CrudService<User> {
 
 		this.fetch({}, { name: 'me' }).subscribe((user) => {
 			if (user) {
+				this.setUser(user);
+
 				if (
 					!localStorage.getItem('waw_user') &&
-					this._router.url === '/products'
+					this._router.url === '/sign'
 				) {
 					this._router.navigateByUrl('/profile');
 				}
-
-				this.setUser(user);
 
 				this.get({
 					query: environment.appId ? 'appId=' + environment.appId : ''
@@ -148,7 +148,7 @@ export class UserService extends CrudService<User> {
 
 		this._http.get('/api/user/logout');
 
-		this._router.navigateByUrl('/products');
+		this._router.navigateByUrl('/sign');
 	}
 
 	updateAdmin(user: User): void {

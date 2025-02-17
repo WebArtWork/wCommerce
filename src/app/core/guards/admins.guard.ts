@@ -15,7 +15,7 @@ export class AdminsGuard {
 
 			return false;
 		} else {
-			this.router.navigate(['/products']);
+			this.router.navigate(['/profile']);
 
 			return false;
 		}

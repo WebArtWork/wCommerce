@@ -7,8 +7,8 @@ import { TranslateService } from 'src/app/core/modules/translate/translate.servi
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { commerceproductFormComponents } from '../../formcomponents/commerceproduct.formcomponents';
 import { Router } from '@angular/router';
-import { Commercetag } from 'src/app/modules/commercetag/interfaces/commercetag.interface';
-import { CommercetagService } from 'src/app/modules/commercetag/services/commercetag.service';
+import { Commercetag } from 'src/app/modules/commerce/interfaces/commercetag.interface';
+import { CommercetagService } from 'src/app/modules/commerce/services/commercetag.service';
 
 @Component({
 	templateUrl: './commerceproducts.component.html',

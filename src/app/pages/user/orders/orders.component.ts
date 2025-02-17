@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { CommerceorderService } from 'src/app/modules/commerceorder/services/commerceorder.service';
-import { CommerceproductService } from 'src/app/modules/commerceproduct/services/commerceproduct.service';
+import { CommerceorderService } from 'src/app/modules/commerce/services/commerceorder.service';
+import { CommerceproductService } from 'src/app/modules/commerce/services/commerceproduct.service';
 import { UserService } from 'src/app/modules/user/services/user.service';
 
 @Component({

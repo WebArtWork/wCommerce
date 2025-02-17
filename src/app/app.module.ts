@@ -20,7 +20,7 @@ import { PublicComponent } from './core/theme/public/public.component';
 const routes: Routes = [
 	{
 		path: '',
-		redirectTo: '/products',
+		redirectTo: '/profile',
 		pathMatch: 'full'
 	},
 	{
@@ -112,7 +112,7 @@ const routes: Routes = [
 				},
 				loadChildren: () =>
 					import(
-						'./modules/commercecontent/pages/commercecontents/commercecontents.module'
+						'./modules/commerce/pages/commercecontents/commercecontents.module'
 					).then((m) => m.CommercecontentsModule)
 			},
 			{
@@ -125,7 +125,7 @@ const routes: Routes = [
 				},
 				loadChildren: () =>
 					import(
-						'./modules/commerceproductquantity/pages/commerceproductquantities/commerceproductquantities.module'
+						'./modules/commerce/pages/commerceproductquantities/commerceproductquantities.module'
 					).then((m) => m.CommerceproductquantitiesModule)
 			},
 			{
@@ -138,7 +138,7 @@ const routes: Routes = [
 				},
 				loadChildren: () =>
 					import(
-						'./modules/commercewarehouse/pages/commercewarehouses/commercewarehouses.module'
+						'./modules/commerce/pages/commercewarehouses/commercewarehouses.module'
 					).then((m) => m.CommercewarehousesModule)
 			},
 			{
@@ -151,7 +151,7 @@ const routes: Routes = [
 				},
 				loadChildren: () =>
 					import(
-						'./modules/commercetag/pages/commercetags/commercetags.module'
+						'./modules/commerce/pages/commercetags/commercetags.module'
 					).then((m) => m.CommercetagsModule)
 			},
 			{
@@ -164,7 +164,7 @@ const routes: Routes = [
 				},
 				loadChildren: () =>
 					import(
-						'./modules/commercestore/pages/commercestores/commercestores.module'
+						'./modules/commerce/pages/commercestores/commercestores.module'
 					).then((m) => m.CommercestoresModule)
 			},
 			{
@@ -177,7 +177,7 @@ const routes: Routes = [
 				},
 				loadChildren: () =>
 					import(
-						'./modules/commerceservice/pages/commerceservices/commerceservices.module'
+						'./modules/commerce/pages/commerceservices/commerceservices.module'
 					).then((m) => m.CommerceservicesModule)
 			},
 			{
@@ -190,7 +190,7 @@ const routes: Routes = [
 				},
 				loadChildren: () =>
 					import(
-						'./modules/commerceproduct/pages/commerceproducts/commerceproducts.module'
+						'./modules/commerce/pages/commerceproducts/commerceproducts.module'
 					).then((m) => m.CommerceproductsModule)
 			},
 			{
@@ -203,7 +203,7 @@ const routes: Routes = [
 				},
 				loadChildren: () =>
 					import(
-						'./modules/commerceportfolio/pages/commerceportfolios/commerceportfolios.module'
+						'./modules/commerce/pages/commerceportfolios/commerceportfolios.module'
 					).then((m) => m.CommerceportfoliosModule)
 			},
 			{
@@ -216,7 +216,7 @@ const routes: Routes = [
 				},
 				loadChildren: () =>
 					import(
-						'./modules/commerceorder/pages/commerceorders/commerceorders.module'
+						'./modules/commerce/pages/commerceorders/commerceorders.module'
 					).then((m) => m.CommerceordersModule)
 			},
 			{
@@ -229,7 +229,7 @@ const routes: Routes = [
 				},
 				loadChildren: () =>
 					import(
-						'./modules/commercediscount/pages/commercediscounts/commercediscounts.module'
+						'./modules/commerce/pages/commercediscounts/commercediscounts.module'
 					).then((m) => m.CommercediscountsModule)
 			},
 			{
@@ -242,7 +242,7 @@ const routes: Routes = [
 				},
 				loadChildren: () =>
 					import(
-						'./modules/commercebrand/pages/commercebrands/commercebrands.module'
+						'./modules/commerce/pages/commercebrands/commercebrands.module'
 					).then((m) => m.CommercebrandsModule)
 			},
 			{
@@ -335,7 +335,7 @@ const routes: Routes = [
 	{
 		path: '',
 		canActivate: [AuthenticatedGuard],
-		component: PublicComponent,
+		component: UserComponent,
 		children: [
 			/* user */
 			{

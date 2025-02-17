@@ -7,7 +7,7 @@ import { TranslateService } from 'src/app/core/modules/translate/translate.servi
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { commerceorderFormComponents } from '../../formcomponents/commerceorder.formcomponents';
 import { Router } from '@angular/router';
-import { Commerceproduct } from 'src/app/modules/commerceproduct/interfaces/commerceproduct.interface';
+import { Commerceproduct } from 'src/app/modules/commerce/interfaces/commerceproduct.interface';
 
 @Component({
 	templateUrl: './commerceorders.component.html',

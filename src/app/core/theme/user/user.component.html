@@ -11,7 +11,7 @@
 					<span class="material-icons">person</span>
 				</a>
 			</li>
-			<li class="nav__li">
+			<!-- <li class="nav__li">
 				<a
 					routerLinkActive="_activeLink"
 					(click)="showSidebar = false"
@@ -62,7 +62,7 @@
 				>
 					<span class="material-icons">dashboard</span>
 				</a>
-			</li>
+			</li> -->
 			<li class="nav__li _burger" (click)="showSidebar = !showSidebar">
 				<a class="nav__toggle" [class._active]="showSidebar">
 					<span class="nav__toggle-line"></span>
@@ -111,7 +111,7 @@
 					routerLinkActive="_activeLink"
 					routerLink="/admin/users"
 					class="nav__burger-link"
-					*ngIf="us.role('commerce')"
+					*ngIf="us.role('admin')"
 					(click)="hideSidebar()"
 				>
 					<span class="material-icons">people</span>
@@ -145,7 +145,7 @@
 					routerLinkActive="_activeLink"
 					routerLink="/commerce/commerces"
 					class="nav__burger-link"
-					*ngIf="us.role('commerce')"
+					*ngIf="us.role('commerce') && !commerceId"
 					(click)="hideSidebar()"
 				>
 					<span class="material-icons">business</span>
