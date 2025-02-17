@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CartService } from 'src/app/core/services/cart.service';
-import { Commerceproduct } from 'src/app/modules/commerceproduct/interfaces/commerceproduct.interface';
-import { CommerceproductService } from 'src/app/modules/commerceproduct/services/commerceproduct.service';
-import { Commerceproductquantity } from 'src/app/modules/commerceproductquantity/interfaces/commerceproductquantity.interface';
-import { CommerceproductquantityService } from 'src/app/modules/commerceproductquantity/services/commerceproductquantity.service';
+import { Commerceproduct } from 'src/app/modules/commerce/interfaces/commerceproduct.interface';
+import { CommerceproductService } from 'src/app/modules/commerce/services/commerceproduct.service';
+import { Commerceproductquantity } from 'src/app/modules/commerce/interfaces/commerceproductquantity.interface';
+import { CommerceproductquantityService } from 'src/app/modules/commerce/services/commerceproductquantity.service';
 import { UserService } from 'src/app/modules/user/services/user.service';
 import { environment } from 'src/environments/environment';
 

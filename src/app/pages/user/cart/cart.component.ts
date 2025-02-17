@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CartService } from 'src/app/core/services/cart.service';
-import { CommerceorderService } from 'src/app/modules/commerceorder/services/commerceorder.service';
-import { CommerceproductquantityService } from 'src/app/modules/commerceproductquantity/services/commerceproductquantity.service';
+import { CommerceorderService } from 'src/app/modules/commerce/services/commerceorder.service';
+import { CommerceproductquantityService } from 'src/app/modules/commerce/services/commerceproductquantity.service';
 import { UserService } from 'src/app/modules/user/services/user.service';
 
 @Component({

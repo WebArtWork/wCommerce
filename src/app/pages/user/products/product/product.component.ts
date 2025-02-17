@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Commerceproduct } from 'src/app/modules/commerceproduct/interfaces/commerceproduct.interface';
+import { Commerceproduct } from 'src/app/modules/commerce/interfaces/commerceproduct.interface';
 import { environment } from 'src/environments/environment';
 
 @Component({

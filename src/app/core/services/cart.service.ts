@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Commerceproduct } from 'src/app/modules/commerceproduct/interfaces/commerceproduct.interface';
+import { Commerceproduct } from 'src/app/modules/commerce/interfaces/commerceproduct.interface';
 import { StoreService } from 'wacom';
 
 @Injectable({

@@ -15,7 +15,7 @@ export class CommercesGuard {
 
 			return false;
 		} else {
-			this.router.navigate(['/products']);
+			this.router.navigate(['/sign']);
 
 			return false;
 		}

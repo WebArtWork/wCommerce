@@ -155,7 +155,7 @@ export class SignComponent {
 
 	sign(): void {
 		this._http.post(
-			'/api/user/products',
+			'/api/user/sign',
 			{
 				...this.user,
 				appId: environment.appId
