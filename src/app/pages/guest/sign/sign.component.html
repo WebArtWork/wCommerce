@@ -6,10 +6,18 @@
 		</div>
 		<div class="auth__form">
 			<div class="auth">
-				<span (click)="us.setMode('dark')" class="material-icons" *ngIf="!us.mode">
+				<span
+					(click)="us.setMode('dark')"
+					class="material-icons"
+					*ngIf="!us.mode"
+				>
 					dark_mode
 				</span>
-				<span class="material-icons" *ngIf="us.mode" (click)="us.setMode()">
+				<span
+					class="material-icons"
+					(click)="us.setMode()"
+					*ngIf="us.mode"
+				>
 					light_mode
 				</span>
 				<wform (wSubmit)="submit()" [submition]="user" [config]="form">
