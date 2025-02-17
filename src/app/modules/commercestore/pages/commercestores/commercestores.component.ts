@@ -16,15 +16,11 @@ import { Router } from '@angular/router';
 export class CommercestoresComponent {
 	columns = ['name', 'description'];
 
-<<<<<<< HEAD
+
 	commerce = this._router.url.includes('/commerce/commercestores/')
 	? this._router.url.replace('/commerce/commercestores/', '')
 	: '';
-=======
-	commerce = this._router.url.includes('/commercestores/')
-		? this._router.url.replace('/commercestores/', '')
-		: '';
->>>>>>> 475773033165220334caab4784589016d552fa7e
+
 
 	form: FormInterface = this._form.getForm(
 		'commercestore',
