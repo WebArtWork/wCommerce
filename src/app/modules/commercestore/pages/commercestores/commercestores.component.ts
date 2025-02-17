@@ -16,11 +16,20 @@ import { Router } from '@angular/router';
 export class CommercestoresComponent {
 	columns = ['name', 'description'];
 
+<<<<<<< HEAD
 	commerce = this._router.url.includes('/commerce/commercestores/')
 	? this._router.url.replace('/commerce/commercestores/', '')
 	: '';
+=======
+	commerce = this._router.url.includes('/commercestores/')
+		? this._router.url.replace('/commercestores/', '')
+		: '';
+>>>>>>> 475773033165220334caab4784589016d552fa7e
 
-	form: FormInterface = this._form.getForm('commercestore', commercestoreFormComponents);
+	form: FormInterface = this._form.getForm(
+		'commercestore',
+		commercestoreFormComponents
+	);
 
 	config = {
 		create: (): void => {
@@ -37,11 +46,13 @@ export class CommercestoresComponent {
 			});
 		},
 		update: (doc: Commercestore): void => {
-			this._form.modal<Commercestore>(this.form, [], doc).then((updated: Commercestore) => {
-				this._core.copy(updated, doc);
+			this._form
+				.modal<Commercestore>(this.form, [], doc)
+				.then((updated: Commercestore) => {
+					this._core.copy(updated, doc);
 
-				this._commercestoreService.update(doc);
-			});
+					this._commercestoreService.update(doc);
+				});
 		},
 		delete: (doc: Commercestore): void => {
 			this._alert.question({
@@ -71,7 +82,11 @@ export class CommercestoresComponent {
 			{
 				icon: 'cloud_download',
 				click: (doc: Commercestore): void => {
-					this._form.modalUnique<Commercestore>('commercestore', 'url', doc);
+					this._form.modalUnique<Commercestore>(
+						'commercestore',
+						'url',
+						doc
+					);
 				}
 			}
 		],
@@ -79,13 +94,13 @@ export class CommercestoresComponent {
 			{
 				icon: 'playlist_add',
 				click: this._bulkManagement(),
-				class: 'playlist',
+				class: 'playlist'
 			},
 			{
 				icon: 'edit_note',
 				click: this._bulkManagement(false),
-				class: 'edit',
-			},
+				class: 'edit'
+			}
 		]
 	};
 
@@ -100,7 +115,7 @@ export class CommercestoresComponent {
 		private _form: FormService,
 		private _core: CoreService,
 		private _router: Router
-	) { }
+	) {}
 
 	private _bulkManagement(create = true): () => void {
 		return (): void => {
@@ -109,36 +124,50 @@ export class CommercestoresComponent {
 				.then((commercestores: Commercestore[]) => {
 					if (create) {
 						for (const commercestore of commercestores) {
-							if (this.commerce){
+							if (this.commerce) {
 								commercestore.commerce = this.commerce;
 							}
 							this._commercestoreService.create(commercestore);
 						}
 					} else {
 						for (const commercestore of this.rows) {
-							if (!commercestores.find(
-								localCommercestore => localCommercestore._id === commercestore._id
-							)) {
-								this._commercestoreService.delete(commercestore);
+							if (
+								!commercestores.find(
+									(localCommercestore) =>
+										localCommercestore._id ===
+										commercestore._id
+								)
+							) {
+								this._commercestoreService.delete(
+									commercestore
+								);
 							}
 						}
 
 						for (const commercestore of commercestores) {
 							const localCommercestore = this.rows.find(
-								localCommercestore => localCommercestore._id === commercestore._id
+								(localCommercestore) =>
+									localCommercestore._id === commercestore._id
 							);
 
 							if (localCommercestore) {
-								this._core.copy(commercestore, localCommercestore);
+								this._core.copy(
+									commercestore,
+									localCommercestore
+								);
 
-								this._commercestoreService.update(localCommercestore);
+								this._commercestoreService.update(
+									localCommercestore
+								);
 							} else {
-								if (this.commerce){
+								if (this.commerce) {
 									commercestore.commerce = this.commerce;
 								}
 								commercestore.__created = false;
 
-								this._commercestoreService.create(commercestore);
+								this._commercestoreService.create(
+									commercestore
+								);
 							}
 						}
 					}

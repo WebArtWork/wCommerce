@@ -20,7 +20,10 @@ export class CommerceservicesComponent {
 		? this._router.url.replace('/commerce/commerceservices/', '')
 		: '';
 
-	form: FormInterface = this._form.getForm('commerceservice', commerceserviceFormComponents);
+	form: FormInterface = this._form.getForm(
+		'commerceservice',
+		commerceserviceFormComponents
+	);
 
 	config = {
 		create: (): void => {
@@ -30,18 +33,22 @@ export class CommerceservicesComponent {
 					if (this.commerce) {
 						(created as Commerceservice).commerce = this.commerce;
 					}
-					this._commerceserviceService.create(created as Commerceservice);
+					this._commerceserviceService.create(
+						created as Commerceservice
+					);
 
 					close();
 				}
 			});
 		},
 		update: (doc: Commerceservice): void => {
-			this._form.modal<Commerceservice>(this.form, [], doc).then((updated: Commerceservice) => {
-				this._core.copy(updated, doc);
+			this._form
+				.modal<Commerceservice>(this.form, [], doc)
+				.then((updated: Commerceservice) => {
+					this._core.copy(updated, doc);
 
-				this._commerceserviceService.update(doc);
-			});
+					this._commerceserviceService.update(doc);
+				});
 		},
 		delete: (doc: Commerceservice): void => {
 			this._alert.question({
@@ -65,7 +72,11 @@ export class CommerceservicesComponent {
 			{
 				icon: 'cloud_download',
 				click: (doc: Commerceservice): void => {
-					this._form.modalUnique<Commerceservice>('commerceservice', 'url', doc);
+					this._form.modalUnique<Commerceservice>(
+						'commerceservice',
+						'url',
+						doc
+					);
 				}
 			}
 		],
@@ -73,13 +84,13 @@ export class CommerceservicesComponent {
 			{
 				icon: 'playlist_add',
 				click: this._bulkManagement(),
-				class: 'playlist',
+				class: 'playlist'
 			},
 			{
 				icon: 'edit_note',
 				click: this._bulkManagement(false),
-				class: 'edit',
-			},
+				class: 'edit'
+			}
 		]
 	};
 
@@ -94,7 +105,7 @@ export class CommerceservicesComponent {
 		private _form: FormService,
 		private _core: CoreService,
 		private _router: Router
-	) { }
+	) {}
 
 	private _bulkManagement(create = true): () => void {
 		return (): void => {
@@ -106,33 +117,50 @@ export class CommerceservicesComponent {
 							if (this.commerce) {
 								commerceservice.commerce = this.commerce;
 							}
-							this._commerceserviceService.create(commerceservice);
+							this._commerceserviceService.create(
+								commerceservice
+							);
 						}
 					} else {
 						for (const commerceservice of this.rows) {
-							if (!commerceservices.find(
-								localCommerceservice => localCommerceservice._id === commerceservice._id
-							)) {
-								this._commerceserviceService.delete(commerceservice);
+							if (
+								!commerceservices.find(
+									(localCommerceservice) =>
+										localCommerceservice._id ===
+										commerceservice._id
+								)
+							) {
+								this._commerceserviceService.delete(
+									commerceservice
+								);
 							}
 						}
 
 						for (const commerceservice of commerceservices) {
 							const localCommerceservice = this.rows.find(
-								localCommerceservice => localCommerceservice._id === commerceservice._id
+								(localCommerceservice) =>
+									localCommerceservice._id ===
+									commerceservice._id
 							);
 
 							if (localCommerceservice) {
-								this._core.copy(commerceservice, localCommerceservice);
+								this._core.copy(
+									commerceservice,
+									localCommerceservice
+								);
 
-								this._commerceserviceService.update(localCommerceservice);
+								this._commerceserviceService.update(
+									localCommerceservice
+								);
 							} else {
 								if (this.commerce) {
 									commerceservice.commerce = this.commerce;
 								}
 								commerceservice.__created = false;
 
-								this._commerceserviceService.create(commerceservice);
+								this._commerceserviceService.create(
+									commerceservice
+								);
 							}
 						}
 					}

@@ -75,61 +75,61 @@ export class CommercesComponent {
 			{
 				icon: 'list_alt',
 				hrefFunc: (doc: Commerce): string => {
-					return '/commerceorders/' + doc._id;
+					return '/commerce/commerceorders/' + doc._id;
 				}
 			},
 			{
 				icon: 'store',
 				hrefFunc: (doc: Commerce): string => {
-					return '/commercestores/' + doc._id;
+					return '/commerce/commercestores/' + doc._id;
 				}
 			},
 			{
 				icon: 'home',
 				hrefFunc: (doc: Commerce): string => {
-					return '/commercewarehouses/' + doc._id;
+					return '/commerce/commercewarehouses/' + doc._id;
 				}
 			},
 			{
 				icon: 'production_quantity_limits',
 				hrefFunc: (doc: Commerce): string => {
-					return '/commerceproducts/' + doc._id;
+					return '/commerce/commerceproducts/' + doc._id;
 				}
 			},
 			{
 				icon: 'room_service',
 				hrefFunc: (doc: Commerce): string => {
-					return '/commerceservices/' + doc._id;
+					return '/commerce/commerceservices/' + doc._id;
 				}
 			},
 			{
 				icon: 'photo_camera',
 				hrefFunc: (doc: Commerce): string => {
-					return '/commerceportfolios/' + doc._id;
+					return '/commerce/commerceportfolios/' + doc._id;
 				}
 			},
 			{
 				icon: 'content_paste',
 				hrefFunc: (doc: Commerce): string => {
-					return '/commercecontents/' + doc._id;
+					return '/commerce/commercecontents/' + doc._id;
 				}
 			},
 			{
 				icon: 'style',
 				hrefFunc: (doc: Commerce): string => {
-					return '/commercetags/' + doc._id;
+					return '/commerce/commercetags/' + doc._id;
 				}
 			},
 			{
 				icon: 'branding_watermark',
 				hrefFunc: (doc: Commerce): string => {
-					return '/commercebrands/' + doc._id;
+					return '/commerce/commercebrands/' + doc._id;
 				}
 			},
 			{
 				icon: 'percent',
 				hrefFunc: (doc: Commerce): string => {
-					return '/commercediscounts/' + doc._id;
+					return '/commerce/commercediscounts/' + doc._id;
 				}
 			},
 			{

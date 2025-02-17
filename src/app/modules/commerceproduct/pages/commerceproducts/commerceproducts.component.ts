@@ -23,208 +23,209 @@ export class CommerceproductsComponent {
 		? this._router.url.replace('/commerce/commerceproducts/', '')
 		: '';
 
-	form: FormInterface = this._form.getForm(
-		'commerceproduct',
-		{
-			formId: 'commerceproduct',
-			title: 'Commerceproduct',
-			components: [
-				{
-					name: 'Text',
-					key: 'name',
-					focused: true,
-					fields: [
-						{
-							name: 'Placeholder',
-							value: 'fill commerceproduct title',
-						},
-						{
-							name: 'Label',
-							value: 'Title',
-						}
-					]
-				},
-				{
-					name: 'Text',
-					key: 'description',
-					fields: [
-						{
-							name: 'Placeholder',
-							value: 'fill commerceproduct description',
-						},
-						{
-							name: 'Label',
-							value: 'Description',
-						}
-					]
-				},
-				{
-					name: 'Text',
-					key: 'country',
-					fields: [
-						{
-							name: 'Placeholder',
-							value: 'fill commerceproduct country',
-						},
-						{
-							name: 'Label',
-							value: 'Country',
-						}
-					]
-				},
-				{
-					name: 'Number',
-					key: 'volume',
-					fields: [
-						{
-							name: 'Placeholder',
-							value: 'fill commerceproduct volume',
-						},
-						{
-							name: 'Label',
-							value: 'Volume',
-						}
-					]
-				},
-				{
-					name: 'Number',
-					key: 'weight',
-					fields: [
-						{
-							name: 'Placeholder',
-							value: 'fill commerceproduct weight',
-						},
-						{
-							name: 'Label',
-							value: 'Weight',
-						}
-					]
-				},
-				{
-					name: 'Text',
-					key: 'battery',
-					fields: [
-						{
-							name: 'Placeholder',
-							value: 'fill commerceproduct battery',
-						},
-						{
-							name: 'Label',
-							value: 'Battery',
-						}
-					]
-				}, {
-					name: 'Text',
-					key: 'power',
-					fields: [
-						{
-							name: 'Placeholder',
-							value: 'fill commerceproduct power',
-						},
-						{
-							name: 'Label',
-							value: 'Power',
-						}
-					]
-				}, {
-					name: 'Text',
-					key: 'atomizerType',
-					fields: [
-						{
-							name: 'Placeholder',
-							value: 'fill commerceproduct atomizerType',
-						},
-						{
-							name: 'Label',
-							value: 'AtomizerType',
-						}
-					]
-				}, {
-					name: 'Text',
-					key: 'warranty',
-					fields: [
-						{
-							name: 'Placeholder',
-							value: 'fill commerceproduct warranty',
-						},
-						{
-							name: 'Label',
-							value: 'Warranty',
-						}
-					]
-				}, {
-					name: 'Text',
-					key: 'type',
-					fields: [
-						{
-							name: 'Placeholder',
-							value: 'fill commerceproduct type',
-						},
-						{
-							name: 'Label',
-							value: 'Type',
-						}
-					]
-				},
-				{
-					name: 'Number',
-					key: 'price',
-					fields: [
-						{
-							name: 'Placeholder',
-							value: 'fill commerceproduct price',
-						},
-						{
-							name: 'Label',
-							value: 'Price',
-						}
-					]
-				},
-				{
-					name: 'Photo',
-					key: 'thumb',
-					fields: [
-						{
-							name: 'Label',
-							value: 'Header picture'
-						}
-					]
-				},
-				{
-					name: 'Photos',
-					key: 'thumbs',
-					fields: [
-						{
-							name: 'Label',
-							value: 'Detailed pictures'
-						}
-					]
-				},
-				{
-					name: 'Select',
-					key: 'tags',
-					fields: [
-						{
-							name: 'Placeholder',
-							value: 'fill product tag'
-						},
-						{
-							name: 'Label',
-							value: 'Tag'
-						},
-						{
-							name: 'Multiple',
-							value: true
-						},
-						{
-							name: 'Items',
-							value: this.tags
-						}
-					]
-				}
-			]
-		}
-	);
+	form: FormInterface = this._form.getForm('commerceproduct', {
+		formId: 'commerceproduct',
+		title: 'Commerceproduct',
+		components: [
+			{
+				name: 'Text',
+				key: 'name',
+				focused: true,
+				fields: [
+					{
+						name: 'Placeholder',
+						value: 'fill commerceproduct title'
+					},
+					{
+						name: 'Label',
+						value: 'Title'
+					}
+				]
+			},
+			{
+				name: 'Text',
+				key: 'description',
+				fields: [
+					{
+						name: 'Placeholder',
+						value: 'fill commerceproduct description'
+					},
+					{
+						name: 'Label',
+						value: 'Description'
+					}
+				]
+			},
+			{
+				name: 'Text',
+				key: 'country',
+				fields: [
+					{
+						name: 'Placeholder',
+						value: 'fill commerceproduct country'
+					},
+					{
+						name: 'Label',
+						value: 'Country'
+					}
+				]
+			},
+			{
+				name: 'Number',
+				key: 'volume',
+				fields: [
+					{
+						name: 'Placeholder',
+						value: 'fill commerceproduct volume'
+					},
+					{
+						name: 'Label',
+						value: 'Volume'
+					}
+				]
+			},
+			{
+				name: 'Number',
+				key: 'weight',
+				fields: [
+					{
+						name: 'Placeholder',
+						value: 'fill commerceproduct weight'
+					},
+					{
+						name: 'Label',
+						value: 'Weight'
+					}
+				]
+			},
+			{
+				name: 'Text',
+				key: 'battery',
+				fields: [
+					{
+						name: 'Placeholder',
+						value: 'fill commerceproduct battery'
+					},
+					{
+						name: 'Label',
+						value: 'Battery'
+					}
+				]
+			},
+			{
+				name: 'Text',
+				key: 'power',
+				fields: [
+					{
+						name: 'Placeholder',
+						value: 'fill commerceproduct power'
+					},
+					{
+						name: 'Label',
+						value: 'Power'
+					}
+				]
+			},
+			{
+				name: 'Text',
+				key: 'atomizerType',
+				fields: [
+					{
+						name: 'Placeholder',
+						value: 'fill commerceproduct atomizerType'
+					},
+					{
+						name: 'Label',
+						value: 'AtomizerType'
+					}
+				]
+			},
+			{
+				name: 'Text',
+				key: 'warranty',
+				fields: [
+					{
+						name: 'Placeholder',
+						value: 'fill commerceproduct warranty'
+					},
+					{
+						name: 'Label',
+						value: 'Warranty'
+					}
+				]
+			},
+			{
+				name: 'Text',
+				key: 'type',
+				fields: [
+					{
+						name: 'Placeholder',
+						value: 'fill commerceproduct type'
+					},
+					{
+						name: 'Label',
+						value: 'Type'
+					}
+				]
+			},
+			{
+				name: 'Number',
+				key: 'price',
+				fields: [
+					{
+						name: 'Placeholder',
+						value: 'fill commerceproduct price'
+					},
+					{
+						name: 'Label',
+						value: 'Price'
+					}
+				]
+			},
+			{
+				name: 'Photo',
+				key: 'thumb',
+				fields: [
+					{
+						name: 'Label',
+						value: 'Header picture'
+					}
+				]
+			},
+			{
+				name: 'Photos',
+				key: 'thumbs',
+				fields: [
+					{
+						name: 'Label',
+						value: 'Detailed pictures'
+					}
+				]
+			},
+			{
+				name: 'Select',
+				key: 'tags',
+				fields: [
+					{
+						name: 'Placeholder',
+						value: 'fill product tag'
+					},
+					{
+						name: 'Label',
+						value: 'Tag'
+					},
+					{
+						name: 'Multiple',
+						value: true
+					},
+					{
+						name: 'Items',
+						value: this.tags
+					}
+				]
+			}
+		]
+	});
 
 	config = {
 		paginate: this.setProducts.bind(this),
@@ -279,7 +280,9 @@ export class CommerceproductsComponent {
 			{
 				icon: '1x_mobiledata',
 				hrefFunc: (doc: Commerceproduct): string => {
-					return '/commerceproductquantities/product/' + doc._id;
+					return (
+						'/commerce/commerceproductquantities/product/' + doc._id
+					);
 				}
 			},
 			{
@@ -338,10 +341,14 @@ export class CommerceproductsComponent {
 	}
 
 	getTags(product: Commerceproduct): string {
-		return product.tags
-			?.map(tagId => this.tags.find(tag => tag._id === tagId)?.name)
-			.filter(tagName => tagName)
-			.join(', ') || 'No tags';
+		return (
+			product.tags
+				?.map(
+					(tagId) => this.tags.find((tag) => tag._id === tagId)?.name
+				)
+				.filter((tagName) => tagName)
+				.join(', ') || 'No tags'
+		);
 	}
 
 	tagIncludeCommerce(tag: Commercetag) {
@@ -381,11 +388,9 @@ export class CommerceproductsComponent {
 	}
 
 	replaceTagsWithIds(product: Commerceproduct) {
-
 		if (product.tags) {
-			product.tags = product.tags.map(tagName => {
-
-				const tag = this.tags.find(t => t.name == tagName);
+			product.tags = product.tags.map((tagName) => {
+				const tag = this.tags.find((t) => t.name == tagName);
 				return tag ? tag._id : tagName;
 			});
 		}
@@ -405,20 +410,26 @@ export class CommerceproductsComponent {
 							}
 
 							this.replaceTagsWithIds(commerceproduct);
-							this._commerceproductService.create(commerceproduct);
+							this._commerceproductService.create(
+								commerceproduct
+							);
 						}
 					} else {
 						for (const commerceproduct of this.rows) {
-							if (!commerceproducts.some(
-								local => local._id === commerceproduct._id
-							)) {
-								this._commerceproductService.delete(commerceproduct);
+							if (
+								!commerceproducts.some(
+									(local) => local._id === commerceproduct._id
+								)
+							) {
+								this._commerceproductService.delete(
+									commerceproduct
+								);
 							}
 						}
 
 						for (const commerceproduct of commerceproducts) {
 							const local = this.rows.find(
-								row => row._id === commerceproduct._id
+								(row) => row._id === commerceproduct._id
 							);
 							if (local) {
 								this.replaceTagsWithIds(commerceproduct);
@@ -430,7 +441,9 @@ export class CommerceproductsComponent {
 								}
 								this.replaceTagsWithIds(commerceproduct);
 								commerceproduct.__created = false;
-								this._commerceproductService.create(commerceproduct);
+								this._commerceproductService.create(
+									commerceproduct
+								);
 							}
 						}
 					}

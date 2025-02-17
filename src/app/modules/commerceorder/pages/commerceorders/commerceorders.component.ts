@@ -15,13 +15,16 @@ import { Commerceproduct } from 'src/app/modules/commerceproduct/interfaces/comm
 	standalone: false
 })
 export class CommerceordersComponent {
-	columns = ['id', 'products', 'information', "status"];
+	columns = ['id', 'products', 'information', 'status'];
 
 	commerce = this._router.url.includes('/commerce/commerceorders/')
 		? this._router.url.replace('/commerce/commerceorders/', '')
 		: '';
 
-	form: FormInterface = this._form.getForm('commerceorder', commerceorderFormComponents);
+	form: FormInterface = this._form.getForm(
+		'commerceorder',
+		commerceorderFormComponents
+	);
 
 	config = {
 		create: (): void => {
@@ -38,11 +41,13 @@ export class CommerceordersComponent {
 			});
 		},
 		update: (doc: Commerceorder): void => {
-			this._form.modal<Commerceorder>(this.form, [], doc).then((updated: Commerceorder) => {
-				this._core.copy(updated, doc);
+			this._form
+				.modal<Commerceorder>(this.form, [], doc)
+				.then((updated: Commerceorder) => {
+					this._core.copy(updated, doc);
 
-				this._commerceorderService.update(doc);
-			});
+					this._commerceorderService.update(doc);
+				});
 		},
 		delete: (doc: Commerceorder): void => {
 			this._alert.question({
@@ -61,7 +66,7 @@ export class CommerceordersComponent {
 					}
 				]
 			});
-		},
+		}
 		// buttons: [
 		// 	{
 		// 		icon: 'cloud_download',
@@ -86,10 +91,19 @@ export class CommerceordersComponent {
 	setStatus(order: Commerceorder, status: string) {
 		order.status = status;
 		const newOrder = JSON.parse(JSON.stringify(order));
-		newOrder.products.forEach((product: { product: Commerceproduct | string, quantity: number, _id?: string, productquantity: { _id: string } | string }) => {
-			product.product = (product.product as Commerceproduct)._id;
-			product.productquantity = (product.productquantity as { _id: string })._id
-		});
+		newOrder.products.forEach(
+			(product: {
+				product: Commerceproduct | string;
+				quantity: number;
+				_id?: string;
+				productquantity: { _id: string } | string;
+			}) => {
+				product.product = (product.product as Commerceproduct)._id;
+				product.productquantity = (
+					product.productquantity as { _id: string }
+				)._id;
+			}
+		);
 		this.update(newOrder);
 	}
 
@@ -108,7 +122,7 @@ export class CommerceordersComponent {
 		private _form: FormService,
 		private _core: CoreService,
 		private _router: Router
-	) { }
+	) {}
 
 	private _bulkManagement(create = true): () => void {
 		return (): void => {
@@ -124,29 +138,43 @@ export class CommerceordersComponent {
 						}
 					} else {
 						for (const commerceorder of this.rows) {
-							if (!commerceorders.find(
-								localCommerceorder => localCommerceorder._id === commerceorder._id
-							)) {
-								this._commerceorderService.delete(commerceorder);
+							if (
+								!commerceorders.find(
+									(localCommerceorder) =>
+										localCommerceorder._id ===
+										commerceorder._id
+								)
+							) {
+								this._commerceorderService.delete(
+									commerceorder
+								);
 							}
 						}
 
 						for (const commerceorder of commerceorders) {
 							const localCommerceorder = this.rows.find(
-								localCommerceorder => localCommerceorder._id === commerceorder._id
+								(localCommerceorder) =>
+									localCommerceorder._id === commerceorder._id
 							);
 
 							if (localCommerceorder) {
-								this._core.copy(commerceorder, localCommerceorder);
+								this._core.copy(
+									commerceorder,
+									localCommerceorder
+								);
 
-								this._commerceorderService.update(localCommerceorder);
+								this._commerceorderService.update(
+									localCommerceorder
+								);
 							} else {
 								if (this.commerce) {
 									commerceorder.commerce = this.commerce;
 								}
 								commerceorder.__created = false;
 
-								this._commerceorderService.create(commerceorder);
+								this._commerceorderService.create(
+									commerceorder
+								);
 							}
 						}
 					}

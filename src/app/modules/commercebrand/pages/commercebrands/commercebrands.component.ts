@@ -20,7 +20,10 @@ export class CommercebrandsComponent {
 		? this._router.url.replace('/commerce/commercebrands/', '')
 		: '';
 
-	form: FormInterface = this._form.getForm('commercebrand', commercebrandFormComponents);
+	form: FormInterface = this._form.getForm(
+		'commercebrand',
+		commercebrandFormComponents
+	);
 
 	config = {
 		create: (): void => {
@@ -37,11 +40,13 @@ export class CommercebrandsComponent {
 			});
 		},
 		update: (doc: Commercebrand): void => {
-			this._form.modal<Commercebrand>(this.form, [], doc).then((updated: Commercebrand) => {
-				this._core.copy(updated, doc);
+			this._form
+				.modal<Commercebrand>(this.form, [], doc)
+				.then((updated: Commercebrand) => {
+					this._core.copy(updated, doc);
 
-				this._commercebrandService.update(doc);
-			});
+					this._commercebrandService.update(doc);
+				});
 		},
 		delete: (doc: Commercebrand): void => {
 			this._alert.question({
@@ -65,7 +70,11 @@ export class CommercebrandsComponent {
 			{
 				icon: 'cloud_download',
 				click: (doc: Commercebrand): void => {
-					this._form.modalUnique<Commercebrand>('commercebrand', 'url', doc);
+					this._form.modalUnique<Commercebrand>(
+						'commercebrand',
+						'url',
+						doc
+					);
 				}
 			}
 		],
@@ -73,13 +82,13 @@ export class CommercebrandsComponent {
 			{
 				icon: 'playlist_add',
 				click: this._bulkManagement(),
-				class: 'playlist',
+				class: 'playlist'
 			},
 			{
 				icon: 'edit_note',
 				click: this._bulkManagement(false),
-				class: 'edit',
-			},
+				class: 'edit'
+			}
 		]
 	};
 
@@ -94,7 +103,7 @@ export class CommercebrandsComponent {
 		private _form: FormService,
 		private _core: CoreService,
 		private _router: Router
-	) { }
+	) {}
 
 	private _bulkManagement(create = true): () => void {
 		return (): void => {
@@ -110,29 +119,43 @@ export class CommercebrandsComponent {
 						}
 					} else {
 						for (const commercebrand of this.rows) {
-							if (!commercebrands.find(
-								localCommercebrand => localCommercebrand._id === commercebrand._id
-							)) {
-								this._commercebrandService.delete(commercebrand);
+							if (
+								!commercebrands.find(
+									(localCommercebrand) =>
+										localCommercebrand._id ===
+										commercebrand._id
+								)
+							) {
+								this._commercebrandService.delete(
+									commercebrand
+								);
 							}
 						}
 
 						for (const commercebrand of commercebrands) {
 							const localCommercebrand = this.rows.find(
-								localCommercebrand => localCommercebrand._id === commercebrand._id
+								(localCommercebrand) =>
+									localCommercebrand._id === commercebrand._id
 							);
 
 							if (localCommercebrand) {
-								this._core.copy(commercebrand, localCommercebrand);
+								this._core.copy(
+									commercebrand,
+									localCommercebrand
+								);
 
-								this._commercebrandService.update(localCommercebrand);
+								this._commercebrandService.update(
+									localCommercebrand
+								);
 							} else {
 								if (this.commerce) {
 									commercebrand.commerce = this.commerce;
 								}
 								commercebrand.__created = false;
 
-								this._commercebrandService.create(commercebrand);
+								this._commercebrandService.create(
+									commercebrand
+								);
 							}
 						}
 					}
