@@ -26,8 +26,10 @@ export class CommercetagsComponent {
 	}
 	columns = ['name'];
 
-
-	form: FormInterface = this._form.getForm('commercetag', commercetagFormComponents);
+	form: FormInterface = this._form.getForm(
+		'commercetag',
+		commercetagFormComponents
+	);
 
 	config = {
 		create: (): void => {
@@ -51,15 +53,17 @@ export class CommercetagsComponent {
 			});
 		},
 		update: (doc: Commercetag): void => {
-			this._form.modal<Commercetag>(this.form, [], doc).then((updated: Commercetag) => {
-				this._core.copy(updated, doc);
+			this._form
+				.modal<Commercetag>(this.form, [], doc)
+				.then((updated: Commercetag) => {
+					this._core.copy(updated, doc);
 
-				this._commercetagService.update(doc, {
-					callback: () => {
-						this.setTags();
-					}
+					this._commercetagService.update(doc, {
+						callback: () => {
+							this.setTags();
+						}
+					});
 				});
-			});
 		},
 		delete: (doc: Commercetag): void => {
 			this._alert.question({
@@ -101,7 +105,11 @@ export class CommercetagsComponent {
 			{
 				icon: 'cloud_download',
 				click: (doc: Commercetag): void => {
-					this._form.modalUnique<Commercetag>('commercetag', 'url', doc);
+					this._form.modalUnique<Commercetag>(
+						'commercetag',
+						'url',
+						doc
+					);
 				}
 			}
 		],
@@ -109,18 +117,19 @@ export class CommercetagsComponent {
 			{
 				icon: 'playlist_add',
 				click: this._bulkManagement(),
-				class: 'playlist',
+				class: 'playlist'
 			},
 			{
 				icon: 'edit_note',
 				click: this._bulkManagement(false),
-				class: 'edit',
-			},
+				class: 'edit'
+			}
 		]
 	};
 
-
-	tags: Commercetag[] = JSON.parse(JSON.stringify(this._commercetagService.commercetags));
+	tags: Commercetag[] = JSON.parse(
+		JSON.stringify(this._commercetagService.commercetags)
+	);
 	setTags() {
 		this.tags.splice(0, this.tags.length);
 		for (const tag of this._commercetagService.commercetags) {
@@ -190,22 +199,28 @@ export class CommercetagsComponent {
 						}
 					} else {
 						for (const commercetag of this.tags) {
-							if (!commercetags.find(
-								localCommercetag => localCommercetag._id === commercetag._id
-							)) {
+							if (
+								!commercetags.find(
+									(localCommercetag) =>
+										localCommercetag._id === commercetag._id
+								)
+							) {
 								this._commercetagService.delete(commercetag);
 							}
 						}
 
 						for (const commercetag of commercetags) {
 							const localCommercetag = this.tags.find(
-								localCommercetag => localCommercetag._id === commercetag._id
+								(localCommercetag) =>
+									localCommercetag._id === commercetag._id
 							);
 
 							if (localCommercetag) {
 								this._core.copy(commercetag, localCommercetag);
 
-								this._commercetagService.update(localCommercetag);
+								this._commercetagService.update(
+									localCommercetag
+								);
 							} else {
 								if (this.commerce) {
 									commercetag.commerce = this.commerce;

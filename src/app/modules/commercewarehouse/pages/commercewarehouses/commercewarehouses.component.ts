@@ -20,7 +20,10 @@ export class CommercewarehousesComponent {
 		? this._router.url.replace('/commercewarehouses/', '')
 		: '';
 
-	form: FormInterface = this._form.getForm('commercewarehouse', commercewarehouseFormComponents);
+	form: FormInterface = this._form.getForm(
+		'commercewarehouse',
+		commercewarehouseFormComponents
+	);
 
 	config = {
 		create: (): void => {
@@ -30,18 +33,22 @@ export class CommercewarehousesComponent {
 					if (this.commerce) {
 						(created as Commercewarehouse).commerce = this.commerce;
 					}
-					this._commercewarehouseService.create(created as Commercewarehouse);
+					this._commercewarehouseService.create(
+						created as Commercewarehouse
+					);
 
 					close();
 				}
 			});
 		},
 		update: (doc: Commercewarehouse): void => {
-			this._form.modal<Commercewarehouse>(this.form, [], doc).then((updated: Commercewarehouse) => {
-				this._core.copy(updated, doc);
+			this._form
+				.modal<Commercewarehouse>(this.form, [], doc)
+				.then((updated: Commercewarehouse) => {
+					this._core.copy(updated, doc);
 
-				this._commercewarehouseService.update(doc);
-			});
+					this._commercewarehouseService.update(doc);
+				});
 		},
 		delete: (doc: Commercewarehouse): void => {
 			this._alert.question({
@@ -65,13 +72,20 @@ export class CommercewarehousesComponent {
 			{
 				icon: '1x_mobiledata',
 				hrefFunc: (doc: Commercewarehouse): string => {
-					return '/commerceproductquantities/warehouse/' + doc._id;
+					return (
+						'/commerce/commerceproductquantities/warehouse/' +
+						doc._id
+					);
 				}
 			},
 			{
 				icon: 'cloud_download',
 				click: (doc: Commercewarehouse): void => {
-					this._form.modalUnique<Commercewarehouse>('commercewarehouse', 'url', doc);
+					this._form.modalUnique<Commercewarehouse>(
+						'commercewarehouse',
+						'url',
+						doc
+					);
 				}
 			}
 		],
@@ -79,13 +93,13 @@ export class CommercewarehousesComponent {
 			{
 				icon: 'playlist_add',
 				click: this._bulkManagement(),
-				class: 'playlist',
+				class: 'playlist'
 			},
 			{
 				icon: 'edit_note',
 				click: this._bulkManagement(false),
-				class: 'edit',
-			},
+				class: 'edit'
+			}
 		]
 	};
 
@@ -100,7 +114,7 @@ export class CommercewarehousesComponent {
 		private _form: FormService,
 		private _core: CoreService,
 		private _router: Router
-	) { }
+	) {}
 
 	private _bulkManagement(create = true): () => void {
 		return (): void => {
@@ -112,33 +126,50 @@ export class CommercewarehousesComponent {
 							if (this.commerce) {
 								commercewarehouse.commerce = this.commerce;
 							}
-							this._commercewarehouseService.create(commercewarehouse);
+							this._commercewarehouseService.create(
+								commercewarehouse
+							);
 						}
 					} else {
 						for (const commercewarehouse of this.rows) {
-							if (!commercewarehouses.find(
-								localCommercewarehouse => localCommercewarehouse._id === commercewarehouse._id
-							)) {
-								this._commercewarehouseService.delete(commercewarehouse);
+							if (
+								!commercewarehouses.find(
+									(localCommercewarehouse) =>
+										localCommercewarehouse._id ===
+										commercewarehouse._id
+								)
+							) {
+								this._commercewarehouseService.delete(
+									commercewarehouse
+								);
 							}
 						}
 
 						for (const commercewarehouse of commercewarehouses) {
 							const localCommercewarehouse = this.rows.find(
-								localCommercewarehouse => localCommercewarehouse._id === commercewarehouse._id
+								(localCommercewarehouse) =>
+									localCommercewarehouse._id ===
+									commercewarehouse._id
 							);
 
 							if (localCommercewarehouse) {
-								this._core.copy(commercewarehouse, localCommercewarehouse);
+								this._core.copy(
+									commercewarehouse,
+									localCommercewarehouse
+								);
 
-								this._commercewarehouseService.update(localCommercewarehouse);
+								this._commercewarehouseService.update(
+									localCommercewarehouse
+								);
 							} else {
 								if (this.commerce) {
 									commercewarehouse.commerce = this.commerce;
 								}
 								commercewarehouse.__created = false;
 
-								this._commercewarehouseService.create(commercewarehouse);
+								this._commercewarehouseService.create(
+									commercewarehouse
+								);
 							}
 						}
 					}

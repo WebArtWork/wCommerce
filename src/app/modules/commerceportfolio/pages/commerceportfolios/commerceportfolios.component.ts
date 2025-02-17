@@ -20,7 +20,10 @@ export class CommerceportfoliosComponent {
 		? this._router.url.replace('/commerceportfolios/', '')
 		: '';
 
-	form: FormInterface = this._form.getForm('commerceportfolio', commerceportfolioFormComponents);
+	form: FormInterface = this._form.getForm(
+		'commerceportfolio',
+		commerceportfolioFormComponents
+	);
 
 	config = {
 		create: (): void => {
@@ -30,18 +33,22 @@ export class CommerceportfoliosComponent {
 					if (this.commerce) {
 						(created as Commerceportfolio).commerce = this.commerce;
 					}
-					this._commerceportfolioService.create(created as Commerceportfolio);
+					this._commerceportfolioService.create(
+						created as Commerceportfolio
+					);
 
 					close();
 				}
 			});
 		},
 		update: (doc: Commerceportfolio): void => {
-			this._form.modal<Commerceportfolio>(this.form, [], doc).then((updated: Commerceportfolio) => {
-				this._core.copy(updated, doc);
+			this._form
+				.modal<Commerceportfolio>(this.form, [], doc)
+				.then((updated: Commerceportfolio) => {
+					this._core.copy(updated, doc);
 
-				this._commerceportfolioService.update(doc);
-			});
+					this._commerceportfolioService.update(doc);
+				});
 		},
 		delete: (doc: Commerceportfolio): void => {
 			this._alert.question({
@@ -65,7 +72,11 @@ export class CommerceportfoliosComponent {
 			{
 				icon: 'cloud_download',
 				click: (doc: Commerceportfolio): void => {
-					this._form.modalUnique<Commerceportfolio>('commerceportfolio', 'url', doc);
+					this._form.modalUnique<Commerceportfolio>(
+						'commerceportfolio',
+						'url',
+						doc
+					);
 				}
 			}
 		],
@@ -73,13 +84,13 @@ export class CommerceportfoliosComponent {
 			{
 				icon: 'playlist_add',
 				click: this._bulkManagement(),
-				class: 'playlist',
+				class: 'playlist'
 			},
 			{
 				icon: 'edit_note',
 				click: this._bulkManagement(false),
-				class: 'edit',
-			},
+				class: 'edit'
+			}
 		]
 	};
 
@@ -94,7 +105,7 @@ export class CommerceportfoliosComponent {
 		private _form: FormService,
 		private _core: CoreService,
 		private _router: Router
-	) { }
+	) {}
 
 	private _bulkManagement(create = true): () => void {
 		return (): void => {
@@ -106,33 +117,50 @@ export class CommerceportfoliosComponent {
 							if (this.commerce) {
 								commerceportfolio.commerce = this.commerce;
 							}
-							this._commerceportfolioService.create(commerceportfolio);
+							this._commerceportfolioService.create(
+								commerceportfolio
+							);
 						}
 					} else {
 						for (const commerceportfolio of this.rows) {
-							if (!commerceportfolios.find(
-								localCommerceportfolio => localCommerceportfolio._id === commerceportfolio._id
-							)) {
-								this._commerceportfolioService.delete(commerceportfolio);
+							if (
+								!commerceportfolios.find(
+									(localCommerceportfolio) =>
+										localCommerceportfolio._id ===
+										commerceportfolio._id
+								)
+							) {
+								this._commerceportfolioService.delete(
+									commerceportfolio
+								);
 							}
 						}
 
 						for (const commerceportfolio of commerceportfolios) {
 							const localCommerceportfolio = this.rows.find(
-								localCommerceportfolio => localCommerceportfolio._id === commerceportfolio._id
+								(localCommerceportfolio) =>
+									localCommerceportfolio._id ===
+									commerceportfolio._id
 							);
 
 							if (localCommerceportfolio) {
-								this._core.copy(commerceportfolio, localCommerceportfolio);
+								this._core.copy(
+									commerceportfolio,
+									localCommerceportfolio
+								);
 
-								this._commerceportfolioService.update(localCommerceportfolio);
+								this._commerceportfolioService.update(
+									localCommerceportfolio
+								);
 							} else {
 								if (this.commerce) {
 									commerceportfolio.commerce = this.commerce;
 								}
 								commerceportfolio.__created = false;
 
-								this._commerceportfolioService.create(commerceportfolio);
+								this._commerceportfolioService.create(
+									commerceportfolio
+								);
 							}
 						}
 					}
