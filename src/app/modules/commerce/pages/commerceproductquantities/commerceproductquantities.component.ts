@@ -17,15 +17,15 @@ export class CommerceproductquantitiesComponent {
 	columns = ['name', 'code', 'quantity'];
 
 	store = this._router.url.includes('/store/')
-		? this._router.url.split('/')[4]
+		? this._router.url.split('/')[3]
 		: '';
 
 	warehouse = this._router.url.includes('/warehouse/')
-		? this._router.url.split('/')[4]
+		? this._router.url.split('/')[3]
 		: '';
 
 	product = this._router.url.includes('/product/')
-		? this._router.url.split('/')[4]
+		? this._router.url.split('/')[3]
 		: '';
 
 	form: FormInterface = this._form.getForm(
