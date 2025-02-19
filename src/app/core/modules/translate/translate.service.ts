@@ -30,6 +30,13 @@ export class TranslateService {
 		environment as unknown as { defaultLanguageCode: string }
 	).defaultLanguageCode;
 
+	// Dictionary of translations
+	translates: any =
+		(environment as unknown as { defaultTranslations: string })
+			.defaultTranslations || {};
+
+	resets: any = {};
+
 	// Array of all words for translation
 	words: Word[] = [];
 
@@ -96,6 +103,7 @@ export class TranslateService {
 			(obj) => {
 				if (obj) {
 					this.translates = obj;
+
 					this.store.setJson('translates', this.translates);
 				}
 			}
@@ -178,11 +186,6 @@ export class TranslateService {
 
 		this.store.setJson('language', this.language);
 	}
-
-	// Dictionary of translations
-	translates: any = {};
-
-	resets: any = {};
 
 	now = Date.now();
 
