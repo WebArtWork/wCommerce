@@ -3,11 +3,11 @@ import { HttpService } from 'wacom';
 
 @Component({
 	templateUrl: './parser.component.html',
-	styleUrls: ['./parser.component.scss'],
+	styleUrls: [ './parser.component.scss' ],
 	standalone: false
 })
 export class ParserComponent {
-	constructor(private _http: HttpService) {}
+	constructor(private _http: HttpService) { }
 
 	domain: string = 'https://sigara.kiev.ua';
 	htmlJson: string = '';
@@ -175,6 +175,11 @@ export class ParserComponent {
 				tags: [] as string[]
 			};
 
+			// Додаємо теги до товару
+			product.tags = allTags.filter((tag) => {
+				return doc.body.textContent?.includes(tag);
+			});
+
 			// Завантажуємо головне фото товару
 			if (product.thumb) {
 				product.thumb = await this.getUrl(product.thumb);
@@ -182,8 +187,8 @@ export class ParserComponent {
 
 			// Завантажуємо всі мініатюри товару
 			for (let i = 0; i < product.thumbs.length; i++) {
-				if (product.thumbs[i]) {
-					product.thumbs[i] = await this.getUrl(product.thumbs[i] as string);
+				if (product.thumbs[ i ]) {
+					product.thumbs[ i ] = await this.getUrl(product.thumbs[ i ] as string);
 				}
 			}
 
@@ -191,13 +196,13 @@ export class ParserComponent {
 			const quantityElements = doc.querySelectorAll('.card__options-item');
 
 			for (let i = 0; i < quantityElements.length; i++) {
-				const quantityThumb = quantityElements[i].querySelector('img')?.getAttribute('src') || '';
+				const quantityThumb = quantityElements[ i ].querySelector('img')?.getAttribute('src') || '';
 
 				// Отримуємо правильний URL
 				const fixedThumb = await this.getUrl(quantityThumb);
 
 				const quantity = {
-					name: quantityElements[i].querySelector('a')?.getAttribute('title') || '',
+					name: quantityElements[ i ].querySelector('a')?.getAttribute('title') || '',
 					thumb: fixedThumb, // Оновлений URL
 					code: 0,
 					quantity: 5 // Значення за замовчуванням
@@ -207,7 +212,7 @@ export class ParserComponent {
 			}
 
 			// Конвертуємо результати у JSON
-			this.productJson = JSON.stringify([product], null, 2);
+			this.productJson = JSON.stringify([ product ], null, 2);
 			this.quantityJson = JSON.stringify(this.parsedQuantities, null, 2);
 
 		} catch (err) {
