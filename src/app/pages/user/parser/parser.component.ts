@@ -189,9 +189,7 @@ export class ParserComponent {
 
 			this.parsedTags = uniqueTags;
 			this.tagsJson = JSON.stringify(this.parsedTags, null, 2);
-
-
-			// Завантажуємо головне фото товару
+			
 			if (product.thumb) {
 				product.thumb = await this.getUrl(product.thumb);
 			}
