@@ -158,38 +158,52 @@ export class ParserComponent {
 			];
 
 
-			const product = {
-				name: doc.querySelector('.card__name')?.textContent?.trim() || '',
-				description: this.getPlainTextContent(doc.querySelector('#description')) || '',
-				price: Number(doc.querySelector('[itemprop="price"]')?.textContent?.trim()) || 0,
-				priceType: 'piece',
-				thumb: doc.querySelector('.card__slider-item img')?.getAttribute('src') || '',
-				thumbs: Array.from(doc.querySelectorAll('.card__preview-item img')).map((img) => img.getAttribute('src') || ''),
-				country: this.getSiblingText(doc, 'Виробник') || 'Unknown',
-				volume: Number(this.getSiblingText(doc, 'Картридж')?.replace(' мл', '').trim()) || 0,
-				weight: Number(this.getSiblingText(doc, 'Вага')?.replace(' г', '').trim()) || 0,
-				battery: this.getSiblingText(doc, 'Батарея (ємність)') || 'Unknown',
-				power: this.getSiblingText(doc, 'Потужність') || 'Unknown',
-				atomizerType: this.getSiblingText(doc, 'Вигляд атомайзера') || 'Unknown',
-				warranty: this.getSiblingText(doc, 'Гарантія') || 'Unknown',
-				type: this.getSiblingText(doc, 'Тип') || 'Unknown',
-				tags: [] as string[]
-			};
-			const breadcrumbElements = Array.from(doc.querySelectorAll('.bread li span[itemprop="name"]'));
-			const breadcrumbPath = breadcrumbElements.map(el => el.textContent?.trim()).filter(Boolean) as string[];
+			// Отримуємо breadcrumb шлях
+		const breadcrumbElements = Array.from(doc.querySelectorAll('.bread li span[itemprop="name"]'));
+		const breadcrumbPath = breadcrumbElements.map(el => el.textContent?.trim()).filter(Boolean) as string[];
 
-			const matchingTags = allTags.filter(tag => {
-				const tagParts = tag.split(' / ');
-				return tagParts.every(part => breadcrumbPath.some(path => path.includes(part)));
-			});
+		// Додаємо перевірку, чи взагалі є breadcrumbPath
+		if (breadcrumbPath.length === 0) {
+			console.warn('Breadcrumb path is empty. Tags may not be detected correctly.');
+		}
 
-			const uniqueTags = matchingTags
-				.sort((a, b) => b.split(' / ').length - a.split(' / ').length)
-				.filter((tag, index, array) => !array.some((otherTag, otherIndex) => otherIndex !== index && otherTag.startsWith(tag)));
+		// Знаходимо всі відповідні теги
+		const matchingTags = allTags.filter(tag => {
+			const tagParts = tag.split(' / ');
+			return tagParts.every(part => breadcrumbPath.some(path => path.includes(part)));
+		});
 
-			this.parsedTags = uniqueTags;
-			this.tagsJson = JSON.stringify(this.parsedTags, null, 2);
-			
+		// Видаляємо менш специфічні теги
+		const uniqueTags = matchingTags
+			.sort((a, b) => b.split(' / ').length - a.split(' / ').length)
+			.filter((tag, index, array) => !array.some((otherTag, otherIndex) => otherIndex !== index && otherTag.startsWith(tag)));
+
+		// Створюємо об'єкт продукту
+		const product = {
+			name: doc.querySelector('.card__name')?.textContent?.trim() || '',
+			description: this.getPlainTextContent(doc.querySelector('#description')) || '',
+			price: Number(doc.querySelector('[itemprop="price"]')?.textContent?.trim()) || 0,
+			priceType: 'piece',
+			thumb: doc.querySelector('.card__slider-item img')?.getAttribute('src') || '',
+			thumbs: Array.from(doc.querySelectorAll('.card__preview-item img')).map(img => img.getAttribute('src') || ''),
+			country: this.getSiblingText(doc, 'Виробник') || 'Unknown',
+			volume: Number(this.getSiblingText(doc, 'Картридж')?.replace(' мл', '').trim()) || 0,
+			weight: Number(this.getSiblingText(doc, 'Вага')?.replace(' г', '').trim()) || 0,
+			battery: this.getSiblingText(doc, 'Батарея (ємність)') || 'Unknown',
+			power: this.getSiblingText(doc, 'Потужність') || 'Unknown',
+			atomizerType: this.getSiblingText(doc, 'Вигляд атомайзера') || 'Unknown',
+			warranty: this.getSiblingText(doc, 'Гарантія') || 'Unknown',
+			type: this.getSiblingText(doc, 'Тип') || 'Unknown',
+			tags: uniqueTags // Додаємо унікальні теги
+		};
+
+		// Додаємо продукт у список
+		this.parsedProducts.push(product);
+
+		// Оновлюємо JSON-змінні
+		this.productJson = JSON.stringify(this.parsedProducts, null, 2);
+		this.tagsJson = JSON.stringify(this.parsedTags, null, 2);
+
 			if (product.thumb) {
 				product.thumb = await this.getUrl(product.thumb);
 			}
