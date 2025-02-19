@@ -10,12 +10,15 @@ import { articletagFormComponents } from '../../formcomponents/articletag.formco
 @Component({
 	templateUrl: './tags.component.html',
 	styleUrls: ['./tags.component.scss'],
-	standalone: false,
+	standalone: false
 })
 export class TagsComponent {
 	columns = ['name', 'description'];
 
-	form: FormInterface = this._form.getForm('articletag', articletagFormComponents);
+	form: FormInterface = this._form.getForm(
+		'articletag',
+		articletagFormComponents
+	);
 
 	config = {
 		create: (): void => {
@@ -27,7 +30,7 @@ export class TagsComponent {
 					this._articletagService.create(created as Articletag);
 
 					close();
-				},
+				}
 			});
 		},
 		update: (doc: Articletag): void => {
@@ -46,37 +49,41 @@ export class TagsComponent {
 				),
 				buttons: [
 					{
-						text: this._translate.translate('Common.No'),
+						text: this._translate.translate('Common.No')
 					},
 					{
 						text: this._translate.translate('Common.Yes'),
 						callback: (): void => {
 							this._articletagService.delete(doc);
-						},
-					},
-				],
+						}
+					}
+				]
 			});
 		},
 		buttons: [
 			{
 				icon: 'cloud_download',
 				click: (doc: Articletag): void => {
-					this._form.modalUnique<Articletag>('articletag', 'url', doc);
-				},
-			},
+					this._form.modalUnique<Articletag>(
+						'articletag',
+						'url',
+						doc
+					);
+				}
+			}
 		],
 		headerButtons: [
 			{
 				icon: 'playlist_add',
 				click: this._bulkManagement(),
-				class: 'playlist',
+				class: 'playlist'
 			},
 			{
 				icon: 'edit_note',
 				click: this._bulkManagement(false),
-				class: 'edit',
-			},
-		],
+				class: 'edit'
+			}
+		]
 	};
 
 	get rows(): Articletag[] {
@@ -106,7 +113,8 @@ export class TagsComponent {
 						for (const articletag of this.rows) {
 							if (
 								!articletags.find(
-									(localArticletag) => localArticletag._id === articletag._id
+									(localArticletag) =>
+										localArticletag._id === articletag._id
 								)
 							) {
 								this._articletagService.delete(articletag);
@@ -115,7 +123,8 @@ export class TagsComponent {
 
 						for (const articletag of articletags) {
 							const localArticletag = this.rows.find(
-								(localArticletag) => localArticletag._id === articletag._id
+								(localArticletag) =>
+									localArticletag._id === articletag._id
 							);
 
 							if (localArticletag) {

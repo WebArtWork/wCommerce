@@ -4,7 +4,7 @@ import { UserService } from 'src/app/modules/user/services/user.service';
 @Component({
 	templateUrl: './dashboard.component.html',
 	styleUrls: ['./dashboard.component.scss'],
-	standalone: false,
+	standalone: false
 })
 export class DashboardComponent {
 	isMenuOpen = false;

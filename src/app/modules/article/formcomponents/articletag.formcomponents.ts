@@ -9,11 +9,11 @@ export const articletagFormComponents = {
 			fields: [
 				{
 					name: 'Placeholder',
-					value: 'fill articletag title',
+					value: 'fill articletag title'
 				},
 				{
 					name: 'Label',
-					value: 'Title',
+					value: 'Title'
 				}
 			]
 		},
@@ -23,13 +23,13 @@ export const articletagFormComponents = {
 			fields: [
 				{
 					name: 'Placeholder',
-					value: 'fill articletag description',
+					value: 'fill articletag description'
 				},
 				{
 					name: 'Label',
-					value: 'Description',
+					value: 'Description'
 				}
 			]
 		}
 	]
-}
+};
