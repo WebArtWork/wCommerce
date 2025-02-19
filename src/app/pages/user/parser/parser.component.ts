@@ -157,6 +157,7 @@ export class ParserComponent {
 				'Самозаміс / Тара та упаковка'
 			];
 
+
 			const product = {
 				name: doc.querySelector('.card__name')?.textContent?.trim() || '',
 				description: this.getPlainTextContent(doc.querySelector('#description')) || '',
@@ -174,11 +175,21 @@ export class ParserComponent {
 				type: this.getSiblingText(doc, 'Тип') || 'Unknown',
 				tags: [] as string[]
 			};
+			const breadcrumbElements = Array.from(doc.querySelectorAll('.bread li span[itemprop="name"]'));
+			const breadcrumbPath = breadcrumbElements.map(el => el.textContent?.trim()).filter(Boolean) as string[];
 
-			// Додаємо теги до товару
-			product.tags = allTags.filter((tag) => {
-				return doc.body.textContent?.includes(tag);
+			const matchingTags = allTags.filter(tag => {
+				const tagParts = tag.split(' / ');
+				return tagParts.every(part => breadcrumbPath.some(path => path.includes(part)));
 			});
+
+			const uniqueTags = matchingTags
+				.sort((a, b) => b.split(' / ').length - a.split(' / ').length)
+				.filter((tag, index, array) => !array.some((otherTag, otherIndex) => otherIndex !== index && otherTag.startsWith(tag)));
+
+			this.parsedTags = uniqueTags;
+			this.tagsJson = JSON.stringify(this.parsedTags, null, 2);
+
 
 			// Завантажуємо головне фото товару
 			if (product.thumb) {
