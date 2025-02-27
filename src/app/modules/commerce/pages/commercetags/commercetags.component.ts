@@ -15,12 +15,20 @@ import { environment } from 'src/environments/environment';
 	standalone: false
 })
 export class CommercetagsComponent {
-	commerce = '';
-	parent = '';
+	commerce = this._router.url.match(/commerce\/commercetags\/([^/]+)(?=\/parent|$)/)?.[1] !== 'parent'
+    ? this._router.url.match(/commerce\/commercetags\/([^/]+)(?=\/parent|$)/)?.[1] || environment.commerceId
+    : environment.commerceId;
+
+	parent = this._router.url.match(/parent\/([^/]+)/)?.[1] || '';
+
+
 	childrenUrl(tag: Commercetag): string {
 		const urls = this._router.url.split('/');
 		if (this.parent) {
 			urls.pop();
+		}
+		if (!urls.includes('parent')) {
+			urls.push('parent');
 		}
 		urls.push(tag._id);
 		return urls.join('/');
@@ -175,18 +183,6 @@ export class CommercetagsComponent {
 	}
 
 	ngOnInit(): void {
-		this.route.params.subscribe((params) => {
-			if (params['parent']) {
-				this.parent = params['parent'];
-			}
-
-			if (params['commerce_id']) {
-				this.commerce = params['commerce_id'];
-			}
-
-			this.commerce = this.commerce || environment.commerceId;
-		});
-
 		this.setTags();
 	}
 

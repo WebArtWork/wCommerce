@@ -3,12 +3,12 @@ import { Article } from '../interfaces/article.interface';
 import { CrudService } from 'wacom';
 
 @Injectable({
-	providedIn: 'root',
+	providedIn: 'root'
 })
 export class ArticleService extends CrudService<Article> {
 	constructor() {
 		super({
-			name: 'article',
+			name: 'article'
 		});
 	}
 }

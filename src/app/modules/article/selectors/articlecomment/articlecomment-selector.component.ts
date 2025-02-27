@@ -4,7 +4,7 @@ import {
 	Component,
 	OnChanges,
 	Output,
-	Input,
+	Input
 } from '@angular/core';
 import { SelectModule } from 'src/app/core/modules/select/select.module';
 import { ArticlecommentService } from '../../services/articlecomment.service';
@@ -14,7 +14,7 @@ import { Articlecomment } from '../../interfaces/articlecomment.interface';
 	selector: 'articlecomment-selector',
 	templateUrl: './articlecomment-selector.component.html',
 	styleUrls: ['./articlecomment-selector.component.scss'],
-	imports: [SelectModule],
+	imports: [SelectModule]
 })
 export class ArticlecommentSelectorComponent implements OnChanges {
 	@Input() value: string;

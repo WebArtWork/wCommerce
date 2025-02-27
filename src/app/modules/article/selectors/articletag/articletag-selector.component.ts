@@ -4,7 +4,7 @@ import {
 	Component,
 	OnChanges,
 	Output,
-	Input,
+	Input
 } from '@angular/core';
 import { SelectModule } from 'src/app/core/modules/select/select.module';
 import { ArticletagService } from '../../services/articletag.service';
@@ -14,7 +14,7 @@ import { Articletag } from '../../interfaces/articletag.interface';
 	selector: 'articletag-selector',
 	templateUrl: './articletag-selector.component.html',
 	styleUrls: ['./articletag-selector.component.scss'],
-	imports: [SelectModule],
+	imports: [SelectModule]
 })
 export class ArticletagSelectorComponent implements OnChanges {
 	@Input() value: string;

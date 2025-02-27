@@ -11,17 +11,22 @@ import { firstValueFrom } from 'rxjs';
 @Component({
 	templateUrl: './comments.component.html',
 	styleUrls: ['./comments.component.scss'],
-	standalone: false,
+	standalone: false
 })
 export class CommentsComponent {
 	columns = ['name', 'description'];
 
-	form: FormInterface = this._form.getForm('articlecomment', articlecommentFormComponents);
+	form: FormInterface = this._form.getForm(
+		'articlecomment',
+		articlecommentFormComponents
+	);
 
 	config = {
 		paginate: this.setRows.bind(this),
 		perPage: 20,
-		setPerPage: this._articlecommentService.setPerPage.bind(this._articlecommentService),
+		setPerPage: this._articlecommentService.setPerPage.bind(
+			this._articlecommentService
+		),
 		allDocs: false,
 		create: (): void => {
 			this._form.modal<Articlecomment>(this.form, {
@@ -32,11 +37,13 @@ export class CommentsComponent {
 					this._preCreate(created as Articlecomment);
 
 					await firstValueFrom(
-						this._articlecommentService.create(created as Articlecomment)
+						this._articlecommentService.create(
+							created as Articlecomment
+						)
 					);
 
 					this.setRows();
-				},
+				}
 			});
 		},
 		update: (doc: Articlecomment): void => {
@@ -55,39 +62,45 @@ export class CommentsComponent {
 				),
 				buttons: [
 					{
-						text: this._translate.translate('Common.No'),
+						text: this._translate.translate('Common.No')
 					},
 					{
 						text: this._translate.translate('Common.Yes'),
 						callback: async (): Promise<void> => {
-							await firstValueFrom(this._articlecommentService.delete(doc));
+							await firstValueFrom(
+								this._articlecommentService.delete(doc)
+							);
 
 							this.setRows();
-						},
-					},
-				],
+						}
+					}
+				]
 			});
 		},
 		buttons: [
 			{
 				icon: 'cloud_download',
 				click: (doc: Articlecomment): void => {
-					this._form.modalUnique<Articlecomment>('articlecomment', 'url', doc);
-				},
-			},
+					this._form.modalUnique<Articlecomment>(
+						'articlecomment',
+						'url',
+						doc
+					);
+				}
+			}
 		],
 		headerButtons: [
 			{
 				icon: 'playlist_add',
 				click: this._bulkManagement(),
-				class: 'playlist',
+				class: 'playlist'
 			},
 			{
 				icon: 'edit_note',
 				click: this._bulkManagement(false),
-				class: 'edit',
-			},
-		],
+				class: 'edit'
+			}
+		]
 	};
 
 	rows: Articlecomment[] = [];
@@ -130,38 +143,53 @@ export class CommentsComponent {
 							this._preCreate(articlecomment);
 
 							await firstValueFrom(
-								this._articlecommentService.create(articlecomment)
+								this._articlecommentService.create(
+									articlecomment
+								)
 							);
 						}
 					} else {
 						for (const articlecomment of this.rows) {
 							if (
 								!articlecomments.find(
-									(localArticlecomment) => localArticlecomment._id === articlecomment._id
+									(localArticlecomment) =>
+										localArticlecomment._id ===
+										articlecomment._id
 								)
 							) {
 								await firstValueFrom(
-									this._articlecommentService.delete(articlecomment)
+									this._articlecommentService.delete(
+										articlecomment
+									)
 								);
 							}
 						}
 
 						for (const articlecomment of articlecomments) {
 							const localArticlecomment = this.rows.find(
-								(localArticlecomment) => localArticlecomment._id === articlecomment._id
+								(localArticlecomment) =>
+									localArticlecomment._id ===
+									articlecomment._id
 							);
 
 							if (localArticlecomment) {
-								this._core.copy(articlecomment, localArticlecomment);
+								this._core.copy(
+									articlecomment,
+									localArticlecomment
+								);
 
 								await firstValueFrom(
-									this._articlecommentService.update(localArticlecomment)
+									this._articlecommentService.update(
+										localArticlecomment
+									)
 								);
 							} else {
 								this._preCreate(articlecomment);
 
 								await firstValueFrom(
-									this._articlecommentService.create(articlecomment)
+									this._articlecommentService.create(
+										articlecomment
+									)
 								);
 							}
 						}

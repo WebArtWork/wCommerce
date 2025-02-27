@@ -15,7 +15,8 @@
 					"skipTests": true
 				},
 				"@schematics/angular:directive": {
-					"skipTests": true
+					"skipTests": true,
+					"standalone": false
 				},
 				"@schematics/angular:guard": {
 					"skipTests": true
@@ -24,7 +25,8 @@
 					"skipTests": true
 				},
 				"@schematics/angular:pipe": {
-					"skipTests": true
+					"skipTests": true,
+					"standalone": false
 				},
 				"@schematics/angular:resolver": {
 					"skipTests": true
@@ -33,7 +35,8 @@
 					"skipTests": true
 				},
 				"@schematics/angular:application": {
-					"strict": true
+					"strict": true,
+					"standalone": false
 				}
 			},
 			"root": "",
@@ -80,27 +83,27 @@
 							"outputPath": "dist/app"
 						},
 						"podhub": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "750kb",
-                  "maximumError": "1.5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "20kb",
-                  "maximumError": "100kb"
-                }
-              ],
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.podhub.ts"
-                }
-              ],
-              "outputHashing": "all",
-              "outputPath": "dist/app"
-            }, 
+							"budgets": [
+								{
+									"type": "initial",
+									"maximumWarning": "750kb",
+									"maximumError": "1.5mb"
+								},
+								{
+									"type": "anyComponentStyle",
+									"maximumWarning": "20kb",
+									"maximumError": "100kb"
+								}
+							],
+							"fileReplacements": [
+								{
+									"replace": "src/environments/environment.ts",
+									"with": "src/environments/environment.podhub.ts"
+								}
+							],
+							"outputHashing": "all",
+							"outputPath": "dist/app"
+						},
 						"docs": {
 							"budgets": [
 								{

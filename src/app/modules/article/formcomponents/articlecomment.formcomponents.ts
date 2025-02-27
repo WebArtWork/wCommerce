@@ -9,11 +9,11 @@ export const articlecommentFormComponents = {
 			fields: [
 				{
 					name: 'Placeholder',
-					value: 'fill articlecomment title',
+					value: 'fill articlecomment title'
 				},
 				{
 					name: 'Label',
-					value: 'Title',
+					value: 'Title'
 				}
 			]
 		},
@@ -23,13 +23,13 @@ export const articlecommentFormComponents = {
 			fields: [
 				{
 					name: 'Placeholder',
-					value: 'fill articlecomment description',
+					value: 'fill articlecomment description'
 				},
 				{
 					name: 'Label',
-					value: 'Description',
+					value: 'Description'
 				}
 			]
 		}
 	]
-}
+};

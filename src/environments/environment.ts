@@ -5,8 +5,8 @@ import { environment as environmentProd } from './environment.prod';
 
 export const environment = {
 	...environmentProd,
+	// commerceId: '674d9cbe7f4e98c4f2482a20',
 	appId: 'podhub',
-	commerceId: '674d9cbe7f4e98c4f2482a20',
 	production: false,
 	sign: {
 		email: 'demo@webart.work',

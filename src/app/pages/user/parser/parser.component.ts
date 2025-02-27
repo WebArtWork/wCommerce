@@ -3,11 +3,11 @@ import { HttpService } from 'wacom';
 
 @Component({
 	templateUrl: './parser.component.html',
-	styleUrls: [ './parser.component.scss' ],
+	styleUrls: ['./parser.component.scss'],
 	standalone: false
 })
 export class ParserComponent {
-	constructor(private _http: HttpService) { }
+	constructor(private _http: HttpService) {}
 
 	domain: string = 'https://sigara.kiev.ua';
 	htmlJson: string = '';
@@ -48,7 +48,11 @@ export class ParserComponent {
 				.subscribe(
 					(serverUrl) => resolve(serverUrl),
 					(error) => {
-						console.error('Error fetching image:', decodeURIComponent(url), error);
+						console.error(
+							'Error fetching image:',
+							decodeURIComponent(url),
+							error
+						);
 						resolve(url); // Якщо API не працює, повертаємо оригінальний URL
 					}
 				);
@@ -67,7 +71,6 @@ export class ParserComponent {
 
 			const parser = new DOMParser();
 			const doc = parser.parseFromString(this.htmlJson, 'text/html');
-
 
 			const allTags = [
 				'POD - системи',
@@ -157,52 +160,91 @@ export class ParserComponent {
 				'Самозаміс / Тара та упаковка'
 			];
 
-
 			// Отримуємо breadcrumb шлях
-		const breadcrumbElements = Array.from(doc.querySelectorAll('.bread li span[itemprop="name"]'));
-		const breadcrumbPath = breadcrumbElements.map(el => el.textContent?.trim()).filter(Boolean) as string[];
+			const breadcrumbElements = Array.from(
+				doc.querySelectorAll('.bread li span[itemprop="name"]')
+			);
+			const breadcrumbPath = breadcrumbElements
+				.map((el) => el.textContent?.trim())
+				.filter(Boolean) as string[];
 
-		// Додаємо перевірку, чи взагалі є breadcrumbPath
-		if (breadcrumbPath.length === 0) {
-			console.warn('Breadcrumb path is empty. Tags may not be detected correctly.');
-		}
+			// Додаємо перевірку, чи взагалі є breadcrumbPath
+			if (breadcrumbPath.length === 0) {
+				console.warn(
+					'Breadcrumb path is empty. Tags may not be detected correctly.'
+				);
+			}
 
-		// Знаходимо всі відповідні теги
-		const matchingTags = allTags.filter(tag => {
-			const tagParts = tag.split(' / ');
-			return tagParts.every(part => breadcrumbPath.some(path => path.includes(part)));
-		});
+			// Знаходимо всі відповідні теги
+			const matchingTags = allTags.filter((tag) => {
+				const tagParts = tag.split(' / ');
+				return tagParts.every((part) =>
+					breadcrumbPath.some((path) => path.includes(part))
+				);
+			});
 
-		// Видаляємо менш специфічні теги
-		const uniqueTags = matchingTags
-			.sort((a, b) => b.split(' / ').length - a.split(' / ').length)
-			.filter((tag, index, array) => !array.some((otherTag, otherIndex) => otherIndex !== index && otherTag.startsWith(tag)));
+			// Видаляємо менш специфічні теги
+			const uniqueTags = matchingTags
+				.sort((a, b) => b.split(' / ').length - a.split(' / ').length)
+				.filter(
+					(tag, index, array) =>
+						!array.some(
+							(otherTag, otherIndex) =>
+								otherIndex !== index && otherTag.startsWith(tag)
+						)
+				);
 
-		// Створюємо об'єкт продукту
-		const product = {
-			name: doc.querySelector('.card__name')?.textContent?.trim() || '',
-			description: this.getPlainTextContent(doc.querySelector('#description')) || '',
-			price: Number(doc.querySelector('[itemprop="price"]')?.textContent?.trim()) || 0,
-			priceType: 'piece',
-			thumb: doc.querySelector('.card__slider-item img')?.getAttribute('src') || '',
-			thumbs: Array.from(doc.querySelectorAll('.card__preview-item img')).map(img => img.getAttribute('src') || ''),
-			country: this.getSiblingText(doc, 'Виробник') || 'Unknown',
-			volume: Number(this.getSiblingText(doc, 'Картридж')?.replace(' мл', '').trim()) || 0,
-			weight: Number(this.getSiblingText(doc, 'Вага')?.replace(' г', '').trim()) || 0,
-			battery: this.getSiblingText(doc, 'Батарея (ємність)') || 'Unknown',
-			power: this.getSiblingText(doc, 'Потужність') || 'Unknown',
-			atomizerType: this.getSiblingText(doc, 'Вигляд атомайзера') || 'Unknown',
-			warranty: this.getSiblingText(doc, 'Гарантія') || 'Unknown',
-			type: this.getSiblingText(doc, 'Тип') || 'Unknown',
-			tags: uniqueTags // Додаємо унікальні теги
-		};
+			// Створюємо об'єкт продукту
+			const product = {
+				name:
+					doc.querySelector('.card__name')?.textContent?.trim() || '',
+				description:
+					this.getPlainTextContent(
+						doc.querySelector('#description')
+					) || '',
+				price:
+					Number(
+						doc
+							.querySelector('[itemprop="price"]')
+							?.textContent?.trim()
+					) || 0,
+				priceType: 'piece',
+				thumb:
+					doc
+						.querySelector('.card__slider-item img')
+						?.getAttribute('src') || '',
+				thumbs: Array.from(
+					doc.querySelectorAll('.card__preview-item img')
+				).map((img) => img.getAttribute('src') || ''),
+				country: this.getSiblingText(doc, 'Виробник') || 'Unknown',
+				volume:
+					Number(
+						this.getSiblingText(doc, 'Картридж')
+							?.replace(' мл', '')
+							.trim()
+					) || 0,
+				weight:
+					Number(
+						this.getSiblingText(doc, 'Вага')
+							?.replace(' г', '')
+							.trim()
+					) || 0,
+				battery:
+					this.getSiblingText(doc, 'Батарея (ємність)') || 'Unknown',
+				power: this.getSiblingText(doc, 'Потужність') || 'Unknown',
+				atomizerType:
+					this.getSiblingText(doc, 'Вигляд атомайзера') || 'Unknown',
+				warranty: this.getSiblingText(doc, 'Гарантія') || 'Unknown',
+				type: this.getSiblingText(doc, 'Тип') || 'Unknown',
+				tags: uniqueTags // Додаємо унікальні теги
+			};
 
-		// Додаємо продукт у список
-		this.parsedProducts.push(product);
+			// Додаємо продукт у список
+			this.parsedProducts.push(product);
 
-		// Оновлюємо JSON-змінні
-		this.productJson = JSON.stringify(this.parsedProducts, null, 2);
-		this.tagsJson = JSON.stringify(this.parsedTags, null, 2);
+			// Оновлюємо JSON-змінні
+			this.productJson = JSON.stringify(this.parsedProducts, null, 2);
+			this.tagsJson = JSON.stringify(this.parsedTags, null, 2);
 
 			if (product.thumb) {
 				product.thumb = await this.getUrl(product.thumb);
@@ -210,22 +252,32 @@ export class ParserComponent {
 
 			// Завантажуємо всі мініатюри товару
 			for (let i = 0; i < product.thumbs.length; i++) {
-				if (product.thumbs[ i ]) {
-					product.thumbs[ i ] = await this.getUrl(product.thumbs[ i ] as string);
+				if (product.thumbs[i]) {
+					product.thumbs[i] = await this.getUrl(
+						product.thumbs[i] as string
+					);
 				}
 			}
 
 			// Обробка фото productquantity (варіанти товару)
-			const quantityElements = doc.querySelectorAll('.card__options-item');
+			const quantityElements = doc.querySelectorAll(
+				'.card__options-item'
+			);
 
 			for (let i = 0; i < quantityElements.length; i++) {
-				const quantityThumb = quantityElements[ i ].querySelector('img')?.getAttribute('src') || '';
+				const quantityThumb =
+					quantityElements[i]
+						.querySelector('img')
+						?.getAttribute('src') || '';
 
 				// Отримуємо правильний URL
 				const fixedThumb = await this.getUrl(quantityThumb);
 
 				const quantity = {
-					name: quantityElements[ i ].querySelector('a')?.getAttribute('title') || '',
+					name:
+						quantityElements[i]
+							.querySelector('a')
+							?.getAttribute('title') || '',
 					thumb: fixedThumb, // Оновлений URL
 					code: 0,
 					quantity: 5 // Значення за замовчуванням
@@ -235,11 +287,11 @@ export class ParserComponent {
 			}
 
 			// Конвертуємо результати у JSON
-			this.productJson = JSON.stringify([ product ], null, 2);
+			this.productJson = JSON.stringify([product], null, 2);
 			this.quantityJson = JSON.stringify(this.parsedQuantities, null, 2);
-
 		} catch (err) {
-			this.error = 'Помилка під час парсингу HTML. Перевірте формат і спробуйте ще раз.';
+			this.error =
+				'Помилка під час парсингу HTML. Перевірте формат і спробуйте ще раз.';
 			console.error(err);
 		}
 	}
@@ -250,7 +302,9 @@ export class ParserComponent {
 	private getPlainTextContent(element: Element | null): string {
 		const clone = element?.cloneNode(true) as HTMLElement | null;
 		if (clone) {
-			clone.querySelectorAll('style, script').forEach((el) => el.remove());
+			clone
+				.querySelectorAll('style, script')
+				.forEach((el) => el.remove());
 			return clone.textContent?.trim() || '';
 		}
 		return '';
@@ -260,7 +314,9 @@ export class ParserComponent {
 	 * Отримує текст сусіднього <b> елемента, шукаючи за заголовком у списку
 	 */
 	private getSiblingText(doc: Document, label: string): string | null {
-		const element = Array.from(doc.querySelectorAll('li')).find((li) => li.textContent?.trim().startsWith(label));
+		const element = Array.from(doc.querySelectorAll('li')).find((li) =>
+			li.textContent?.trim().startsWith(label)
+		);
 		return element?.querySelector('b')?.textContent?.trim() || null;
 	}
 
