@@ -28,17 +28,31 @@ export class CommercebrandsComponent {
 
 	config = {
 		create: (): void => {
-			this._form.modal<Commercebrand>(this.form, {
-				label: 'Create',
-				click: (created: unknown, close: () => void) => {
-					if (this.commerce) {
-						(created as Commercebrand).commerce = this.commerce;
-					}
-					this._commercebrandService.create(created as Commercebrand);
+			const submition = {};
 
-					close();
+			this._form.modal<Commercebrand>(
+				this.form,
+				{
+					label: 'Create',
+					click: (created: unknown, close: () => void) => {
+						if (this.commerce) {
+							(created as Commercebrand).commerce = this.commerce;
+						}
+						this._commercebrandService.create(
+							created as Commercebrand
+						);
+
+						close();
+					}
+				},
+				submition,
+				(changed: Commercebrand) => {
+					console.log(changed);
+					this._form.getComponent(this.form, 'name')?.hidden = true;
+
+					submition.type;
 				}
-			});
+			);
 		},
 		update: (doc: Commercebrand): void => {
 			this._form
