@@ -28,7 +28,7 @@ export class CommercebrandsComponent {
 
 	config = {
 		create: (): void => {
-			const submition = {};
+			const submition:any = {};
 
 			this._form.modal<Commercebrand>(
 				this.form,
@@ -48,7 +48,10 @@ export class CommercebrandsComponent {
 				submition,
 				(changed: Commercebrand) => {
 					console.log(changed);
-					this._form.getComponent(this.form, 'name')?.hidden = true;
+					const component = this._form.getComponent(this.form, 'name');
+					if (component) {
+							component.hidden = true;
+					}
 
 					submition.type;
 				}
