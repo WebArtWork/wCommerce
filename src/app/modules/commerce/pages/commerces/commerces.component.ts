@@ -141,8 +141,6 @@ export class CommercesComponent {
 							this.changeAuthorsik(doc._id, (submition as { author: string; }).author);
 							close();
 						}
-					}).then((submition: { author: string; }) => {
-						this.changeAuthorsik(doc._id, submition.author);
 					});
 				}
 			},

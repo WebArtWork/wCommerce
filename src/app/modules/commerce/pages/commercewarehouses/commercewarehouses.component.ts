@@ -6,7 +6,7 @@ import { FormService } from 'src/app/core/modules/form/form.service';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { commercewarehouseFormComponents } from '../../formcomponents/commercewarehouse.formcomponents';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -16,10 +16,7 @@ import { environment } from 'src/environments/environment';
 })
 export class CommercewarehousesComponent {
 	columns = ['name', 'description'];
-
-	commerce = this._router.url.includes('/commerce/commercewarehouses/')
-		? this._router.url.replace('/commerce/commercewarehouses/', '')
-		: environment.commerceId || '';
+	commerce: string = '';
 
 	form: FormInterface = this._form.getForm(
 		'commercewarehouse',
@@ -31,13 +28,23 @@ export class CommercewarehousesComponent {
 			this._form.modal<Commercewarehouse>(this.form, {
 				label: 'Create',
 				click: (created: unknown, close: () => void) => {
+					const newCommercewarehouse = created as Commercewarehouse;
+	
+					// Додаємо комерцію перед створенням
 					if (this.commerce) {
-						(created as Commercewarehouse).commerce = this.commerce;
+						newCommercewarehouse.commerce = this.commerce;
 					}
-					this._commercewarehouseService.create(
-						created as Commercewarehouse
-					);
-
+	
+					// Переконаємось, що комерція додалась правильно
+					console.log('Creating warehouse with commerce:', newCommercewarehouse);
+	
+					this._commercewarehouseService.create(newCommercewarehouse, {
+						callback: () => {
+							// Переконаємось, що збережено коректно
+							console.log('Warehouse created successfully');
+						}
+					});
+	
 					close();
 				}
 			});
@@ -47,7 +54,6 @@ export class CommercewarehousesComponent {
 				.modal<Commercewarehouse>(this.form, [], doc)
 				.then((updated: Commercewarehouse) => {
 					this._core.copy(updated, doc);
-
 					this._commercewarehouseService.update(doc);
 				});
 		},
@@ -70,15 +76,6 @@ export class CommercewarehousesComponent {
 			});
 		},
 		buttons: [
-			// {
-			// 	icon: '1x_mobiledata',
-			// 	hrefFunc: (doc: Commercewarehouse): string => {
-			// 		return (
-			// 			'/commerce/commerceproductquantities/warehouse/' +
-			// 			doc._id
-			// 		);
-			// 	}
-			// },
 			{
 				icon: 'cloud_download',
 				click: (doc: Commercewarehouse): void => {
@@ -114,8 +111,12 @@ export class CommercewarehousesComponent {
 		private _alert: AlertService,
 		private _form: FormService,
 		private _core: CoreService,
-		private _router: Router
-	) {}
+		private _route: ActivatedRoute
+	) {
+		this._route.paramMap.subscribe(params => {
+			this.commerce = params.get('commerce_id') || environment.commerceId || '';
+		});
+	}
 
 	private _bulkManagement(create = true): () => void {
 		return (): void => {
@@ -158,7 +159,6 @@ export class CommercewarehousesComponent {
 									commercewarehouse,
 									localCommercewarehouse
 								);
-
 								this._commercewarehouseService.update(
 									localCommercewarehouse
 								);
