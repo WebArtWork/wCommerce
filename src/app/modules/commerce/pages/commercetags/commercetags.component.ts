@@ -181,11 +181,8 @@ export class CommercetagsComponent implements OnInit {
 	}
 
 	childrenUrl(tag: Commercetag): string {
-		const urls = ['commerce', 'commercetags', this.commerce];
+		const urls = ['commerce', 'commercetags', 'parent', tag._id];
 
-			urls.push('parent');
-
-		urls.push(tag._id);
 		return '/' + urls.join('/');
 	}
 
