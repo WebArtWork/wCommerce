@@ -146,7 +146,7 @@ export class CommercetagsComponent implements OnInit {
 			? this._commercetagService.commercetagsByParent[this.parent]
 			: this.commerce
 			? this._commercetagService.commercetagsByCommerce[this.commerce]
-			: this._commercetagService.commercetags;
+			: this._commercetagService.commercetags.filter(t => !t.parent);
 	}
 
 	tags: Commercetag[] = JSON.parse(
@@ -183,12 +183,9 @@ export class CommercetagsComponent implements OnInit {
 	childrenUrl(tag: Commercetag): string {
 		const urls = ['commerce', 'commercetags', this.commerce];
 
-		if (this.parent) {
 			urls.push('parent');
-		}
 
 		urls.push(tag._id);
-		console.log(urls);
 		return '/' + urls.join('/');
 	}
 
@@ -202,15 +199,13 @@ export class CommercetagsComponent implements OnInit {
 		private route: ActivatedRoute,
 		private _alert: AlertService,
 		private _form: FormService,
-		private _mongo: MongoService,
 		private _core: CoreService
 	) {
-		this._mongo.on('commercetag', this.setTags.bind(this));
-
 		this.route.paramMap.subscribe(params => {
 			this.commerce = params.get('commerce_id') || environment.commerceId || '';
 			console.log(this.commerce);
 			this.parent = params.get('parent') || '';
+			console.log(this.parent);
 		});
 	}
 
