@@ -188,7 +188,7 @@ export class CommercetagsComponent implements OnInit {
 		}
 
 		urls.push(tag._id);
-
+		console.log(urls);
 		return '/' + urls.join('/');
 	}
 
@@ -209,6 +209,7 @@ export class CommercetagsComponent implements OnInit {
 
 		this.route.paramMap.subscribe(params => {
 			this.commerce = params.get('commerce_id') || environment.commerceId || '';
+			console.log(this.commerce);
 			this.parent = params.get('parent') || '';
 		});
 	}

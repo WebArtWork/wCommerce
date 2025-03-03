@@ -117,7 +117,7 @@ export class CommercesComponent {
 			{
 				icon: 'style',
 				hrefFunc: (doc: Commerce): string => {
-					return '/commerce/commercetags/' + doc._id;
+					return '/commerce/commercetags/commerce/' + doc._id;
 				}
 			},
 			{
