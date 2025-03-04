@@ -18,6 +18,7 @@ export class CommercetagService extends CrudService<Commercetag> {
 		super({
 			name: 'commercetag'
 		});
+		console.log(this);
 
 		this.get();
 

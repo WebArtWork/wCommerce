@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertService, CoreService } from 'wacom';
+import { AlertService, CoreService, HttpService } from 'wacom';
 import { CommerceService } from '../../services/commerce.service';
 import { Commerce } from '../../interfaces/commerce.interface';
 import { FormService } from 'src/app/core/modules/form/form.service';
@@ -10,11 +10,11 @@ import { environment } from 'src/environments/environment';
 
 @Component({
 	templateUrl: './commerces.component.html',
-	styleUrls: ['./commerces.component.scss'],
+	styleUrls: [ './commerces.component.scss' ],
 	standalone: false
 })
 export class CommercesComponent {
-	columns = ['name', 'description'];
+	columns = [ 'name', 'description' ];
 
 	form: FormInterface = this._form.getForm(
 		'commerce',
@@ -62,15 +62,15 @@ export class CommercesComponent {
 		buttons: [
 			environment.commerceArticleUrl
 				? {
-						icon: 'article',
-						hrefFunc: (doc: Commerce): string => {
-							return (
-								environment.commerceArticleUrl +
-								'/Commerce/' +
-								doc._id
-							);
-						}
-				  }
+					icon: 'article',
+					hrefFunc: (doc: Commerce): string => {
+						return (
+							environment.commerceArticleUrl +
+							'/Commerce/' +
+							doc._id
+						);
+					}
+				}
 				: null,
 			{
 				icon: 'list_alt',
@@ -117,7 +117,7 @@ export class CommercesComponent {
 			{
 				icon: 'style',
 				hrefFunc: (doc: Commerce): string => {
-					return '/commerce/commercetags/' + doc._id;
+					return '/commerce/commercetags/commerce/' + doc._id;
 				}
 			},
 			{
@@ -130,6 +130,18 @@ export class CommercesComponent {
 				icon: 'percent',
 				hrefFunc: (doc: Commerce): string => {
 					return '/commerce/commercediscounts/' + doc._id;
+				}
+			},
+			{
+				icon: 'person',
+				click: (doc: Commerce): void => {
+					this._form.modal<{ author: string; }>(this.formAuthor, {
+						label: 'Change',
+						click: (submition: unknown, close: () => void) => {
+							this.changeAuthorsik(doc._id, (submition as { author: string; }).author);
+							close();
+						}
+					});
 				}
 			},
 			{
@@ -153,6 +165,39 @@ export class CommercesComponent {
 		]
 	};
 
+
+	formAuthor: FormInterface = this._form.getForm('change author', {
+		formId: 'change author',
+		title: 'Change Author',
+		components: [
+			{
+				name: 'Text',
+				key: 'author',
+				focused: true,
+				fields: [
+					{
+						name: 'Placeholder',
+						value: 'Enter new author name'
+					},
+					{
+						name: 'Label',
+						value: 'New Author'
+					}
+				]
+			}
+		]
+	});
+
+	changeAuthorsik(commerceId: string, newAuthor: string): void {
+		this._http.post('/api/commerce/changeAuthor', {
+			author: newAuthor,
+			commerce: commerceId
+		}).subscribe({
+			next: () => console.log('Author changed successfully'),
+			error: (err) => console.error('Error changing author:', err)
+		});
+	}
+
 	get rows(): Commerce[] {
 		return this._commerceService.commerces;
 	}
@@ -162,8 +207,9 @@ export class CommercesComponent {
 		private _commerceService: CommerceService,
 		private _alert: AlertService,
 		private _form: FormService,
-		private _core: CoreService
-	) {}
+		private _core: CoreService,
+		private _http: HttpService
+	) { }
 
 	private _bulkManagement(create = true): () => void {
 		return (): void => {

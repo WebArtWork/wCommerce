@@ -6,7 +6,7 @@ import { FormService } from 'src/app/core/modules/form/form.service';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { commercetagFormComponents } from '../../formcomponents/commercetag.formcomponents';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -15,32 +15,9 @@ import { environment } from 'src/environments/environment';
 	standalone: false
 })
 export class CommercetagsComponent implements OnInit {
-	commerce =
-		this._router.url.match(
-			/commerce\/commercetags\/([^/]+)(?=\/parent|$)/
-		)?.[1] !== 'parent'
-			? this._router.url.match(
-					/commerce\/commercetags\/([^/]+)(?=\/parent|$)/
-			  )?.[1] || environment.commerceId
-			: environment.commerceId;
+	commerce: string = '';
+	parent: string = '';
 
-	parent = this._router.url.match(/parent\/([^/]+)/)?.[1] || '';
-
-	childrenUrl(tag: Commercetag): string {
-		const urls = this._router.url.split('/');
-
-		if (this.parent) {
-			urls.pop();
-		}
-
-		if (!urls.includes('parent')) {
-			urls.push('parent');
-		}
-
-		urls.push(tag._id);
-
-		return urls.join('/');
-	}
 	columns = ['name'];
 
 	form: FormInterface = this._form.getForm(
@@ -53,24 +30,32 @@ export class CommercetagsComponent implements OnInit {
 			this._form.modal<Commercetag>(this.form, {
 				label: 'Create',
 				click: (created: unknown, close: () => void) => {
+					const newCommercetag = created as Commercetag;
+	
+					// Додаємо commerce та parent перед створенням
 					if (this.commerce) {
-						(created as Commercetag).commerce = this.commerce;
+						newCommercetag.commerce = this.commerce;
 					}
-
+	
 					if (this.parent) {
-						(created as Commercetag).parent = this.parent;
+						newCommercetag.parent = this.parent;
 					}
-
-					this._commercetagService.create(created as Commercetag, {
+	
+					// Логування перед створенням
+					console.log('Creating tag with commerce:', newCommercetag);
+	
+					this._commercetagService.create(newCommercetag, {
 						callback: () => {
+							// Перевіримо, чи успішно створено
+							console.log('Commercetag created successfully');
 							this.setTags();
 						}
 					});
-
+	
 					close();
 				}
 			});
-		},
+		},	
 		update: (doc: Commercetag): void => {
 			this._form
 				.modal<Commercetag>(this.form, [], doc)
@@ -126,7 +111,6 @@ export class CommercetagsComponent implements OnInit {
 					for (let i = 0; i < this.allTags.length; i++) {
 						if (this.allTags[i].order !== i) {
 							this.allTags[i].order = i;
-
 							this._commercetagService.update(this.allTags[i]);
 						}
 					}
@@ -162,7 +146,7 @@ export class CommercetagsComponent implements OnInit {
 			? this._commercetagService.commercetagsByParent[this.parent]
 			: this.commerce
 			? this._commercetagService.commercetagsByCommerce[this.commerce]
-			: this._commercetagService.commercetags;
+			: this._commercetagService.commercetags.filter(t => !t.parent);
 	}
 
 	tags: Commercetag[] = JSON.parse(
@@ -196,6 +180,12 @@ export class CommercetagsComponent implements OnInit {
 		}
 	}
 
+	childrenUrl(tag: Commercetag): string {
+		const urls = ['commerce', 'commercetags', 'parent', tag._id];
+
+		return '/' + urls.join('/');
+	}
+
 	update(tag: Commercetag): void {
 		this._commercetagService.update(tag);
 	}
@@ -206,11 +196,14 @@ export class CommercetagsComponent implements OnInit {
 		private route: ActivatedRoute,
 		private _alert: AlertService,
 		private _form: FormService,
-		private _mongo: MongoService,
-		private _core: CoreService,
-		private _router: Router
+		private _core: CoreService
 	) {
-		this._mongo.on('commercetag', this.setTags.bind(this));
+		this.route.paramMap.subscribe(params => {
+			this.commerce = params.get('commerce_id') || environment.commerceId || '';
+			console.log(this.commerce);
+			this.parent = params.get('parent') || '';
+			console.log(this.parent);
+		});
 	}
 
 	ngOnInit(): void {
@@ -227,7 +220,6 @@ export class CommercetagsComponent implements OnInit {
 							if (this.commerce) {
 								commercetag.commerce = this.commerce;
 							}
-
 							this._commercetagService.create(commercetag);
 						}
 					} else {
@@ -250,17 +242,13 @@ export class CommercetagsComponent implements OnInit {
 
 							if (localCommercetag) {
 								this._core.copy(commercetag, localCommercetag);
-
-								this._commercetagService.update(
-									localCommercetag
-								);
+								this._commercetagService.update(localCommercetag);
 							} else {
 								if (this.commerce) {
 									commercetag.commerce = this.commerce;
 								}
 
 								commercetag.__created = false;
-
 								this._commercetagService.create(commercetag);
 							}
 						}
