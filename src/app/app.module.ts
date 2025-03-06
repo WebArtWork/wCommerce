@@ -116,6 +116,19 @@ const routes: Routes = [
 					).then((m) => m.CommerceproductquantitiesModule)
 			},
 			{
+				path: 'commerceoptions',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Commerceoptions'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/commerce/pages/commerceoptions/commerceoptions.module'
+					).then((m) => m.CommerceoptionsModule)
+			},
+			{
 				path: 'commercewarehouses',
 				canActivate: [MetaGuard],
 				data: {

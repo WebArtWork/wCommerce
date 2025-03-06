@@ -77,6 +77,12 @@ export class CommercewarehousesComponent {
 		},
 		buttons: [
 			{
+				icon: '1x_mobiledata',
+				hrefFunc: (doc: Commercewarehouse): string => {
+					return '/commerce/commerceoptions/warehouse/' + doc._id;
+				}
+			},
+			{
 				icon: 'cloud_download',
 				click: (doc: Commercewarehouse): void => {
 					this._form.modalUnique<Commercewarehouse>(
