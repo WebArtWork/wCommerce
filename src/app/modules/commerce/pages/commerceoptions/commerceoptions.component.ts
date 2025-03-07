@@ -1,15 +1,8 @@
 import { Component } from '@angular/core';
-import { AlertService, CoreService } from 'wacom';
-import { CommercewarehouseService } from '../../services/commercewarehouse.service';
-import { Commercewarehouse } from '../../interfaces/commercewarehouse.interface';
-import { FormService } from 'src/app/core/modules/form/form.service';
-import { TranslateService } from 'src/app/core/modules/translate/translate.service';
-import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
-import { commercewarehouseFormComponents } from '../../formcomponents/commercewarehouse.formcomponents';
 import { ActivatedRoute } from '@angular/router';
-import { environment } from 'src/environments/environment';
-import { Commerceoption } from '../../interfaces/commerceoption.interface';
 import { CommerceoptionService } from '../../services/commerceoption.service';
+import { map, tap } from 'rxjs';
+import { Commerceoption } from '../../interfaces/commerceoption.interface';
 
 @Component({
 	templateUrl: './commerceoptions.component.html',
@@ -17,20 +10,8 @@ import { CommerceoptionService } from '../../services/commerceoption.service';
 	standalone: false
 })
 export class CommerceoptionsComponent {
-	columns = ['product', 'name', 'actions'];
 	store: string = '';
 	warehouse: string = '';
-
-	config = {};
-
-	options = [];
-
-	get rows(): Commerceoption[] {
-		return this.options;
-	}
-
-	skip = 0;
-	perPage = 10;
 
 	constructor(
 		private _commerceoptionService: CommerceoptionService,
@@ -46,27 +27,44 @@ export class CommerceoptionsComponent {
 		this.loadOptions();
 	}
 
-	loadOptions(): void {
-    this._commerceoptionService.getOptions(this.skip, this.perPage, this.store, this.warehouse).subscribe(
-      (response: Commerceoption[]) => {
-        console.log(response);
-      },
-      error => {
-        console.error('Error fetching options', error);
-      }
-    );
+	options: any[] = [];
+  skip = 0;
+  limit = 100;
+  loading = false;
+
+  ngOnInit(): void {
+    this.loadOptions();
   }
 
-	nextPage(): void {
-    if (this.skip + this.perPage < this.options.length) {
-      this.skip += this.perPage;
-      this.loadOptions();
-    }
-  }
-
-  prevPage(): void {
-    if (this.skip > 0) {
-      this.skip -= this.perPage;
+  loadOptions(): void {
+		if (this.loading) return;
+		this.loading = true;
+	
+		this._commerceoptionService
+			.getOptions(this.skip, this.limit, this.store, this.warehouse)
+			.pipe(
+				tap(() => (this.loading = false)),
+				map((newOptions) => {
+					this.options = [...this.options, ...newOptions];
+					this.skip += this.limit;
+				})
+			)
+			.subscribe();
+	} 
+	onQuantityChange(option: Commerceoption): void {
+		this._commerceoptionService
+			.setOptionsQuantity(
+				option._id,
+				option.product._id,
+				option.quantity,
+				this.store,
+				this.warehouse,
+			)
+			.subscribe();
+	}
+	
+  onScroll(index: number): void {
+    if (index + this.limit / 2 >= this.options.length) {
       this.loadOptions();
     }
   }

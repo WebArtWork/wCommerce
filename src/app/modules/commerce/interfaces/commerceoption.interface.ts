@@ -9,4 +9,5 @@ export interface Commerceoption extends CrudDocument {
 	thumb: string,
 	code: number,
   product: Commerceproduct,
+	quantity: number;
 }
