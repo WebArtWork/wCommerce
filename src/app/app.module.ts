@@ -64,6 +64,19 @@ const routes: Routes = [
 		children: [
 			/* commerce */
 			{
+				path: 'participants',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Participants'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/commercelotteryparticipant/pages/participants/participants.module'
+					).then((m) => m.ParticipantsModule)
+			},
+			{
 				path: 'articles',
 				canActivate: [MetaGuard],
 				data: {
@@ -114,6 +127,19 @@ const routes: Routes = [
 					import(
 						'./modules/commerce/pages/commerceproductquantities/commerceproductquantities.module'
 					).then((m) => m.CommerceproductquantitiesModule)
+			},
+			{
+				path: 'commerceoptions',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Commerceoptions'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/commerce/pages/commerceoptions/commerceoptions.module'
+					).then((m) => m.CommerceoptionsModule)
 			},
 			{
 				path: 'commercewarehouses',

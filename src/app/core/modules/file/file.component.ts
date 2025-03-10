@@ -156,7 +156,7 @@ export class FileComponent implements OnInit, OnChanges {
 	 * @param dataUrl The data URL of the image.
 	 */
 	uploadImage(dataUrl: string): void {
-		const name = this.name.includes('logo.png') ? '' : this.name;
+		const name = (this.name || '').includes('logo.png') ? '' : this.name;
 
 		this._http.post(
 			'/api/file/photo',
