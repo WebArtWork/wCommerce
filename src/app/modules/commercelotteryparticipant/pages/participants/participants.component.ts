@@ -23,69 +23,53 @@ export class ParticipantsComponent {
 	);
 
 	config = {
-		create: (): void => {
-			this._form.modal<Commercelotteryparticipant>(this.form, {
-				label: 'Create',
-				click: (created: unknown, close: () => void) => {
-					this._preCreate(created as Commercelotteryparticipant);
+		// create: (): void => {
+		// 	this._form.modal<Commercelotteryparticipant>(this.form, {
+		// 		label: 'Create',
+		// 		click: (created: unknown, close: () => void) => {
+		// 			this._preCreate(created as Commercelotteryparticipant);
 
-					this._commercelotteryparticipantService.create(
-						created as Commercelotteryparticipant
-					);
+		// 			this._commercelotteryparticipantService.create(
+		// 				created as Commercelotteryparticipant
+		// 			);
 
-					close();
-				}
-			});
-		},
-		update: (doc: Commercelotteryparticipant): void => {
-			this._form
-				.modal<Commercelotteryparticipant>(this.form, [], doc)
-				.then((updated: Commercelotteryparticipant) => {
-					this._core.copy(updated, doc);
+		// 			close();
+		// 		}
+		// 	});
+		// },
+		// update: (doc: Commercelotteryparticipant): void => {
+		// 	this._form
+		// 		.modal<Commercelotteryparticipant>(this.form, [], doc)
+		// 		.then((updated: Commercelotteryparticipant) => {
+		// 			this._core.copy(updated, doc);
 
-					this._commercelotteryparticipantService.update(doc);
-				});
-		},
-		delete: (doc: Commercelotteryparticipant): void => {
-			this._alert.question({
-				text: this._translate.translate(
-					'Common.Are you sure you want to delete this participant?'
-				),
-				buttons: [
-					{
-						text: this._translate.translate('Common.No')
-					},
-					{
-						text: this._translate.translate('Common.Yes'),
-						callback: (): void => {
-							this._commercelotteryparticipantService.delete(doc);
-						}
-					}
-				]
-			});
-		},
-		buttons: [
-			{
-				icon: 'cloud_download',
-				click: (doc: Commercelotteryparticipant): void => {
-					this._form.modalUnique<Commercelotteryparticipant>(
-						'commercelotteryparticipant',
-						'url',
-						doc
-					);
-				}
-			}
-		],
+		// 			this._commercelotteryparticipantService.update(doc);
+		// 		});
+		// },
+		// delete: (doc: Commercelotteryparticipant): void => {
+		// 	this._alert.question({
+		// 		text: this._translate.translate(
+		// 			'Common.Are you sure you want to delete this participant?'
+		// 		),
+		// 		buttons: [
+		// 			{
+		// 				text: this._translate.translate('Common.No')
+		// 			},
+		// 			{
+		// 				text: this._translate.translate('Common.Yes'),
+		// 				callback: (): void => {
+		// 					this._commercelotteryparticipantService.delete(doc);
+		// 				}
+		// 			}
+		// 		]
+		// 	});
+		// },
+		buttons: [],
 		headerButtons: [
 			{
 				icon: 'playlist_add',
 				click: this._bulkManagement(),
 				class: 'playlist'
-			},
-			{
-				icon: 'edit_note',
-				click: this._bulkManagement(false),
-				class: 'edit'
 			}
 		]
 	};
