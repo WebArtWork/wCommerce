@@ -1,0 +1,33 @@
+<wtable
+	title="Participants"
+	[columns]="columns"
+	[config]="config"
+	[rows]="rows"
+>
+	<ng-template cell="phone" let-element>
+		<a href="tel:{{element.phone}}">{{element.phone}}</a>
+	</ng-template>
+	<ng-template cell="screenshots" let-element>
+		<img
+			[src]="screenshot"
+			height="50"
+			widht="50"
+			(click)="fullImage = screenshot"
+			*ngFor="let screenshot of element.screenshots"
+		/>
+	</ng-template>
+</wtable>
+
+<img
+	[src]="fullImage"
+	*ngIf="fullImage"
+	(click)="fullImage = ''"
+	style="
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 99999999999999;
+	"
+/>

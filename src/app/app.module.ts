@@ -64,6 +64,19 @@ const routes: Routes = [
 		children: [
 			/* commerce */
 			{
+				path: 'participants',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Participants'
+					}
+				},
+				loadChildren: () =>
+					import(
+						'./modules/commercelotteryparticipant/pages/participants/participants.module'
+					).then((m) => m.ParticipantsModule)
+			},
+			{
 				path: 'articles',
 				canActivate: [MetaGuard],
 				data: {

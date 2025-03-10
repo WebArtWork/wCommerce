@@ -1,12 +1,21 @@
-<wbutton (click)="fetchAllOptionsAndExport()">Експортувати всі продукти</wbutton>
-<cdk-virtual-scroll-viewport itemSize="50" class="scroll-container" (scrolledIndexChange)="onScroll($event)">
-  <div *cdkVirtualFor="let option of options; let i = index" class="item">
-    <span>{{ option.product?.name }} - {{ option.name }}</span>
-    <winput
-      type="number"
-      [(ngModel)]="option.quantity"
-      (change)="onQuantityChange(option)"
-      class="quantity-input"
-    />
-  </div>
+<wbutton (click)="fetchAllOptionsAndExport()"
+	>Експортувати всі продукти</wbutton
+>
+<cdk-virtual-scroll-viewport
+	itemSize="50"
+	class="scroll-container"
+	(scrolledIndexChange)="onScroll($event)"
+>
+	<div *cdkVirtualFor="let option of options; let i = index" class="item">
+		<span>
+			<span *ngIf="option.product">{{ option.product.name }}</span>
+			- {{ option.name }}</span
+		>
+		<winput
+			type="number"
+			[(ngModel)]="option.quantity"
+			(change)="onQuantityChange(option)"
+			class="quantity-input"
+		/>
+	</div>
 </cdk-virtual-scroll-viewport>
