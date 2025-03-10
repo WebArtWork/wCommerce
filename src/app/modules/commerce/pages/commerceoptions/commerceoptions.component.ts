@@ -4,6 +4,8 @@ import { CommerceoptionService } from '../../services/commerceoption.service';
 import { map, tap } from 'rxjs';
 import { Commerceoption } from '../../interfaces/commerceoption.interface';
 import { ngxCsv } from 'ngx-csv';
+import { CommercewarehouseService } from '../../services/commercewarehouse.service';
+import { CommercestoreService } from '../../services/commercestore.service';
 
 @Component({
   templateUrl: './commerceoptions.component.html',
@@ -20,7 +22,9 @@ export class CommerceoptionsComponent {
 
   constructor(
     private _commerceoptionService: CommerceoptionService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+		private _ws: CommercewarehouseService,
+		private _ss: CommercestoreService
   ) {
     this._route.paramMap.subscribe(params => {
       if (params.get('store_id')) {
@@ -94,14 +98,14 @@ export class CommerceoptionsComponent {
       title: `Список товарів - ${new Date().toLocaleString()}`,
       useTextFile: false,
       useBom: true,
-      headers: ['ID Options', 'ID', 'Назва продукту', 'Кількість', 'Склад', 'Магазин']
+      headers: ['Назва продукту', 'Кількість', 'Склад', 'Магазин','ID Options', 'ID',]
     };
 
     const csvData = options.map(option => ({
 			'Назва продукту': option.product.name,
       'Кількість': option.quantity,
-      'Склад': this.warehouse,
-      'Магазин': this.store,
+      'Склад': this._ws.commercewarehouses.find(el => el._id === this.warehouse)?.url || '',
+      'Магазин': this._ss.commercestores.find(el => el._id === this.store)?.url || '',
       'ID Options': option._id,
       'ID': option.product._id,
     }));

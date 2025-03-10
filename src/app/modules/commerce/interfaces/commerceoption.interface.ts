@@ -10,4 +10,6 @@ export interface Commerceoption extends CrudDocument {
 	code: number,
   product: Commerceproduct,
 	quantity: number;
+	warehouse?: { url: string };
+  store?: { url: string };
 }
