@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">wCommerce</string>
+    <string name="title_activity_main">wCommerce</string>
+    <string name="package_name">wcommerce.webart.work</string>
+    <string name="custom_url_scheme">wcommerce.webart.work</string>
+</resources>
