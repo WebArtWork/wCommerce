@@ -1,0 +1,1 @@
+import{lb as e,r}from"./chunk-CNPABYXW.js";var s=(()=>{class t extends e{constructor(){super({name:"commerceproductquantity"}),this.quantitiesByProduct={},this.filteredDocuments(this.quantitiesByProduct,"product")}static{this.\u0275fac=function(o){return new(o||t)}}static{this.\u0275prov=r({token:t,factory:t.\u0275fac,providedIn:"root"})}}return t})();export{s as a};
