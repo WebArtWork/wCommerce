@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Commerceorder } from '../interfaces/commerceorder.interface';
-import { CrudService } from 'wacom';
+import { CoreService, CrudService } from 'wacom';
 
 @Injectable({
 	providedIn: 'root'
@@ -10,12 +10,14 @@ export class CommerceorderService extends CrudService<Commerceorder> {
 
 	commerceordersByAuthor: Record<string, Commerceorder[]> = {};
 
-	constructor() {
+	constructor(private _core: CoreService) {
 		super({
 			name: 'commerceorder'
 		});
 
-		this.get();
+		this.get({
+			query: 'deviceID=' + this._core.deviceID
+		});
 
 		this.filteredDocuments(this.commerceordersByAuthor);
 	}

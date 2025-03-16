@@ -1,4 +1,8 @@
-<div class="documents-wrapper" [class.documents-wrapper--open]="isMenuOpen">
+<div
+	[class.documents-wrapper--open]="isMenuOpen"
+	class="documents-wrapper"
+	*ngIf="product"
+>
 	<div class="documents-container">
 		<div class="documents-list">
 			<div class="documents-header">
@@ -40,8 +44,6 @@
 						<img [src]="url + product.thumb" alt="" />
 					</div>
 					<div class="documents-sidebar__title">{{product.name}}</div>
-
-					<div>quantity {{quantities|json}}</div>
 
 					<a
 						(click)="cartService.add(product); inCart = true"

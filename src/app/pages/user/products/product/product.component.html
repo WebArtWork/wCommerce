@@ -1,4 +1,7 @@
-<div class="documents-triggers__item" routerLink="/product/{{product._id}}">
+<div
+	class="documents-triggers__item"
+	routerLink="/product/{{product.url || product._id}}"
+>
 	<div class="documents-triggers__img">
 		<img [src]="url + product.thumb" alt="" />
 	</div>

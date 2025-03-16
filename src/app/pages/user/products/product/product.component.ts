@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Commerceproduct } from 'src/app/modules/commerce/interfaces/commerceproduct.interface';
+import { Product } from 'src/app/core/interfaces/product.interface';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -11,5 +11,5 @@ import { environment } from 'src/environments/environment';
 export class ProductComponent {
 	readonly url = environment.url;
 
-	@Input() product: Commerceproduct;
+	@Input() product: Product;
 }

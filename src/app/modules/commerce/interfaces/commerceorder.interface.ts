@@ -1,13 +1,17 @@
+import { Option, Product } from 'src/app/core/interfaces/product.interface';
 import { CrudDocument } from 'wacom';
 
-interface Productinfo {
+export interface Commerceorderproduct {
 	product: string;
+	_product?: Product;
+	option: string;
+	_option?: Option;
+	quantity: number;
 }
 
 export interface Commerceorder extends CrudDocument {
-	name: string;
-	description: string;
+	deviceID?: string;
 	commerce: string;
-	products: Productinfo[];
+	products: Commerceorderproduct[];
 	status: string;
 }

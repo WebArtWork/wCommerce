@@ -75,7 +75,9 @@
 								class="documents-tags__wrap"
 							>
 								<div class="documents-tags__item">
-									{{productService.doc(productInfo.product).name}}
+									<div>{{productInfo._product?.name}}</div>
+									<div>{{productInfo._option?.name}}</div>
+									<div>{{productInfo.quantity}}</div>
 								</div>
 							</div>
 						</div>
