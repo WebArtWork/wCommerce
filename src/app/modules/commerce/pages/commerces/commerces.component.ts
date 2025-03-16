@@ -10,11 +10,11 @@ import { environment } from 'src/environments/environment';
 
 @Component({
 	templateUrl: './commerces.component.html',
-	styleUrls: [ './commerces.component.scss' ],
+	styleUrls: ['./commerces.component.scss'],
 	standalone: false
 })
 export class CommercesComponent {
-	columns = [ 'name', 'description' ];
+	columns = ['name', 'description'];
 
 	form: FormInterface = this._form.getForm(
 		'commerce',
@@ -60,24 +60,6 @@ export class CommercesComponent {
 			});
 		},
 		buttons: [
-			environment.commerceArticleUrl
-				? {
-					icon: 'article',
-					hrefFunc: (doc: Commerce): string => {
-						return (
-							environment.commerceArticleUrl +
-							'/Commerce/' +
-							doc._id
-						);
-					}
-				}
-				: null,
-			{
-				icon: 'list_alt',
-				hrefFunc: (doc: Commerce): string => {
-					return '/commerce/commerceorders/' + doc._id;
-				}
-			},
 			{
 				icon: 'store',
 				hrefFunc: (doc: Commerce): string => {
@@ -97,54 +79,76 @@ export class CommercesComponent {
 				}
 			},
 			{
-				icon: 'room_service',
-				hrefFunc: (doc: Commerce): string => {
-					return '/commerce/commerceservices/' + doc._id;
-				}
-			},
-			{
-				icon: 'photo_camera',
-				hrefFunc: (doc: Commerce): string => {
-					return '/commerce/commerceportfolios/' + doc._id;
-				}
-			},
-			{
-				icon: 'content_paste',
-				hrefFunc: (doc: Commerce): string => {
-					return '/commerce/commercecontents/' + doc._id;
-				}
-			},
-			{
 				icon: 'style',
 				hrefFunc: (doc: Commerce): string => {
 					return '/commerce/commercetags/commerce/' + doc._id;
 				}
 			},
-			{
+			environment.commerceArticleUrl
+				? {
+						icon: 'article',
+						hrefFunc: (doc: Commerce): string => {
+							return (
+								environment.commerceArticleUrl +
+								'/Commerce/' +
+								doc._id
+							);
+						}
+				  }
+				: null,
+			false && {
+				icon: 'list_alt',
+				hrefFunc: (doc: Commerce): string => {
+					return '/commerce/commerceorders/' + doc._id;
+				}
+			},
+			false && {
+				icon: 'room_service',
+				hrefFunc: (doc: Commerce): string => {
+					return '/commerce/commerceservices/' + doc._id;
+				}
+			},
+			false && {
+				icon: 'photo_camera',
+				hrefFunc: (doc: Commerce): string => {
+					return '/commerce/commerceportfolios/' + doc._id;
+				}
+			},
+			false && {
+				icon: 'content_paste',
+				hrefFunc: (doc: Commerce): string => {
+					return '/commerce/commercecontents/' + doc._id;
+				}
+			},
+			false && {
 				icon: 'branding_watermark',
 				hrefFunc: (doc: Commerce): string => {
 					return '/commerce/commercebrands/' + doc._id;
 				}
 			},
-			{
+			false && {
 				icon: 'percent',
 				hrefFunc: (doc: Commerce): string => {
 					return '/commerce/commercediscounts/' + doc._id;
 				}
 			},
-			{
+			false && {
 				icon: 'person',
 				click: (doc: Commerce): void => {
-					this._form.modal<{ author: string; }>(this.formAuthor, {
+					this._form.modal<{ author: string }>(this.formAuthor, {
 						label: 'Change',
 						click: (submition: unknown, close: () => void) => {
-							this.changeAuthorsik(doc._id, (submition as { author: string; }).author);
+							this.changeAuthorsik(
+								doc._id,
+								(submition as { author: string }).author
+							);
+
 							close();
 						}
 					});
 				}
 			},
-			{
+			false && {
 				icon: 'cloud_download',
 				click: (doc: Commerce): void => {
 					this._form.modalUnique<Commerce>('commerce', 'url', doc);
@@ -164,7 +168,6 @@ export class CommercesComponent {
 			}
 		]
 	};
-
 
 	formAuthor: FormInterface = this._form.getForm('change author', {
 		formId: 'change author',
@@ -189,13 +192,15 @@ export class CommercesComponent {
 	});
 
 	changeAuthorsik(commerceId: string, newAuthor: string): void {
-		this._http.post('/api/commerce/changeAuthor', {
-			author: newAuthor,
-			commerce: commerceId
-		}).subscribe({
-			next: () => console.log('Author changed successfully'),
-			error: (err) => console.error('Error changing author:', err)
-		});
+		this._http
+			.post('/api/commerce/changeAuthor', {
+				author: newAuthor,
+				commerce: commerceId
+			})
+			.subscribe({
+				next: () => console.log('Author changed successfully'),
+				error: (err) => console.error('Error changing author:', err)
+			});
 	}
 
 	get rows(): Commerce[] {
@@ -209,7 +214,7 @@ export class CommercesComponent {
 		private _form: FormService,
 		private _core: CoreService,
 		private _http: HttpService
-	) { }
+	) {}
 
 	private _bulkManagement(create = true): () => void {
 		return (): void => {
