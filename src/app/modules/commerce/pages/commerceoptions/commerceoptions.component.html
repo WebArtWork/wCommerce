@@ -1,6 +1,15 @@
-<wbutton (click)="fetchAllOptionsAndExport()"
-	>Експортувати всі продукти</wbutton
->
+<label for="importcsv" (click)="$event.stopPropagation()">
+	<wbutton>Імпортувати</wbutton>
+	<input
+		id="importcsv"
+		type="file"
+		(change)="onFileChange($event)"
+		accept=".csv"
+	/>
+</label>
+
+<wbutton (click)="export()">Експортувати</wbutton>
+
 <cdk-virtual-scroll-viewport
 	itemSize="50"
 	class="scroll-container"

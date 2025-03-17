@@ -7,7 +7,7 @@ import { TranslateService } from 'src/app/core/modules/translate/translate.servi
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
 import { articleFormComponents } from '../../formcomponents/article.formcomponents';
 import { firstValueFrom } from 'rxjs';
-import { FormComponentInterface } from 'src/app/core/modules/form/interfaces/component.interface';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
 	templateUrl: './articles.component.html',
@@ -114,10 +114,17 @@ export class ArticlesComponent {
 	constructor(
 		private _articleService: ArticleService,
 		private _translate: TranslateService,
+		private _route: ActivatedRoute,
 		private _alert: AlertService,
 		private _form: FormService,
 		private _core: CoreService
 	) {
+		this._route.paramMap.subscribe((getter) => {
+			this._linkRef = getter.get('linkRef') || '';
+
+			this._linkId = getter.get('linkId') || '';
+		});
+
 		this.setRows();
 	}
 
@@ -193,8 +200,20 @@ export class ArticlesComponent {
 		};
 	}
 
+	private _linkRef: string;
+
+	private _linkId: string;
+
 	private _preCreate(article: Article): void {
 		delete article.__created;
+
+		if (this._linkRef) {
+			article.linkRef = article.linkRef || this._linkRef;
+		}
+
+		if (this._linkId) {
+			article.linkId = article.linkId || this._linkId;
+		}
 	}
 
 	private _updateLinks(article: Article): void {
@@ -204,15 +223,6 @@ export class ArticlesComponent {
 			'Items',
 			this._core.linkCollections
 		);
-
-		if (this._form.getComponent(this.form, 'linkId')) {
-			(
-				this._form.getComponent(
-					this.form,
-					'linkId'
-				) as FormComponentInterface
-			).hidden = !article.linkRef;
-		}
 
 		if (article.linkRef) {
 			this._form.setValue(

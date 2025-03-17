@@ -57,12 +57,31 @@
 			<div class="documents-main">
 				<div class="documents-main-content">
 					<div
-						*ngFor="let product of cartService.products"
+						*ngFor="let product of products"
 						class="documents-main-row"
 					>
 						<div class="documents__title">{{product.name}}</div>
+
+						<div
+							*ngFor="let option of orderingOptions[product._id]"
+						>
+							<wselect
+								[items]="product.options"
+								[select]="option._id"
+							></wselect>
+
+							<winput
+								[value]="orderingQuantity[option._id]"
+								(wChange)="
+									orderingQuantity[option._id] = $event ? +$event : 0;
+									update()
+								"
+								type="number"
+							></winput>
+						</div>
+
 						<a
-							(click)="cartService.remove(product)"
+							(click)="remove(product)"
 							class="documents__btn"
 							translate
 							>Common.Remove from cart</a

@@ -275,9 +275,28 @@ const routes: Routes = [
 	},
 	{
 		path: '',
+		canActivate: [AuthenticatedGuard],
 		component: PublicComponent,
 		children: [
-			/* user */
+			{
+				path: 'myqr',
+				canActivate: [MetaGuard],
+				data: {
+					meta: {
+						title: 'Myqr'
+					}
+				},
+				loadChildren: () =>
+					import('./pages/user/myqr/myqr.module').then(
+						(m) => m.MyqrModule
+					)
+			}
+		]
+	},
+	{
+		path: '',
+		component: PublicComponent,
+		children: [
 			{
 				path: 'orders',
 				canActivate: [MetaGuard],
@@ -338,19 +357,6 @@ const routes: Routes = [
 		component: UserComponent,
 		children: [
 			/* user */
-			{
-				path: 'myqr',
-				canActivate: [MetaGuard],
-				data: {
-					meta: {
-						title: 'Myqr'
-					}
-				},
-				loadChildren: () =>
-					import('./pages/user/myqr/myqr.module').then(
-						(m) => m.MyqrModule
-					)
-			},
 			{
 				path: 'profile',
 				canActivate: [MetaGuard],

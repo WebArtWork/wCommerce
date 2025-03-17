@@ -5,9 +5,10 @@ import { environment as environmentProd } from './environment.prod';
 
 export const environment = {
 	...environmentProd,
-	commerceId: '674d9cbe7f4e98c4f2482a20',
-	appId: 'podhub',
+	// commerceId: '674d9cbe7f4e98c4f2482a20',
+	// appId: 'podhub',
 	production: false,
+	url: 'http://localhost:8080', // so we can locally connect with local database
 	sign: {
 		email: 'demo@webart.work',
 		password: 'asdasdasdasd',

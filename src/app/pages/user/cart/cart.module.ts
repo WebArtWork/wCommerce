@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CoreModule } from 'src/app/core/core.module';
 import { CartComponent } from './cart.component';
 import { Routes, RouterModule } from '@angular/router';
+import { NumberPipe } from 'wacom';
 
 const routes: Routes = [
 	{
@@ -11,7 +12,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-	imports: [RouterModule.forChild(routes), CoreModule],
+	imports: [RouterModule.forChild(routes), CoreModule, NumberPipe],
 	declarations: [CartComponent]
 })
 export class CartModule {}
