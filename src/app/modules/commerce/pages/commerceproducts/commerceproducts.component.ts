@@ -279,10 +279,18 @@ export class CommerceproductsComponent {
 		},
 		buttons: [
 			{
+				icon: 'widgets',
+				hrefFunc: (doc: Commerceproduct): string => {
+					return (
+						'/commerce/options/' + doc._id
+					);
+				}
+			},
+			{
 				icon: '1x_mobiledata',
 				hrefFunc: (doc: Commerceproduct): string => {
 					return (
-						'/commerce/commerceproductquantities/product/' + doc._id
+						'/commerce/commerceoptionquantities/product/' + doc._id
 					);
 				}
 			},

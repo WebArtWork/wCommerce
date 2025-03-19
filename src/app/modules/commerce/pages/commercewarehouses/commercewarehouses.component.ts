@@ -79,7 +79,7 @@ export class CommercewarehousesComponent {
 			{
 				icon: '1x_mobiledata',
 				hrefFunc: (doc: Commercewarehouse): string => {
-					return '/commerce/commerceoptions/warehouse/' + doc._id;
+					return '/commerce/commerceoptionquantities//warehouse/' + doc._id;
 				}
 			},
 			{

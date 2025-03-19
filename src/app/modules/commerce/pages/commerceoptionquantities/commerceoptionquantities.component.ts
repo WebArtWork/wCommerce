@@ -1,27 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CommerceoptionService } from '../../services/commerceoption.service';
+import { CommerceoptionquantityService } from '../../services/commerceoptionquantity.service';
 import { map, tap } from 'rxjs';
-import { Commerceoption } from '../../interfaces/commerceoption.interface';
+import { Commerceoptionquantity } from '../../interfaces/commerceoptionquantity.interface';
 import { ngxCsv } from 'ngx-csv';
 import { CommercewarehouseService } from '../../services/commercewarehouse.service';
 import { CommercestoreService } from '../../services/commercestore.service';
 
 @Component({
-	templateUrl: './commerceoptions.component.html',
-	styleUrls: ['./commerceoptions.component.scss'],
+	templateUrl: './commerceoptionquantities.component.html',
+	styleUrls: ['./commerceoptionquantities.component.scss'],
 	standalone: false
 })
-export class CommerceoptionsComponent implements OnInit {
+export class CommerceoptionquantitiesComponent implements OnInit {
 	store: string = '';
 	warehouse: string = '';
-	options: Commerceoption[] = [];
+	options: Commerceoptionquantity[] = [];
 	skip = 0;
 	limit = 100;
 	loading = false;
 
 	constructor(
-		private _commerceoptionService: CommerceoptionService,
+		private _commerceoptionquantityService: CommerceoptionquantityService,
 		private _route: ActivatedRoute,
 		private _ws: CommercewarehouseService,
 		private _ss: CommercestoreService
@@ -44,7 +44,7 @@ export class CommerceoptionsComponent implements OnInit {
 
 		this.loading = true;
 
-		this._commerceoptionService
+		this._commerceoptionquantityService
 			.getOptions(this.skip, this.limit, this.store, this.warehouse)
 			.pipe(
 				tap(() => (this.loading = false)),
@@ -60,7 +60,7 @@ export class CommerceoptionsComponent implements OnInit {
 	export(): void {
 		this.loading = true;
 
-		this._commerceoptionService
+		this._commerceoptionquantityService
 			.getOptions(0, 0, this.store, this.warehouse)
 			.subscribe((allOptions) => {
 				this.loading = false;
@@ -106,8 +106,8 @@ export class CommerceoptionsComponent implements OnInit {
 		}
 	}
 
-	onQuantityChange(option: Commerceoption): void {
-		this._commerceoptionService
+	onQuantityChange(option: Commerceoptionquantity): void {
+		this._commerceoptionquantityService
 			.setOptionsQuantity(
 				option._id,
 				option.product._id,
@@ -123,7 +123,7 @@ export class CommerceoptionsComponent implements OnInit {
 			this.loadOptions();
 		}
 	}
-	exportToCSV(options: Commerceoption[]): void {
+	exportToCSV(options: Commerceoptionquantity[]): void {
 		if (!options || options.length === 0) {
 			alert('Немає даних для експорту.');
 

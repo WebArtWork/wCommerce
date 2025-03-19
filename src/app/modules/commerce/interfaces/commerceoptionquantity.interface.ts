@@ -1,7 +1,7 @@
 import { CrudDocument } from 'wacom';
 import { Commerceproduct } from './commerceproduct.interface';
 
-export interface Commerceoption extends CrudDocument {
+export interface Commerceoptionquantity extends CrudDocument {
 	name: string,
 	description: string,
 	color: string,

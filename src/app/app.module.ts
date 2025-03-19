@@ -116,30 +116,27 @@ const routes: Routes = [
 					).then((m) => m.CommercecontentsModule)
 			},
 			{
-				path: 'commerceproductquantities',
+				path: 'commerceoptionquantities',
 				canActivate: [MetaGuard],
 				data: {
 					meta: {
-						title: 'Commerceproductquantities'
+						title: 'Commerceoptionquantities'
 					}
 				},
 				loadChildren: () =>
 					import(
-						'./modules/commerce/pages/commerceproductquantities/commerceproductquantities.module'
-					).then((m) => m.CommerceproductquantitiesModule)
+						'./modules/commerce/pages/commerceoptionquantities/commerceoptionquantities.module'
+					).then((m) => m.CommerceoptionquantitiesModule)
 			},
 			{
-				path: 'commerceoptions',
+				path: 'options',
 				canActivate: [MetaGuard],
 				data: {
 					meta: {
-						title: 'Commerceoptions'
+						title: 'Options'
 					}
 				},
-				loadChildren: () =>
-					import(
-						'./modules/commerce/pages/commerceoptions/commerceoptions.module'
-					).then((m) => m.CommerceoptionsModule)
+				loadChildren: () => import('./modules/commerceoption/pages/options/options.module').then(m => m.OptionsModule)
 			},
 			{
 				path: 'commercewarehouses',
