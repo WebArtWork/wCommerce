@@ -10,7 +10,7 @@ export const environment = {
 	production: false,
 	url: 'http://localhost:8080', // so we can locally connect with local database
 	sign: {
-		email: 'demo@webart.work',
+		email: 'ceo@webart.work',
 		password: 'asdasdasdasd',
 		resetPin: null
 	}
