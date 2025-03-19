@@ -27,28 +27,35 @@ export class CommercestoresComponent {
 	);
 
 	config = {
-		create: (): void => {
-			this._form.modal<Commercestore>(this.form, {
-				label: 'Create',
-				click: (created: unknown, close: () => void) => {
-					if (this.commerce) {
-						(created as Commercestore).commerce = this.commerce;
-					}
-					this._commercestoreService.create(created as Commercestore);
+		create: this.commerce
+			? (): void => {
+					this._form.modal<Commercestore>(this.form, {
+						label: 'Create',
+						click: (created: unknown, close: () => void) => {
+							if (this.commerce) {
+								(created as Commercestore).commerce =
+									this.commerce;
+							}
+							this._commercestoreService.create(
+								created as Commercestore
+							);
 
-					close();
-				}
-			});
-		},
-		update: (doc: Commercestore): void => {
-			this._form
-				.modal<Commercestore>(this.form, [], doc)
-				.then((updated: Commercestore) => {
-					this._core.copy(updated, doc);
+							close();
+						}
+					});
+			  }
+			: null,
+		update: this.commerce
+			? (doc: Commercestore): void => {
+					this._form
+						.modal<Commercestore>(this.form, [], doc)
+						.then((updated: Commercestore) => {
+							this._core.copy(updated, doc);
 
-					this._commercestoreService.update(doc);
-				});
-		},
+							this._commercestoreService.update(doc);
+						});
+			  }
+			: null,
 		delete: (doc: Commercestore): void => {
 			this._alert.question({
 				text: this._translate.translate(
@@ -86,16 +93,20 @@ export class CommercestoresComponent {
 			}
 		],
 		headerButtons: [
-			{
-				icon: 'playlist_add',
-				click: this._bulkManagement(),
-				class: 'playlist'
-			},
-			{
-				icon: 'edit_note',
-				click: this._bulkManagement(false),
-				class: 'edit'
-			}
+			this.commerce
+				? {
+						icon: 'playlist_add',
+						click: this._bulkManagement(),
+						class: 'playlist'
+				  }
+				: null,
+			this.commerce
+				? {
+						icon: 'edit_note',
+						click: this._bulkManagement(false),
+						class: 'edit'
+				  }
+				: null
 		]
 	};
 
