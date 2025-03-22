@@ -26,49 +26,58 @@ export class CommercetagsComponent implements OnInit {
 	);
 
 	config = {
-		create: (): void => {
-			this._form.modal<Commercetag>(this.form, {
-				label: 'Create',
-				click: (created: unknown, close: () => void) => {
-					const newCommercetag = created as Commercetag;
-	
-					// Додаємо commerce та parent перед створенням
-					if (this.commerce) {
-						newCommercetag.commerce = this.commerce;
-					}
-	
-					if (this.parent) {
-						newCommercetag.parent = this.parent;
-					}
-	
-					// Логування перед створенням
-					console.log('Creating tag with commerce:', newCommercetag);
-	
-					this._commercetagService.create(newCommercetag, {
-						callback: () => {
-							// Перевіримо, чи успішно створено
-							console.log('Commercetag created successfully');
-							this.setTags();
-						}
-					});
-	
-					close();
-				}
-			});
-		},	
-		update: (doc: Commercetag): void => {
-			this._form
-				.modal<Commercetag>(this.form, [], doc)
-				.then((updated: Commercetag) => {
-					this._core.copy(updated, doc);
+		create: this.commerce
+			? (): void => {
+					this._form.modal<Commercetag>(this.form, {
+						label: 'Create',
+						click: (created: unknown, close: () => void) => {
+							const newCommercetag = created as Commercetag;
 
-					this._commercetagService.update(doc, {
-						callback: () => {
-							this.setTags();
+							// Додаємо commerce та parent перед створенням
+							if (this.commerce) {
+								newCommercetag.commerce = this.commerce;
+							}
+
+							if (this.parent) {
+								newCommercetag.parent = this.parent;
+							}
+
+							// Логування перед створенням
+							console.log(
+								'Creating tag with commerce:',
+								newCommercetag
+							);
+
+							this._commercetagService.create(newCommercetag, {
+								callback: () => {
+									// Перевіримо, чи успішно створено
+									console.log(
+										'Commercetag created successfully'
+									);
+									this.setTags();
+								}
+							});
+
+							close();
 						}
 					});
-				});
-		},
+			  }
+			: null,
+		update: this.commerce
+			? (doc: Commercetag): void => {
+					this._form
+						.modal<Commercetag>(this.form, [], doc)
+						.then((updated: Commercetag) => {
+							this._core.copy(updated, doc);
+
+							this._commercetagService.update(doc, {
+								callback: () => {
+									this.setTags();
+								}
+							});
+						});
+			  }
+			: null,
 		delete: (doc: Commercetag): void => {
 			this._alert.question({
 				text: this._translate.translate(
@@ -128,16 +137,20 @@ export class CommercetagsComponent implements OnInit {
 			}
 		],
 		headerButtons: [
-			{
-				icon: 'playlist_add',
-				click: this._bulkManagement(),
-				class: 'playlist'
-			},
-			{
-				icon: 'edit_note',
-				click: this._bulkManagement(false),
-				class: 'edit'
-			}
+			this.commerce
+				? {
+						icon: 'playlist_add',
+						click: this._bulkManagement(),
+						class: 'playlist'
+				  }
+				: null,
+			this.commerce
+				? {
+						icon: 'edit_note',
+						click: this._bulkManagement(false),
+						class: 'edit'
+				  }
+				: null
 		]
 	};
 
@@ -146,7 +159,7 @@ export class CommercetagsComponent implements OnInit {
 			? this._commercetagService.commercetagsByParent[this.parent]
 			: this.commerce
 			? this._commercetagService.commercetagsByCommerce[this.commerce]
-			: this._commercetagService.commercetags.filter(t => !t.parent);
+			: this._commercetagService.commercetags.filter((t) => !t.parent);
 	}
 
 	tags: Commercetag[] = JSON.parse(
@@ -198,8 +211,9 @@ export class CommercetagsComponent implements OnInit {
 		private _form: FormService,
 		private _core: CoreService
 	) {
-		this.route.paramMap.subscribe(params => {
-			this.commerce = params.get('commerce_id') || environment.commerceId || '';
+		this.route.paramMap.subscribe((params) => {
+			this.commerce =
+				params.get('commerce_id') || environment.commerceId || '';
 			console.log(this.commerce);
 			this.parent = params.get('parent') || '';
 			console.log(this.parent);
@@ -242,7 +256,9 @@ export class CommercetagsComponent implements OnInit {
 
 							if (localCommercetag) {
 								this._core.copy(commercetag, localCommercetag);
-								this._commercetagService.update(localCommercetag);
+								this._commercetagService.update(
+									localCommercetag
+								);
 							} else {
 								if (this.commerce) {
 									commercetag.commerce = this.commerce;

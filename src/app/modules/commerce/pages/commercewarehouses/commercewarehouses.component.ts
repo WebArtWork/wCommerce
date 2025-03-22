@@ -24,39 +24,52 @@ export class CommercewarehousesComponent {
 	);
 
 	config = {
-		create: (): void => {
-			this._form.modal<Commercewarehouse>(this.form, {
-				label: 'Create',
-				click: (created: unknown, close: () => void) => {
-					const newCommercewarehouse = created as Commercewarehouse;
-	
-					// Додаємо комерцію перед створенням
-					if (this.commerce) {
-						newCommercewarehouse.commerce = this.commerce;
-					}
-	
-					// Переконаємось, що комерція додалась правильно
-					console.log('Creating warehouse with commerce:', newCommercewarehouse);
-	
-					this._commercewarehouseService.create(newCommercewarehouse, {
-						callback: () => {
-							// Переконаємось, що збережено коректно
-							console.log('Warehouse created successfully');
+		create: this.commerce
+			? (): void => {
+					this._form.modal<Commercewarehouse>(this.form, {
+						label: 'Create',
+						click: (created: unknown, close: () => void) => {
+							const newCommercewarehouse =
+								created as Commercewarehouse;
+
+							// Додаємо комерцію перед створенням
+							if (this.commerce) {
+								newCommercewarehouse.commerce = this.commerce;
+							}
+
+							// Переконаємось, що комерція додалась правильно
+							console.log(
+								'Creating warehouse with commerce:',
+								newCommercewarehouse
+							);
+
+							this._commercewarehouseService.create(
+								newCommercewarehouse,
+								{
+									callback: () => {
+										// Переконаємось, що збережено коректно
+										console.log(
+											'Warehouse created successfully'
+										);
+									}
+								}
+							);
+
+							close();
 						}
 					});
-	
-					close();
-				}
-			});
-		},
-		update: (doc: Commercewarehouse): void => {
-			this._form
-				.modal<Commercewarehouse>(this.form, [], doc)
-				.then((updated: Commercewarehouse) => {
-					this._core.copy(updated, doc);
-					this._commercewarehouseService.update(doc);
-				});
-		},
+			  }
+			: null,
+		update: this.commerce
+			? (doc: Commercewarehouse): void => {
+					this._form
+						.modal<Commercewarehouse>(this.form, [], doc)
+						.then((updated: Commercewarehouse) => {
+							this._core.copy(updated, doc);
+							this._commercewarehouseService.update(doc);
+						});
+			  }
+			: null,
 		delete: (doc: Commercewarehouse): void => {
 			this._alert.question({
 				text: this._translate.translate(
@@ -79,7 +92,10 @@ export class CommercewarehousesComponent {
 			{
 				icon: '1x_mobiledata',
 				hrefFunc: (doc: Commercewarehouse): string => {
-					return '/commerce/commerceoptionquantities//warehouse/' + doc._id;
+					return (
+						'/commerce/commerceoptionquantities//warehouse/' +
+						doc._id
+					);
 				}
 			},
 			{
@@ -94,16 +110,20 @@ export class CommercewarehousesComponent {
 			}
 		],
 		headerButtons: [
-			{
-				icon: 'playlist_add',
-				click: this._bulkManagement(),
-				class: 'playlist'
-			},
-			{
-				icon: 'edit_note',
-				click: this._bulkManagement(false),
-				class: 'edit'
-			}
+			this.commerce
+				? {
+						icon: 'playlist_add',
+						click: this._bulkManagement(),
+						class: 'playlist'
+				  }
+				: null,
+			this.commerce
+				? {
+						icon: 'edit_note',
+						click: this._bulkManagement(false),
+						class: 'edit'
+				  }
+				: null
 		]
 	};
 
@@ -119,8 +139,9 @@ export class CommercewarehousesComponent {
 		private _core: CoreService,
 		private _route: ActivatedRoute
 	) {
-		this._route.paramMap.subscribe(params => {
-			this.commerce = params.get('commerce_id') || environment.commerceId || '';
+		this._route.paramMap.subscribe((params) => {
+			this.commerce =
+				params.get('commerce_id') || environment.commerceId || '';
 		});
 	}
 

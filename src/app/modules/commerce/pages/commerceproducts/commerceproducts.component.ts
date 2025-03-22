@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { AlertService, CoreService, MongoService } from 'wacom';
+import { AlertService, CoreService } from 'wacom';
 import { CommerceproductService } from '../../services/commerceproduct.service';
 import { Commerceproduct } from '../../interfaces/commerceproduct.interface';
 import { FormService } from 'src/app/core/modules/form/form.service';
 import { TranslateService } from 'src/app/core/modules/translate/translate.service';
 import { FormInterface } from 'src/app/core/modules/form/interfaces/form.interface';
-import { commerceproductFormComponents } from '../../formcomponents/commerceproduct.formcomponents';
 import { Router } from '@angular/router';
 import { Commercetag } from 'src/app/modules/commerce/interfaces/commercetag.interface';
 import { CommercetagService } from 'src/app/modules/commerce/services/commercetag.service';
@@ -18,7 +17,7 @@ import { environment } from 'src/environments/environment';
 })
 export class CommerceproductsComponent {
 	tags: Commercetag[] = [];
-	columns = ['enabled', 'top','name', 'tags'];
+	columns = ['enabled', 'top', 'name', 'tags'];
 
 	commerce = this._router.url.includes('/commerce/commerceproducts/')
 		? this._router.url.replace('/commerce/commerceproducts/', '')
@@ -235,29 +234,38 @@ export class CommerceproductsComponent {
 			this._commerceproductService
 		),
 		allDocs: false,
-		create: (): void => {
-			this._form.modal<Commerceproduct>(this.form, {
-				label: 'Create',
-				click: (created: unknown, close: () => void) => {
-					if (this.commerce) {
-						(created as Commerceproduct).commerce = this.commerce;
-					}
-					this._commerceproductService.create(
-						created as Commerceproduct
-					);
-					this.setProducts();
-					close();
-				}
-			});
-		},
-		update: (doc: Commerceproduct): void => {
-			this._form
-				.modal<Commerceproduct>(this.form, [], doc)
-				.then((updated: Commerceproduct) => {
-					this._core.copy(updated, doc);
-					this._commerceproductService.update(doc);
-				});
-		},
+		create: this.commerce
+			? (): void => {
+					this._form.modal<Commerceproduct>(this.form, {
+						label: 'Create',
+						click: (created: unknown, close: () => void) => {
+							if (this.commerce) {
+								(created as Commerceproduct).commerce =
+									this.commerce;
+							}
+
+							this._commerceproductService.create(
+								created as Commerceproduct
+							);
+
+							this.setProducts();
+
+							close();
+						}
+					});
+			  }
+			: null,
+		update: this.commerce
+			? (doc: Commerceproduct): void => {
+					this._form
+						.modal<Commerceproduct>(this.form, [], doc)
+						.then((updated: Commerceproduct) => {
+							this._core.copy(updated, doc);
+
+							this._commerceproductService.update(doc);
+						});
+			  }
+			: null,
 		delete: (doc: Commerceproduct): void => {
 			this._alert.question({
 				text: this._translate.translate(
@@ -271,6 +279,7 @@ export class CommerceproductsComponent {
 						text: this._translate.translate('Common.Yes'),
 						callback: (): void => {
 							this._commerceproductService.delete(doc);
+
 							this.setProducts();
 						}
 					}
@@ -281,9 +290,7 @@ export class CommerceproductsComponent {
 			{
 				icon: 'widgets',
 				hrefFunc: (doc: Commerceproduct): string => {
-					return (
-						'/commerce/options/' + doc._id
-					);
+					return '/commerce/options/' + doc._id;
 				}
 			},
 			{
@@ -306,20 +313,26 @@ export class CommerceproductsComponent {
 			}
 		],
 		headerButtons: [
-			{
-				icon: 'playlist_add',
-				click: this._bulkManagement(),
-				class: 'playlist'
-			},
-			{
-				icon: 'edit_note',
-				click: this._bulkManagement(false),
-				class: 'edit'
-			}
+			this.commerce
+				? {
+						icon: 'playlist_add',
+						click: this._bulkManagement(),
+						class: 'playlist'
+				  }
+				: null,
+			this.commerce
+				? {
+						icon: 'edit_note',
+						click: this._bulkManagement(false),
+						class: 'edit'
+				  }
+				: null
 		]
 	};
 
-	update(doc: Commerceproduct): void {  this._commerceproductService.update(doc) }
+	update(doc: Commerceproduct): void {
+		this._commerceproductService.update(doc);
+	}
 
 	rows: Commerceproduct[] = [];
 	private _page = 1;
@@ -336,8 +349,9 @@ export class CommerceproductsComponent {
 		this.setTags();
 	}
 
-	setProducts(page = this._page) {
+	setProducts(page = this._page): void {
 		this._page = page;
+
 		this._core.afterWhile(
 			this,
 			() => {
@@ -362,22 +376,27 @@ export class CommerceproductsComponent {
 		);
 	}
 
-	tagIncludeCommerce(tag: Commercetag) {
+	tagIncludeCommerce(tag: Commercetag): boolean {
 		if (tag.commerce === this.commerce) return true;
+
 		return false;
 	}
 
-	tagName(tag: Commercetag) {
+	tagName(tag: Commercetag): string {
 		let name = tag.name;
+
 		while (tag.parent) {
 			tag = this._tagService.doc(tag.parent);
+
 			name = tag.name + ' / ' + name;
 		}
+
 		return name;
 	}
 
-	setTags() {
+	setTags(): void {
 		this.tags.splice(0, this.tags.length);
+
 		for (const tag of this._tagService.commercetags) {
 			if (this.tagIncludeCommerce(tag)) {
 				this.tags.push({
@@ -386,6 +405,7 @@ export class CommerceproductsComponent {
 				});
 			}
 		}
+
 		this.tags.sort((a, b) => {
 			if (a.name < b.name) {
 				return -1; // a comes first
@@ -395,13 +415,15 @@ export class CommerceproductsComponent {
 				return 0; // no sorting necessary
 			}
 		});
+
 		this.setProducts();
 	}
 
-	replaceTagsWithIds(product: Commerceproduct) {
+	replaceTagsWithIds(product: Commerceproduct): void {
 		if (product.tags) {
 			product.tags = product.tags.map((tagName) => {
 				const tag = this.tags.find((t) => t.name == tagName);
+
 				return tag ? tag._id : tagName;
 			});
 		}
@@ -421,6 +443,7 @@ export class CommerceproductsComponent {
 							}
 
 							this.replaceTagsWithIds(commerceproduct);
+
 							this._commerceproductService.create(
 								commerceproduct
 							);
@@ -442,22 +465,29 @@ export class CommerceproductsComponent {
 							const local = this.rows.find(
 								(row) => row._id === commerceproduct._id
 							);
+
 							if (local) {
 								this.replaceTagsWithIds(commerceproduct);
+
 								this._core.copy(commerceproduct, local);
+
 								this._commerceproductService.update(local);
 							} else {
 								if (this.commerce) {
 									commerceproduct.commerce = this.commerce;
 								}
+
 								this.replaceTagsWithIds(commerceproduct);
+
 								commerceproduct.__created = false;
+
 								this._commerceproductService.create(
 									commerceproduct
 								);
 							}
 						}
 					}
+
 					this.setProducts();
 				});
 		};
